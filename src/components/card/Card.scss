@@ -1,0 +1,81 @@
+@import '../../utils/variable.scss';
+
+.wrapp-card{
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    transition: 0.2s ease-in-out;
+
+    // img
+    .container-img-card{
+        display: flex;
+        position: relative;
+        overflow: hidden;
+
+        .img-card{
+            width: 100%;
+            object-fit: cover;
+            object-position: center;
+            padding-left: 0.5px;
+            transition: 0.3s ease-in-out;
+        }
+
+        .shadow-hover-img{
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background-color: $color1;
+            opacity: 0;
+            transition: 0.3s ease-in-out;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+    }
+
+    // deskripsi
+    .container-deskripsi-card{
+        display: flex;
+        flex-direction: column;
+        line-height: $lineHeight;
+
+        .circle-icon{
+            display: none;
+            border-radius: 500px;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            transition: 0.2s ease-in-out;
+            
+            i{
+                font-size: 20px;
+            }
+        }
+
+        .title-card{
+            transition: 0.2s ease-in-out;
+        }
+
+        .paragraph-one-card{
+            transition: 0.5s ease-in-out;
+        }
+
+        // date card
+        .date-card{
+            display: none;
+            align-items: center;
+            margin-top: 15px;
+
+            p{
+                font-size: $fontIcon;
+                color: #777;
+                margin-right: 10px;
+                i{
+                    font-size: 11px;
+                    margin-right: 3px;
+                }
+            }
+        }
+    }
+}

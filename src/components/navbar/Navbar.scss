@@ -1,0 +1,170 @@
+@import '../../utils/variable.scss';
+
+.wrapp-nav {
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    left: 0;
+
+    .contact-nav {
+        display: flex;
+        width: auto;
+
+        .address-nav {
+            display: flex;
+            flex-wrap: wrap;
+            width: 75%;
+            padding-left: 15px;
+
+            .address {
+                display: flex;
+                align-items: center;
+                justify-content: start;
+                padding: 5px 5px 5px 0;
+
+                i {
+                    font-size: $fontIcon;
+                    margin-right: 5px;
+                    color: #fff;
+                }
+
+                .txt-address {
+                    display: flex;
+                    text-align: start;
+                    font-size: $font1;
+                    color: #fff;
+                }
+            }
+        }
+
+        .medsos-nav {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 25%;
+            padding-right: 15px;
+
+            i {
+                padding-left: 10px;
+                font-size: $fontIcon;
+                cursor: pointer;
+                color: #fff;
+            }
+
+            .change-language {
+                display: flex;
+                position: relative;
+                background: transparent;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                margin-left: 10px;
+                font-size: 12.5px;
+                align-items: center;
+                color: #fff;
+
+                i {
+                    padding-left: 5px;
+                }
+
+                .dropdown {
+                    display: none;
+                    flex-direction: column;
+                    position: absolute;
+                    width: 155px;
+                    margin-top: 100px;
+                    right: 0;
+                    border-radius: 3px;
+                    padding-bottom: 15px;
+                    opacity: 0;
+                    animation: 0.2s ease-in opacity forwards;
+                    background-color: #fff;
+
+                    .language {
+                        font-size: 10.5px;
+                        padding: 15px 0 0px 15px;
+                        cursor: pointer;
+                        text-align: start;
+                        background: none;
+                        outline: none;
+                        border: none;
+                    }
+                }
+            }
+        }
+    }
+
+    .page-nav {
+        display: flex;
+        padding: 20px 15px;
+        align-items: center;
+        border-top: 1px solid #ddd;
+        justify-content: space-between;
+
+        .logo-web {
+            width: 290px;
+            object-fit: cover;
+            object-position: center;
+            cursor: pointer;
+        }
+
+        .list-menu-page {
+            display: flex;
+            align-items: center;
+
+            .menu-page {
+                overflow: hidden;
+                list-style: none;
+                padding: 5px 10px;
+                cursor: pointer;
+                font-size: 13px;
+                font-weight: 500;
+                color: #fff;
+
+                i {
+                    margin-left: 2px;
+                }
+
+                .wrapp-menu-collapse {
+                    display: none;
+                    position: absolute;
+                    margin-left: -10px;
+                    padding-top: 10px;
+
+                    .menu-collapse {
+                        flex-direction: column;
+                        border-radius: 3px;
+                        padding: 8px 0;
+                        background-color: #fff;
+
+                        .page-collapse {
+                            list-style: none;
+                            padding: 8px 20px;
+                            text-align: start;
+                            font-weight: 450;
+                            color: $color2;
+
+                            &:hover {
+                                background-color: $color1;
+                                color: #fff;
+                                transition: 0.2s ease-in-out;
+                            }
+                        }
+                    }
+                }
+            }
+
+            i {
+                cursor: pointer;
+                font-size: 14px;
+                color: #fff;
+            }
+        }
+    }
+}
+
+@keyframes opacity {
+    to {
+        opacity: 1;
+    }
+}

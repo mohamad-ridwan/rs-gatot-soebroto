@@ -1,0 +1,13 @@
+@import '../../utils/variable.scss';
+
+.wrapp-footer{
+    background-color: $color1;
+    justify-content: center;
+
+    .container-footer{
+        display: flex;
+        flex-direction: column;
+        width: $desktop;
+        padding: 40px 0;
+    }
+}

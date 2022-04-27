@@ -1,0 +1,39 @@
+@import '../../utils/variable.scss';
+
+.btn-card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background-color: $color1;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 13px 0;
+    width: 200px;
+    border-radius: 500px;
+
+    p{
+        z-index: 1;
+        color: #fff;
+        font-size: $font3;
+        font-weight: bold;
+    }
+
+    i{
+        color: #fff;
+        margin-left: 5px;
+        z-index: 1;
+    }
+
+    .shadow-btn{
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        opacity: .3;
+        transition: 0.2s ease-in-out;
+        border-radius: 500px;
+    }
+}
