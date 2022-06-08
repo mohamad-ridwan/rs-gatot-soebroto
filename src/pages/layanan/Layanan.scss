@@ -1,0 +1,177 @@
+@import '../../utils/variable.scss';
+
+// jadwal dokter
+.wrapp-content-jadwal-dokter {
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 20px;
+
+    // search
+    .container-search-jadwal {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-bottom: 20px;
+
+        .column-txt-show {
+            align-items: center;
+
+            .filter-show {
+                display: flex;
+                align-items: center;
+                font-size: $font2;
+                color: $color2;
+
+                .btn-filter {
+                    display: flex;
+                    position: relative;
+                    padding: 5px 7px;
+                    justify-content: space-between;
+                    width: 70px;
+                    align-items: center;
+                    cursor: pointer;
+                    font-size: $fontIcon;
+                    background: none;
+                    outline: none;
+                    border-radius: 3px;
+                    border: 1px solid $color8;
+                    margin: 0 5px;
+
+                    .icon-filter {
+                        font-size: $fontIcon;
+                        font-style: normal;
+                    }
+
+                    .menu-choose-show {
+                        list-style: none;
+                        flex-direction: column;
+                        position: absolute;
+                        background-color: #fff;
+                        width: 100%;
+                        margin: 0px 0 0 -7.5px;
+                        top: 25px;
+                        text-align: start;
+                        box-shadow: 0 2px 7px -1px rgba(0, 0, 0, 0.4);
+                        border-radius: 3px;
+                        overflow: hidden;
+                        z-index: 1;
+
+                        .list-choose {
+                            color: $color2;
+                            padding: 5px 7px;
+                            transition: 0.1s ease-in-out;
+
+                            &:hover {
+                                background-color: $color4;
+                                color: #fff;
+                            }
+                        }
+
+                        .active-choose {
+                            background-color: $color4;
+                            color: #fff;
+                        }
+                    }
+                }
+            }
+        }
+
+        .column-search {
+            display: flex;
+            align-items: center;
+
+            .txt-search {
+                font-size: $font2;
+                color: $color2;
+            }
+
+            .col-input-search {
+                display: flex;
+                position: relative;
+                align-items: center;
+                margin-left: 5px;
+
+                .input-search {
+                    border-radius: 3px;
+                    outline: none;
+                    border: 1px solid $color8;
+                    padding: 5px 20px 5px 7px;
+                    width: 140px;
+                    color: $color2;
+                    font-size: $font3;
+                }
+
+                .icon-remove {
+                    display: none;
+                    font-style: normal;
+                    position: absolute;
+                    right: 7px;
+                    cursor: pointer;
+                    font-size: $fontIcon;
+                    transition: 0.2s ease-in-out;
+                    color: $color2;
+                }
+
+                .icon-remove-active{
+                    display: flex;
+                }
+            }
+        }
+    }
+
+    // table
+    .table-dokter {
+        border-collapse: collapse;
+        width: 100%;
+
+        td,
+        th {
+            border: 1px solid $color8;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th{
+            position: relative;
+            cursor: pointer;
+
+            .icon-up{
+                position: absolute;
+                right: 18px;
+                font-style: normal;
+                top: 15px;
+                font-size: $fontIcon;
+                color: $color8;
+            }
+
+            .icon-down{
+                position: absolute;
+                right: 10px;
+                font-style: normal;
+                top: 15px;
+                font-size: $fontIcon;
+                color: $color8;
+            }
+
+            .icon-active{
+                color: $color2;
+            }
+        }
+
+        tr {
+            transition: 0.1s ease-in-out;
+
+            &:hover {
+                background-color: rgba(0, 0, 0, .075);
+            }
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, .050);
+
+            &:hover {
+                background-color: rgba(0, 0, 0, .075);
+            }
+        }
+    }
+}

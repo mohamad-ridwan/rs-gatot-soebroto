@@ -1,13 +1,134 @@
 @import '../../utils/variable.scss';
 
-.wrapp-footer{
-    background-color: $color1;
-    justify-content: center;
+@mixin mobile {
+    @media (max-width: 700px) {
+        @content;
+    }
+}
 
-    .container-footer{
+@mixin minDesktop {
+    @media (min-width: 1681px) {
+        @content;
+    }
+}
+
+.wrapp-footer{
+    display: flex;
+    flex-direction: column;
+    background-color: $color5;
+    padding: 40px 10%;
+
+    @include mobile(){
+        display: none;
+    }
+
+    @include minDesktop(){
+        padding: 40px 15%;
+    }
+
+    // list menu
+    .container-list-menu-footer{
+        display: flex;
+
+        // tentang
+        .list-tentang{
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+
+            &:hover{
+                color: #aaa;
+            }
+        }
+
+        // layanan
+        .list-layanan{
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+
+            &:hover{
+                color: #aaa;
+            }
+        }
+
+        // polling
+        .polling{
+            .input-polling{
+                margin-top: 15px;
+               .list-input-polling{
+                   display: flex;
+                   flex-direction: column;
+                   list-style: none;
+
+                   .choose-polling{
+                       display: flex;
+                       cursor: pointer;
+                       align-items: center;
+                       margin-bottom: 15px;
+
+                       .circle-choose{
+                           display: flex;
+                           height: 4.5px;
+                           width: 4.5px;
+                           border-radius: 500px;
+                           background-color: #fff;
+                           border: 4px solid #fff;
+                           transition: 0.3s ease-in-out;
+                       }
+
+                       .name-choose{
+                           font-size: 14px;
+                           margin: -2px 0 0 8px;
+                       }
+                   }
+               }
+            }
+        }
+
+        // list group
+        .list-footer-menu{
+            flex-direction: column;
+            text-align: start;
+            color: #fff;
+            width: calc(100%/4);
+            padding: 0 20px;
+
+            .title{
+                font-size: 20px;
+                font-weight: bold;
+            }
+
+            .border-title{
+                height: 4px;
+                width: 50px;
+                border-radius: 5px;
+                background-color: $color4;
+                margin: 20px 0 30px 0;
+            }
+
+            .list{
+                font-size: 13.5px;
+                line-height: 1.7;
+            }
+
+            i{
+                margin: 15px 8px 0 0;
+                cursor: pointer;
+            }
+        }
+    }
+
+    // copy right
+    .container-copy-right{
         display: flex;
         flex-direction: column;
-        width: $desktop;
-        padding: 40px 0;
+        justify-content: center;
+        margin-top: 30px;
+
+        .txt-copy-right{
+            text-align: center;
+            font-size: 11px;
+            color: #bbb;
+            margin-top: 10px;
+        }
     }
 }

@@ -1,0 +1,103 @@
+@import '../../utils/variable.scss';
+
+.wrapp-pagination {
+    display: flex;
+    flex-direction: column;
+
+    // content
+    .container-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    // btn paginate
+    .container-btn-paginate {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        .txt-showing {
+            display: flex;
+            text-align: start;
+            font-size: $font2;
+            color: $color2;
+        }
+
+        .paginate {
+            display: flex;
+            align-items: center;
+
+            .btn-paginate {
+                padding: 8px 12px;
+                background: none;
+                border: none;
+                color: $color1;
+                font-size: $font2;
+                cursor: pointer;
+                transition: 0.2s ease-in-out;
+
+                &:hover {
+                    background-color: $color7;
+                }
+            }
+
+            .disable {
+                cursor: default;
+                color: #aaa;
+                transition: 0.2s ease-in-out;
+
+                &:hover {
+                    background: none;
+                }
+            }
+
+            .previous {
+                border-left: 1px solid $color8;
+                border-top: 1px solid $color8;
+                border-bottom: 1px solid $color8;
+                border-top-left-radius: 3px;
+                border-bottom-left-radius: 3px;
+            }
+
+            .next {
+                border: 1px solid $color8;
+                border-top-right-radius: 3px;
+                border-bottom-right-radius: 3px;
+            }
+
+            .idx-paginate {
+                display: flex;
+                list-style: none;
+
+                .no-paginate {
+                    padding: 2px 12px;
+                    border-left: 1px solid $color8;
+                    border-top: 1px solid $color8;
+                    border-bottom: 1px solid $color8;
+                    cursor: pointer;
+                    color: $color1;
+                    font-size: $font2;
+                    background-color: #fff;
+                    transition: 0.2s ease-in-out;
+
+                    &:hover {
+                        background-color: $color7;
+                    }
+                }
+
+                .no-paginate-active {
+                    padding: 2px 12px;
+                    border-left: 1px solid $color1;
+                    border-top: 1px solid $color1;
+                    border-bottom: 1px solid $color1;
+                    cursor: pointer;
+                    color: #fff;
+                    font-size: $font2;
+                    background-color: $color1;
+                    transition: 0.2s ease-in-out;
+                }
+            }
+        }
+    }
+}

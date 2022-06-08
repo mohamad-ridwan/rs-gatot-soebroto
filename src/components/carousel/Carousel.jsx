@@ -45,7 +45,7 @@ function Carousel({ data, displayInner, displayIndikator, dataTestimoni, bdrRadi
                 }}>
                     {data && data.length > 0 ? data.map((e, i) => {
                         return (
-                            <img key={i} src={`${address}/${e.image}`} alt="" className="item" />
+                            <img key={i} src={`${address}/${e.image}`} alt="" className="item"/>
                         )
                     }) : (
                         <></>

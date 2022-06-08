@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import './Home.scss'
 import API from '../../services/api'
 import Carousel from '../../components/carousel/Carousel'
 import address from '../../services/api/address'
 import Button from '../../components/button/Button'
 import Card from '../../components/card/Card'
+import { changePath } from '../../services/redux/navbar'
 
 function Home() {
     const [bannerVideo, setBannerVideo] = useState({})
@@ -27,6 +29,9 @@ function Home() {
     const [hoverTitleBerita, setHoverTitleBerita] = useState(null)
     const [hoverTitleMedia, setHoverTitleMedia] = useState(null)
     const [hoverImgMedia, setHoverImgMedia] = useState(null)
+
+    // redux
+    const dispatch = useDispatch()
 
     function setAPI() {
         API.APIHome()
@@ -89,7 +94,9 @@ function Home() {
     }
 
     useEffect(() => {
+        dispatch(changePath('/'))
         setAPI()
+        window.scrollTo(0, 0)
     }, [])
 
     function RenderHTML({ e }) {
@@ -200,6 +207,117 @@ function Home() {
         setHoverImgMedia(null)
     }
 
+    const carouselTop = {
+        displayInner: 'flex',
+        data: carousel,
+        idxActiveCarousel: idxActiveCarousel,
+        pauseSlide: pauseSlide,
+        btnLeftCarousel: (i) => btnLeftCarousel(i),
+        btnRightCarousel: (i) => btnRightCarousel(i),
+        btnIndikatorCarouselImg: (i) => btnIndikatorCarouselImg(i),
+        mouseOverCarousel: mouseOverCarousel,
+        mouseLeaveCarousel: mouseLeaveCarousel
+    }
+
+    const cardPimpinan = {
+        widthWrapp: 'calc(95%/3)',
+        paddingDeskripsi: '20px',
+        fontSizeTitle: '14px',
+        fontWeightTitle: '500',
+        fontSizeParagraphOne: '14px',
+        fontSizeParagraphTwo: '14px',
+        colorParagraphOne: '#333',
+        colorParagraphTwo: '#333',
+        bdrRadiusWrapp: '10px',
+        displayBtn: 'none',
+        opacityHoverImg: hoverImgLead ? '0.4' : '0',
+        transformImg: hoverImgLead ? 'scale(1.1)' : 'scale(1)',
+        mouseEnterImg: mouseOverImgLead,
+        mouseLeaveImg: mouseLeaveImgLead
+    }
+
+    const cardTigaPimpinan = {
+        widthWrapp: 'calc(95%/3)',
+        paddingDeskripsi: '20px',
+        fontSizeTitle: '14px',
+        fontWeightTitle: '500',
+        displayBtn: 'none',
+        fontSizeParagraphOne: '14px',
+        fontSizeParagraphTwo: '14px',
+        colorParagraphOne: '#333',
+        colorParagraphTwo: '#333',
+        bdrRadiusWrapp: '10px'
+    }
+
+    const cardLayananUnggulan = {
+        displayCircleIcon: 'flex',
+        iconCirle: "fas fa-user",
+        widthWrapp: 'calc(95%/3)',
+        fontSizeTitle: '18px',
+        fontSizeParagraphOne: '14px',
+        fontWeightTitle: 'bold',
+        displayBtn: 'none',
+        textAlignTitle: 'start',
+        textAlignParagraphOne: 'start',
+        heightCircleIcon: '60px',
+        widthCircleIcon: '60px',
+        paddingDeskripsi: '30px',
+        marginWrapp: '0 0 25px 0',
+        bdrRadiusWrapp: '5px',
+        lineHeightDeskripsi: '1.5',
+        marginTitle: '30px 0 10px 0',
+        cursorWrapp: 'pointer'
+    }
+
+    const btnSelengkapnya = {
+        name: 'SELENGKAPNYA',
+        colorDefault: 'transparent',
+        colorChange: '#000'
+    }
+
+    const cardBerita = {
+        widthWrapp: 'calc(95%/3)',
+        paddingDeskripsi: '20px',
+        fontSizeTitle: '18px',
+        displayBtn: 'none',
+        fontWeightTitle: 'bold',
+        bdrRadiusWrapp: '5px',
+        lineHeightDeskripsi: '1.2',
+        textAlignTitle: 'start',
+        marginWrapp: '0 0 25px 0',
+        bdrTopLeftRadiusImg: '5px',
+        bdrTopRightRadiusImg: '5px',
+        heightImg: '150px',
+        cursorContainerImg: 'pointer',
+        displayDateCard: 'flex',
+        cursorTitle: 'pointer'
+    }
+
+    const carouselTestimoni = {
+        displayIndikator: 'none',
+        bdrRadiusWrapp: '0',
+        marginTopWrapp: '40px',
+        displayBtnTestimoni: 'flex',
+        btnLeftTestimoni: () => btnLeftTestimoni(idxActiveTestimoni - 1),
+        btnRightTestimoni: () => btnRightTestimoni(idxActiveTestimoni + 1),
+        idxActiveCarousel: idxActiveTestimoni
+    }
+
+    const cardMedia = {
+        widthWrapp: 'calc(100%/3)',
+        positionDeskripsi: 'absolute',
+        positionWrapp: 'relative',
+        bdrRadiusHoverImg: '0',
+        colorParagraphOne: '#fff',
+        fontSizeTitle: '20px',
+        fontWeightTitle: 'bold',
+        paddingParagraphOne: '0 0 15px 0',
+        fontSizeParagraphOne: '14px',
+        textAlignDeskripsi: 'start',
+        paddingDeskripsi: '40px 30px',
+        cursorTitle: 'pointer'
+    }
+
     return (
         <>
             <div className="wrapp-home">
@@ -222,297 +340,206 @@ function Home() {
                 </div>
 
                 <div className="wrapp-content-home">
-                    <div className="content-home">
-                        <Carousel
-                            displayInner={'flex'}
-                            data={carousel}
-                            idxActiveCarousel={idxActiveCarousel}
-                            pauseSlide={pauseSlide}
-                            btnLeftCarousel={(i) => btnLeftCarousel(i)}
-                            btnRightCarousel={(i) => btnRightCarousel(i)}
-                            btnIndikatorCarouselImg={(i) => btnIndikatorCarouselImg(i)}
-                            mouseOverCarousel={mouseOverCarousel}
-                            mouseLeaveCarousel={mouseLeaveCarousel}
-                        />
+                    <Carousel {...carouselTop} />
 
-                        <div className="container-blog-home">
-                            {/* selayang pandang */}
-                            {selayangPandang && Object.keys(selayangPandang).length > 0 ? (
-                                <div className="selayang-pandang-home">
-                                    <img src={`${address}/${selayangPandang.image}`} alt="" className="img-selayang-pandang" />
+                    <div className="container-blog-home">
+                        {/* selayang pandang */}
+                        {selayangPandang && Object.keys(selayangPandang).length > 0 ? (
+                            <div className="selayang-pandang-home">
+                                <img src={`${address}/${selayangPandang.image}`} alt="" className="img-selayang-pandang" />
 
-                                    <div className="paragraph-selayang-pandang">
-                                        <p className="title-selayang-pandang">
-                                            {selayangPandang.header.toUpperCase()}
-                                        </p>
+                                <div className="paragraph-selayang-pandang">
+                                    <p className="title-selayang-pandang">
+                                        {selayangPandang.header.toUpperCase()}
+                                    </p>
 
-                                        <p className="deskripsi-selayang-pandang">
-                                            <RenderHTML e={selayangPandang.paragraphUtama} />
-                                        </p>
+                                    <p className="deskripsi-selayang-pandang">
+                                        <RenderHTML e={selayangPandang.paragraphUtama} />
+                                    </p>
 
-                                        <Button
-                                            name={'SELENGKAPNYA'}
-                                            colorDefault={'transparent'}
-                                            colorChange={'#000'}
+                                    <Button {...btnSelengkapnya} />
+                                </div>
+                            </div>
+                        ) : (
+                            <></>
+                        )}
+
+                        {/* jajaran pimpinan */}
+                        {jajaranPimpinan && Object.keys(jajaranPimpinan).length > 0 ? (
+                            <div className="jajaran-pimpinan col-group">
+                                <p className="title title-group">
+                                    {jajaranPimpinan.title}
+                                </p>
+                                <p className="deskripsi deskripsi-group">
+                                    {jajaranPimpinan.paragraph}
+                                </p>
+
+                                <div className="struktur-pimpinan">
+                                    {jajaranPimpinan.dataPimpinan && Object.keys(jajaranPimpinan.dataPimpinan[0]).length > 0 ? (
+                                        <Card
+                                            {...cardPimpinan}
+                                            img={`${address}/${jajaranPimpinan.dataPimpinan[0].image}`}
+                                            title={jajaranPimpinan.dataPimpinan[0].jabatan}
+                                            paragraphOne={jajaranPimpinan.dataPimpinan[0].pangkat}
+                                            paragraphTwo={jajaranPimpinan.dataPimpinan[0].gelar}
                                         />
-                                    </div>
-                                </div>
-                            ) : (
-                                <></>
-                            )}
+                                    ) : (
+                                        <></>
+                                    )}
 
-                            {/* jajaran pimpinan */}
-                            {jajaranPimpinan && Object.keys(jajaranPimpinan).length > 0 ? (
-                                <div className="jajaran-pimpinan col-group">
-                                    <p className="title title-group">
-                                        {jajaranPimpinan.title}
-                                    </p>
-                                    <p className="deskripsi deskripsi-group">
-                                        {jajaranPimpinan.paragraph}
-                                    </p>
-
-                                    <div className="struktur-pimpinan">
-                                        {jajaranPimpinan.dataPimpinan && Object.keys(jajaranPimpinan.dataPimpinan[0]).length > 0 ? (
-                                            <Card
-                                                img={`${address}/${jajaranPimpinan.dataPimpinan[0].image}`}
-                                                title={jajaranPimpinan.dataPimpinan[0].jabatan}
-                                                paragraphOne={jajaranPimpinan.dataPimpinan[0].pangkat}
-                                                paragraphTwo={jajaranPimpinan.dataPimpinan[0].gelar}
-                                                widthWrapp={'calc(95%/3)'}
-                                                paddingDeskripsi={'20px'}
-                                                fontSizeTitle={'14px'}
-                                                fontWeightTitle={'500'}
-                                                fontSizeParagraphOne={'14px'}
-                                                fontSizeParagraphTwo={'14px'}
-                                                colorParagraphOne={'#333'}
-                                                colorParagraphTwo={'#333'}
-                                                bdrRadiusWrapp={'10px'}
-                                                displayBtn={'none'}
-                                                opacityHoverImg={hoverImgLead ? '0.4' : '0'}
-                                                transformImg={hoverImgLead ? 'scale(1.1)' : 'scale(1)'}
-                                                mouseEnterImg={mouseOverImgLead}
-                                                mouseLeaveImg={mouseLeaveImgLead}
-                                            />
-                                        ) : (
-                                            <></>
-                                        )}
-
-                                        <div className="tiga-pimpinan-lainnya col-card">
-                                            {jajaranPimpinan.dataPimpinan.length > 0 ? jajaranPimpinan.dataPimpinan.map((e, i) => {
-                                                return (
-                                                    <Card
-                                                        key={i}
-                                                        displayWrapp={i !== 0 ? 'flex' : 'none'}
-                                                        img={`${address}/${e.image}`}
-                                                        title={e.jabatan}
-                                                        paragraphOne={e.pangkat}
-                                                        paragraphTwo={e.gelar}
-                                                        widthWrapp={'calc(95%/3)'}
-                                                        paddingDeskripsi={'20px'}
-                                                        fontSizeTitle={'14px'}
-                                                        fontWeightTitle={'500'}
-                                                        displayBtn={'none'}
-                                                        fontSizeParagraphOne={'14px'}
-                                                        fontSizeParagraphTwo={'14px'}
-                                                        colorParagraphOne={'#333'}
-                                                        colorParagraphTwo={'#333'}
-                                                        bdrRadiusWrapp={'10px'}
-                                                        transformImg={hoverImgOther === i ? 'scale(1.1)' : 'scale(1)'}
-                                                        opacityHoverImg={hoverImgOther === i ? '0.4' : '0'}
-                                                        mouseEnterImg={() => mouseOverImgOther(i)}
-                                                        mouseLeaveImg={mouseLeaveImgOther}
-                                                    />
-                                                )
-                                            }) : (
-                                                <></>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            ) : (
-                                <></>
-                            )}
-
-                            {/* layanan unggulan */}
-                            {layananUnggulan && Object.keys(layananUnggulan).length > 0 ? (
-                                <div className="layanan-unggulan col-group">
-                                    <p className="title title-group">
-                                        {layananUnggulan.header.toUpperCase()}
-                                    </p>
-
-                                    <p className="deskripsi deskripsi-group">
-                                        {layananUnggulan.paragraph}
-                                    </p>
-
-                                    <div className="blog-layanan-unggulan col-card">
-                                        {layananUnggulan.data.length > 0 ? layananUnggulan.data.map((e, i) => {
+                                    <div className="tiga-pimpinan-lainnya col-card">
+                                        {jajaranPimpinan.dataPimpinan.length > 0 ? jajaranPimpinan.dataPimpinan.map((e, i) => {
                                             return (
                                                 <Card
-                                                    key={i}
-                                                    displayCircleIcon={'flex'}
-                                                    iconCirle="fas fa-user"
-                                                    title={e.header}
-                                                    paragraphOne={<RenderHTML e={`${e.paragraph.substr(1, 100)} ...`} />}
-                                                    widthWrapp={'calc(95%/3)'}
-                                                    fontSizeTitle={'18px'}
-                                                    fontSizeParagraphOne={'14px'}
-                                                    fontWeightTitle={'bold'}
-                                                    displayBtn={'none'}
-                                                    colorTitle={hoverLayanan === i ? '#fff' : '#4d784e'}
-                                                    textAlignTitle={'start'}
-                                                    textAlignParagraphOne={'start'}
-                                                    heightCircleIcon={'60px'}
-                                                    widthCircleIcon={'60px'}
-                                                    bgColorCircleIcon={hoverLayanan === i ? '#fff' : '#4d784e'}
-                                                    colorCircleIcon={hoverLayanan === i ? '#4d784e' : '#fff'}
-                                                    paddingDeskripsi={'30px'}
-                                                    marginWrapp={'0 0 25px 0'}
-                                                    bdrRadiusWrapp={'5px'}
-                                                    lineHeightDeskripsi={'1.5'}
-                                                    marginTitle={'30px 0 10px 0'}
-                                                    cursorWrapp={'pointer'}
-                                                    colorParagraphOne={hoverLayanan === i ? '#fff' : '#333'}
-                                                    mouseEnterWrapp={() => mouseOverLayanan(i)}
-                                                    mouseLeaveWrapp={mouseLeaveLayanan}
-                                                    bgColorWrapp={hoverLayanan === i ? '#4d784e' : '#fff'}
-                                                />
-                                            )
-                                        }) : (
-                                            <></>
-                                        )}
-                                    </div>
-
-                                    <div className="container-btn">
-                                        <Button
-                                            name={'SELENGKAPNYA'}
-                                            colorDefault={'transparent'}
-                                            colorChange={'#000'}
-                                        />
-                                    </div>
-                                </div>
-                            ) : (
-                                <></>
-                            )}
-
-                            {/* berita */}
-                            {berita && Object.keys(berita).length > 0 ? (
-                                <div className="berita-home col-group">
-                                    <p className="title title-group">
-                                        {berita.header.toUpperCase()}
-                                    </p>
-
-                                    <p className="deskripsi deskripsi-group">
-                                        {berita.paragraph}
-                                    </p>
-
-                                    <div className="container-blog-berita col-card">
-                                        {blogBerita && blogBerita.length > 0 ? blogBerita.map((e, i) => {
-                                            return (
-                                                <Card
+                                                    {...cardTigaPimpinan}
                                                     key={i}
                                                     img={`${address}/${e.image}`}
-                                                    title={e.header}
-                                                    date={e.date}
-                                                    admin={e.author}
-                                                    widthWrapp={'calc(95%/3)'}
-                                                    paddingDeskripsi={'20px'}
-                                                    fontSizeTitle={'18px'}
-                                                    displayBtn={'none'}
-                                                    fontWeightTitle={'bold'}
-                                                    bdrRadiusWrapp={'5px'}
-                                                    lineHeightDeskripsi={'1.2'}
-                                                    textAlignTitle={'start'}
-                                                    colorTitle={hoverTitleBerita === i ? '#4d784e' : '#333'}
-                                                    marginWrapp={'0 0 25px 0'}
-                                                    bdrTopLeftRadiusImg={'5px'}
-                                                    bdrTopRightRadiusImg={'5px'}
-                                                    heightImg={'150px'}
-                                                    cursorContainerImg={'pointer'}
-                                                    displayDateCard={'flex'}
-                                                    cursorTitle={'pointer'}
-                                                    transformImg={hoverImgBerita === i ? 'scale(1.1)' : 'scale(1)'}
-                                                    opacityHoverImg={hoverImgBerita === i ? '0.4' : '0'}
-                                                    mouseEnterImg={() => mouseOverImgBerita(i)}
-                                                    mouseLeaveImg={mouseLeaveImgBerita}
-                                                    mouseEnterTitle={() => mouseOverTitleBerita(i)}
-                                                    mouseLeaveTitle={mouseLeaveTitleBerita}
+                                                    title={e.jabatan}
+                                                    paragraphOne={e.pangkat}
+                                                    paragraphTwo={e.gelar}
+                                                    displayWrapp={i !== 0 ? 'flex' : 'none'}
+                                                    transformImg={hoverImgOther === i ? 'scale(1.1)' : 'scale(1)'}
+                                                    opacityHoverImg={hoverImgOther === i ? '0.4' : '0'}
+                                                    mouseEnterImg={() => mouseOverImgOther(i)}
+                                                    mouseLeaveImg={mouseLeaveImgOther}
                                                 />
                                             )
                                         }) : (
                                             <></>
                                         )}
                                     </div>
-
-                                    <div className="container-btn">
-                                        <Button
-                                            name={'SELENGKAPNYA'}
-                                            colorDefault={'transparent'}
-                                            colorChange={'#000'}
-                                        />
-                                    </div>
                                 </div>
-                            ) : (
-                                <></>
-                            )}
-
-                            {/* testimoni */}
-                            {testimoni && Object.keys(testimoni).length > 0 ? (
-                                <div className="testimoni col-group">
-                                    <p className="title title-group">
-                                        {testimoni.title}
-                                    </p>
-
-                                    <p className="deskripsi deskripsi-group">
-                                        {testimoni.paragraph}
-                                    </p>
-
-                                    <Carousel
-                                        displayIndikator={'none'}
-                                        dataTestimoni={testimoni.komentar}
-                                        bdrRadiusWrapp={'0'}
-                                        marginTopWrapp={'40px'}
-                                        idxActiveCarousel={idxActiveTestimoni}
-                                        displayBtnTestimoni={'flex'}
-                                        btnLeftTestimoni={() => btnLeftTestimoni(idxActiveTestimoni - 1)}
-                                        btnRightTestimoni={() => btnRightTestimoni(idxActiveTestimoni + 1)}
-                                    />
-                                </div>
-                            ) : (
-                                <></>
-                            )}
-
-                            {/* media */}
-                            <div className="media">
-                                {media && media.length > 0 ? media.map((e, i) => {
-                                    return (
-                                        <Card
-                                            key={i}
-                                            img={`${address}/${e.image}`}
-                                            title={e.title}
-                                            paragraphOne={e.paragraph}
-                                            positionDeskripsi={'absolute'}
-                                            opacityHoverImg={hoverImgMedia === i ? '0.4' : '0.6'}
-                                            transformImg={hoverImgMedia === i ? 'scale(1.1)' : 'scale(1)'}
-                                            bdrRadiusHoverImg={'0'}
-                                            colorTitle={hoverTitleMedia === i ? '#F6E8B1' : '#fff'}
-                                            colorParagraphOne={'#fff'}
-                                            fontSizeTitle={'20px'}
-                                            fontWeightTitle={'bold'}
-                                            paddingParagraphOne={'0 0 15px 0'}
-                                            fontSizeParagraphOne={'14px'}
-                                            textAlignDeskripsi={'start'}
-                                            paddingDeskripsi={'40px 30px'}
-                                            cursorTitle={'pointer'}
-                                            mouseEnterTitle={() => mouseEnterTitleMedia(i)}
-                                            mouseLeaveTitle={mouseLeaveTitleMedia}
-                                            mouseEnterWrapp={() => mouseEnterImgMedia(i)}
-                                            mouseLeaveWrapp={mouseLeaveImgMedia}
-                                        />
-                                    )
-                                }) : (
-                                    <></>
-                                )}
                             </div>
+                        ) : (
+                            <></>
+                        )}
+
+                        {/* layanan unggulan */}
+                        {layananUnggulan && Object.keys(layananUnggulan).length > 0 ? (
+                            <div className="layanan-unggulan col-group">
+                                <p className="title title-group">
+                                    {layananUnggulan.header.toUpperCase()}
+                                </p>
+
+                                <p className="deskripsi deskripsi-group">
+                                    {layananUnggulan.paragraph}
+                                </p>
+
+                                <div className="blog-layanan-unggulan col-card">
+                                    {layananUnggulan.data.length > 0 ? layananUnggulan.data.map((e, i) => {
+                                        return (
+                                            <Card
+                                                {...cardLayananUnggulan}
+                                                key={i}
+                                                title={e.header}
+                                                paragraphOne={<RenderHTML e={`${e.paragraph.substr(0, 100)} ...`} />}
+                                                colorTitle={hoverLayanan === i ? '#fff' : '#4d784e'}
+                                                bgColorCircleIcon={hoverLayanan === i ? '#fff' : '#4d784e'}
+                                                colorCircleIcon={hoverLayanan === i ? '#4d784e' : '#fff'}
+                                                colorParagraphOne={hoverLayanan === i ? '#fff' : '#333'}
+                                                mouseEnterWrapp={() => mouseOverLayanan(i)}
+                                                mouseLeaveWrapp={mouseLeaveLayanan}
+                                                bgColorWrapp={hoverLayanan === i ? '#4d784e' : '#fff'}
+                                            />
+                                        )
+                                    }) : (
+                                        <></>
+                                    )}
+                                </div>
+
+                                <div className="container-btn">
+                                    <Button {...btnSelengkapnya} />
+                                </div>
+                            </div>
+                        ) : (
+                            <></>
+                        )}
+
+                        {/* berita */}
+                        {berita && Object.keys(berita).length > 0 ? (
+                            <div className="berita-home col-group">
+                                <p className="title title-group">
+                                    {berita.header.toUpperCase()}
+                                </p>
+
+                                <p className="deskripsi deskripsi-group">
+                                    {berita.paragraph}
+                                </p>
+
+                                <div className="container-blog-berita col-card">
+                                    {blogBerita && blogBerita.length > 0 ? blogBerita.map((e, i) => {
+                                        return (
+                                            <Card
+                                                {...cardBerita}
+                                                key={i}
+                                                img={`${address}/${e.image}`}
+                                                title={e.header}
+                                                date={e.date}
+                                                admin={e.author}
+                                                colorTitle={hoverTitleBerita === i ? '#4d784e' : '#333'}
+                                                transformImg={hoverImgBerita === i ? 'scale(1.1)' : 'scale(1)'}
+                                                opacityHoverImg={hoverImgBerita === i ? '0.4' : '0'}
+                                                mouseEnterImg={() => mouseOverImgBerita(i)}
+                                                mouseLeaveImg={mouseLeaveImgBerita}
+                                                mouseEnterTitle={() => mouseOverTitleBerita(i)}
+                                                mouseLeaveTitle={mouseLeaveTitleBerita}
+                                            />
+                                        )
+                                    }) : (
+                                        <></>
+                                    )}
+                                </div>
+
+                                <div className="container-btn">
+                                    <Button {...btnSelengkapnya} />
+                                </div>
+                            </div>
+                        ) : (
+                            <></>
+                        )}
+
+                        {/* testimoni */}
+                        {testimoni && Object.keys(testimoni).length > 0 ? (
+                            <div className="testimoni col-group">
+                                <p className="title title-group">
+                                    {testimoni.title}
+                                </p>
+
+                                <p className="deskripsi deskripsi-group">
+                                    {testimoni.paragraph}
+                                </p>
+
+                                <Carousel
+                                    {...carouselTestimoni}
+                                    dataTestimoni={testimoni.komentar}
+                                />
+                            </div>
+                        ) : (
+                            <></>
+                        )}
+
+                        {/* media */}
+                        <div className="media">
+                            {media && media.length > 0 ? media.map((e, i) => {
+                                return (
+                                    <Card
+                                        {...cardMedia}
+                                        key={i}
+                                        img={`${address}/${e.image}`}
+                                        title={e.title}
+                                        paragraphOne={e.paragraph}
+                                        opacityHoverImg={hoverImgMedia === i ? '0.4' : '0.6'}
+                                        transformImg={hoverImgMedia === i ? 'scale(1.1)' : 'scale(1)'}
+                                        colorTitle={hoverTitleMedia === i ? '#F6E8B1' : '#fff'}
+                                        mouseEnterTitle={() => mouseEnterTitleMedia(i)}
+                                        mouseLeaveTitle={mouseLeaveTitleMedia}
+                                        mouseEnterWrapp={() => mouseEnterImgMedia(i)}
+                                        mouseLeaveWrapp={mouseLeaveImgMedia}
+                                    />
+                                )
+                            }) : (
+                                <></>
+                            )}
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,177 @@
+@import '../../utils/variable.scss';
+
+@mixin mobile {
+    @media (max-width: 700px) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (max-width: 1254px) {
+        @content;
+    }
+}
+
+@mixin minDesktop {
+    @media (min-width: 1681px) {
+        @content;
+    }
+}
+
+.wrapp-template {
+    display: flex;
+    flex-direction: column;
+    padding-top: 157px;
+
+    // banner page
+    .container-banner-page {
+        display: flex;
+        overflow: hidden;
+
+        .banner-page {
+            display: flex;
+            height: 80vh;
+            width: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .shadow-banner {
+            position: absolute;
+            height: 80vh;
+            width: 100%;
+            background-color: #000;
+            opacity: 0.5;
+        }
+    }
+
+    // blog content
+    .container-blog-content {
+        display: flex;
+        flex-direction: column;
+        background-image: url('../../images/pattern.jpg');
+        z-index: 11;
+
+        .header-page {
+            display: flex;
+            flex-direction: column;
+            background-color: transparent;
+            margin-top: -200px;
+
+            // header green
+            .header-green {
+                display: flex;
+                flex-direction: column;
+                width: 55%;
+                padding: 40px 0px 150px 16%;
+                background-color: $color1;
+                text-align: start;
+                border-top-right-radius: 10px;
+
+                @include tablet(){
+                    padding: 40px 0 150px 11%;
+                }
+
+                @include minDesktop(){
+                    padding: 40px 0px 150px 20%;
+                }
+
+                .list-link-page {
+                    display: flex;
+                    align-items: center;
+
+                    .link-page {
+                        display: flex;
+                        outline: none;
+                        border: none;
+                        background-color: transparent;
+                        color: #fff;
+                        font-size: 12px;
+                        margin-right: 10px;
+                        transition: 0.3s ease-in-out;
+
+                        &:hover{
+                            color: #ddd;
+                        }
+
+                        .garis-miring{
+                            margin-left: 10px;
+                        }
+                    }
+                }
+
+                .title-page {
+                    text-align: start;
+                    color: #fff;
+                    font-weight: bold;
+                    font-size: 30px;
+                    margin-top: 15px;
+                    padding: 0 40px 0 0%;
+                }
+            }
+
+            // content white
+            .container-content-white {
+                margin-top: -110px;
+                padding: 0 10%;
+
+                @include tablet(){
+                    padding: 0 5%;
+                }
+
+                @include minDesktop(){
+                    padding: 0 15%;
+                }
+
+                .content-blog {
+                    display: flex;
+                    flex-direction: column;
+                    padding: 8%;
+                    color: #333;
+                    font-size: $font2;
+                    line-height: $lineHeight;
+                    background-color: #fff;
+                    border-top-left-radius: 10px;
+                    border-top-right-radius: 10px;
+                    text-align: justify;
+                    letter-spacing: 0.1px;
+
+                    // img content
+                    img{
+                        object-fit: cover;
+                        object-position: center;
+                    }
+
+                    // title black (no bold)
+                    .title-black{
+                        font-weight: 500;
+                    }
+
+                    // list paragraph
+                    .list{
+                        padding: 10px 0 10px 20px;
+                        li{
+                            align-items: center;
+                            p{
+                                margin: -27px 0 0 15px;
+                            }
+                        }
+                    }
+
+                    center{
+                        padding: 0 60px;
+
+                        @include mobile(){
+                            padding: 0 20px;
+                        }
+                    }
+
+                    .title-big-bold{
+                        font-size: 18px;
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+}

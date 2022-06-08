@@ -2,7 +2,7 @@ import React from 'react'
 import Button from '../button/Button'
 import './Card.scss'
 
-function Card({ img, title, paragraphOne, paragraphTwo, bdrRadiusWrapp, justifyContentDeskripsi, textAlignTitle, textAlignParagraphOne, textAlignParagraphTwo, fontSizeTitle, fontWeightTitle, fontSizeParagraphOne, fontSizeParagraphTwo, widthWrapp, paddingDeskripsi, colorParagraphOne, colorParagraphTwo, displayWrapp, mouseEnterImg, mouseLeaveImg, opacityHoverImg, displayCircleIcon, bgColorCircleIcon, heightCircleIcon, widthCircleIcon, iconCirle, colorTitle, marginWrapp, lineHeightDeskripsi, marginTitle, cursorWrapp, mouseEnterWrapp, mouseLeaveWrapp, bgColorWrapp, colorCircleIcon, bdrTopLeftRadiusImg, bdrTopRightRadiusImg, heightImg, cursorContainerImg, mouseEnterTitle, mouseLeaveTitle, cursorTitle, date, admin, displayDateCard, transformImg, whiteSpaceDeskripsi, heightWrapp, bgColorDeskripsi, heightDeskripsi, marginDeskripsi, bdrRadiusDeskripsi, justifyContentCircleIcon, fontSizeIcon, textAlignDeskripsi, minHeightTitle, bdrTopParagraphOne, paddingCircleIcon, paddingParagraphOne, paddingParagraphTwo, fontWeightParagraphOne, positionDeskripsi, bdrRadiusHoverImg, displayBtn }) {
+function Card({ img, title, paragraphOne, paragraphTwo, bdrRadiusWrapp, justifyContentDeskripsi, textAlignTitle, textAlignParagraphOne, textAlignParagraphTwo, fontSizeTitle, fontWeightTitle, fontSizeParagraphOne, fontSizeParagraphTwo, widthWrapp, paddingDeskripsi, colorParagraphOne, colorParagraphTwo, displayWrapp, mouseEnterImg, mouseLeaveImg, opacityHoverImg, displayCircleIcon, bgColorCircleIcon, heightCircleIcon, widthCircleIcon, iconCirle, colorTitle, marginWrapp, lineHeightDeskripsi, marginTitle, cursorWrapp, mouseEnterWrapp, mouseLeaveWrapp, bgColorWrapp, colorCircleIcon, bdrTopLeftRadiusImg, bdrTopRightRadiusImg, heightImg, cursorContainerImg, mouseEnterTitle, mouseLeaveTitle, cursorTitle, date, admin, displayDateCard, transformImg, whiteSpaceDeskripsi, heightWrapp, bgColorDeskripsi, heightDeskripsi, marginDeskripsi, bdrRadiusDeskripsi, justifyContentCircleIcon, fontSizeIcon, textAlignDeskripsi, minHeightTitle, bdrTopParagraphOne, paddingCircleIcon, paddingParagraphOne, paddingParagraphTwo, fontWeightParagraphOne, positionDeskripsi, bdrRadiusHoverImg, displayBtn, positionWrapp, fontStyleIcon }) {
 
     const styleWrapp = {
         display: displayWrapp,
@@ -11,7 +11,8 @@ function Card({ img, title, paragraphOne, paragraphTwo, bdrRadiusWrapp, justifyC
         margin: marginWrapp,
         cursor: cursorWrapp,
         backgroundColor: bgColorWrapp,
-        height: heightWrapp
+        height: heightWrapp,
+        position: positionWrapp
     }
     const styleDeskripsi = {
         justifyContent: justifyContentDeskripsi,
@@ -65,7 +66,8 @@ function Card({ img, title, paragraphOne, paragraphTwo, bdrRadiusWrapp, justifyC
         padding: paddingCircleIcon
     }
     const styleIcon = {
-        fontSize: fontSizeIcon
+        fontSize: fontSizeIcon,
+        fontStyle: fontStyleIcon
     }
     const styleImg = {
         borderTopLeftRadius: bdrTopLeftRadiusImg,
@@ -104,7 +106,7 @@ function Card({ img, title, paragraphOne, paragraphTwo, bdrRadiusWrapp, justifyC
                 </div>
                 <div className="container-deskripsi-card" style={styleDeskripsi}>
                     <div className="circle-icon" style={styleCircleIcon}>
-                        <i className={iconCirle} style={styleIcon}></i>
+                        <i className={`${iconCirle} icon-in-circle`} style={styleIcon}></i>
                     </div>
                     <p className="title-card" style={styleTitle}
                         onMouseEnter={mouseEnterTitle}
@@ -120,8 +122,8 @@ function Card({ img, title, paragraphOne, paragraphTwo, bdrRadiusWrapp, justifyC
                     </p>
                     <Button {...styleBtnCard}/>
                     <div className="date-card" style={styleDateCard}>
-                        <p><i className="fas fa-calendar-alt"></i>{date}</p>
-                        <p><i className="fas fa-user"></i>{admin}</p>
+                        <p><i className="fas fa-calendar-alt icon-date"></i>{date}</p>
+                        <p><i className="fas fa-user icon-date"></i>{admin}</p>
                     </div>
                 </div>
             </div>

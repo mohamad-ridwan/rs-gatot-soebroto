@@ -13,6 +13,7 @@
         overflow: hidden;
 
         .img-card{
+            display: flex;
             width: 100%;
             object-fit: cover;
             object-position: center;
@@ -48,8 +49,9 @@
             color: #fff;
             transition: 0.2s ease-in-out;
             
-            i{
+            .icon-in-circle{
                 font-size: 20px;
+                font-style: normal;
             }
         }
 
@@ -71,7 +73,7 @@
                 font-size: $fontIcon;
                 color: #777;
                 margin-right: 10px;
-                i{
+                .icon-date{
                     font-size: 11px;
                     margin-right: 3px;
                 }
