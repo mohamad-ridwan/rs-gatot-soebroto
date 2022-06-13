@@ -2,7 +2,7 @@ import React from 'react'
 import Button from '../button/Button'
 import './Card.scss'
 
-function Card({ img, title, paragraphOne, paragraphTwo, bdrRadiusWrapp, justifyContentDeskripsi, textAlignTitle, textAlignParagraphOne, textAlignParagraphTwo, fontSizeTitle, fontWeightTitle, fontSizeParagraphOne, fontSizeParagraphTwo, widthWrapp, paddingDeskripsi, colorParagraphOne, colorParagraphTwo, displayWrapp, mouseEnterImg, mouseLeaveImg, opacityHoverImg, displayCircleIcon, bgColorCircleIcon, heightCircleIcon, widthCircleIcon, iconCirle, colorTitle, marginWrapp, lineHeightDeskripsi, marginTitle, cursorWrapp, mouseEnterWrapp, mouseLeaveWrapp, bgColorWrapp, colorCircleIcon, bdrTopLeftRadiusImg, bdrTopRightRadiusImg, heightImg, cursorContainerImg, mouseEnterTitle, mouseLeaveTitle, cursorTitle, date, admin, displayDateCard, transformImg, whiteSpaceDeskripsi, heightWrapp, bgColorDeskripsi, heightDeskripsi, marginDeskripsi, bdrRadiusDeskripsi, justifyContentCircleIcon, fontSizeIcon, textAlignDeskripsi, minHeightTitle, bdrTopParagraphOne, paddingCircleIcon, paddingParagraphOne, paddingParagraphTwo, fontWeightParagraphOne, positionDeskripsi, bdrRadiusHoverImg, displayBtn, positionWrapp, fontStyleIcon }) {
+function Card({ img, title, paragraphOne, paragraphTwo, bdrRadiusWrapp, justifyContentDeskripsi, textAlignTitle, textAlignParagraphOne, textAlignParagraphTwo, fontSizeTitle, fontWeightTitle, fontSizeParagraphOne, fontSizeParagraphTwo, widthWrapp, paddingDeskripsi, colorParagraphOne, colorParagraphTwo, displayWrapp, mouseEnterImg, mouseLeaveImg, opacityHoverImg, displayCircleIcon, bgColorCircleIcon, heightCircleIcon, widthCircleIcon, iconCirle, colorTitle, marginWrapp, lineHeightDeskripsi, marginTitle, cursorWrapp, mouseEnterWrapp, mouseLeaveWrapp, bgColorWrapp, colorCircleIcon, bdrTopLeftRadiusImg, bdrTopRightRadiusImg, heightImg, cursorContainerImg, mouseEnterTitle, mouseLeaveTitle, cursorTitle, date, admin, displayDateCard, transformImg, whiteSpaceDeskripsi, heightWrapp, bgColorDeskripsi, heightDeskripsi, marginDeskripsi, bdrRadiusDeskripsi, justifyContentCircleIcon, fontSizeIcon, textAlignDeskripsi, minHeightTitle, bdrTopParagraphOne, paddingCircleIcon, paddingParagraphOne, paddingParagraphTwo, fontWeightParagraphOne, positionDeskripsi, bdrRadiusHoverImg, displayBtn, positionWrapp, fontStyleIcon, bdrBottomLeftRadiusImg, bdrBottomRightRadiusImg, bdrRadiusContainerImg, bdrTopLeftRadiusContainerImg, bdrTopRightRadiusContainerImg }) {
 
     const styleWrapp = {
         display: displayWrapp,
@@ -50,7 +50,10 @@ function Card({ img, title, paragraphOne, paragraphTwo, bdrRadiusWrapp, justifyC
         padding: paddingParagraphTwo
     }
     const styleContainerImg = {
-        cursor: cursorContainerImg
+        cursor: cursorContainerImg,
+        borderRadius: bdrRadiusContainerImg,
+        borderTopLeftRadius: bdrTopLeftRadiusContainerImg,
+        borderTopRightRadius: bdrTopRightRadiusContainerImg,
     }
     const styleHoverImg = {
         opacity: opacityHoverImg,
@@ -72,6 +75,8 @@ function Card({ img, title, paragraphOne, paragraphTwo, bdrRadiusWrapp, justifyC
     const styleImg = {
         borderTopLeftRadius: bdrTopLeftRadiusImg,
         borderTopRightRadius: bdrTopRightRadiusImg,
+        borderBottomLeftRadius: bdrBottomLeftRadiusImg,
+        borderBottomRightRadius: bdrBottomRightRadiusImg,
         height: heightImg,
         transform: transformImg
     }
@@ -93,11 +98,11 @@ function Card({ img, title, paragraphOne, paragraphTwo, bdrRadiusWrapp, justifyC
     return (
         <>
             <div className="wrapp-card" style={styleWrapp}
-                onMouseEnter={mouseEnterWrapp}
+                onMouseOver={mouseEnterWrapp}
                 onMouseLeave={mouseLeaveWrapp}
             >
                 <div className="container-img-card" style={styleContainerImg}
-                    onMouseEnter={mouseEnterImg}
+                    onMouseOver={mouseEnterImg}
                     onMouseLeave={mouseLeaveImg}
                 >
                     <img src={img} alt="" className="img-card" style={styleImg} />
@@ -109,7 +114,7 @@ function Card({ img, title, paragraphOne, paragraphTwo, bdrRadiusWrapp, justifyC
                         <i className={`${iconCirle} icon-in-circle`} style={styleIcon}></i>
                     </div>
                     <p className="title-card" style={styleTitle}
-                        onMouseEnter={mouseEnterTitle}
+                        onMouseOver={mouseEnterTitle}
                         onMouseLeave={mouseLeaveTitle}
                     >
                         {title}

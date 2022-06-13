@@ -7,6 +7,7 @@ import {
   siblingCount,
   changeLastIdx,
   changeFirstIdx,
+  changeIdxShowingDokter
 } from "../../services/redux/navbar";
 
 function Pagination({
@@ -16,6 +17,7 @@ function Pagination({
   id,
   renderCard,
   renderDokter,
+  dataShowing,
   ...propsAddition
 }) {
   const { data, contentPerPage } = propsAddition;
@@ -26,6 +28,8 @@ function Pagination({
   const firstIdxStore = useSelector((state) => state.navbar.firstIdx);
   const lastIdxStore = useSelector((state) => state.navbar.lastIdx);
   const searchDoctorStore = useSelector((state) => state.navbar.searchDoctor);
+  const nowChoose = useSelector((state) => state.navbar.nowChoose);
+  const idxShowingDokter = useSelector((state) => state.navbar.idxShowingDokter)
 
   const inputSearch =
     id === "jadwal-dokter" &&
@@ -55,12 +59,33 @@ function Pagination({
     return newArr;
   }
 
+  function updateIdxShowingDokter(nowShow, toShow, ofShow, totalData) {
+    dispatch(changeIdxShowingDokter({ nowShow: nowShow, toShow: toShow, ofShow: ofShow, totalData: totalData }))
+  }
+
   function goToNextPage(idx) {
     if (idx <= totalNumber) {
       dispatch(changeCurrentPage({ pageNow: idx }));
 
+      const nowShow = ((nowChoose * idx) - nowChoose) + 1
+      const checkUserInput = searchDoctorStore.length > 0 ? inputSearch.length : data.length
+      const toShowInNotLastData = nowChoose * idx
+
+      // for update data idxShowingDokter
+      if (id === 'jadwal-dokter') {
+        if (idx !== totalNumber) {
+          // not the last data or not the last idx
+          updateIdxShowingDokter(nowShow, toShowInNotLastData, checkUserInput, data.length)
+        } else if (idx === totalNumber) {
+          // the last data or the last idx
+          updateIdxShowingDokter(nowShow, checkUserInput, checkUserInput, data.length)
+        }
+      }
+      // END for update data idxShowingDokter
+
       if (idx === lastIdxStore + 1) {
-        const check = checkIdxPaginate(idx, totalNumber + 1);
+        const check = checkIdxPaginate(idx, totalNumber + 1)
+
         if (check.length > siblingCount) {
           dispatch(changeLastIdx({ idx: check[siblingCount - 1] }));
           dispatch(
@@ -97,6 +122,24 @@ function Pagination({
     if (idx >= 1) {
       dispatch(changeCurrentPage({ pageNow: idx }));
 
+      // for update data idxShowingDokter
+      const checkUserInput = searchDoctorStore.length > 0 ? inputSearch.length : data.length
+
+      if (id === 'jadwal-dokter') {
+        const nowShow = idxShowingDokter.nowShow - nowChoose
+        const toShow = idxShowingDokter.toShow - nowChoose
+        const toShowInLastData = ((checkUserInput - toShow) + nowShow) - 1
+
+        if (idx !== 1 && idx !== totalNumber - 1) {
+          updateIdxShowingDokter(nowShow, toShow, checkUserInput, data.length)
+        } else if (idx !== 1 && idx === totalNumber - 1) {
+          updateIdxShowingDokter(nowShow, toShowInLastData, checkUserInput, data.length)
+        } else if (idx === 1) {
+          updateIdxShowingDokter(nowShow, nowChoose, checkUserInput, data.length)
+        }
+      }
+      // END for update data idxShowingDokter
+
       if (idx === siblingCount) {
         dispatch(changeIdxPaginate({ countIdx: 1, length: siblingCount + 1 }));
         dispatch(changeFirstIdx({ idx: siblingCount }));
@@ -124,6 +167,23 @@ function Pagination({
 
   function changePage(event) {
     const pageNumber = Number(event.target.textContent);
+
+    const nowShow = ((nowChoose * pageNumber) - nowChoose) + 1
+    const checkUserInput = searchDoctorStore.length > 0 ? inputSearch.length : data.length
+    const toShowInNotLastData = nowChoose * pageNumber
+
+    // for update data idxShowingDokter
+    if (id === 'jadwal-dokter') {
+      if (pageNumber !== totalNumber) {
+        // not the last data or not the last idx
+        updateIdxShowingDokter(nowShow, toShowInNotLastData, checkUserInput, data.length)
+      } else if (pageNumber === totalNumber) {
+        // the last data or the last idx
+        updateIdxShowingDokter(nowShow, checkUserInput, checkUserInput, data.length)
+      }
+    }
+    // END for update data idxShowingDokter
+
     dispatch(changeCurrentPage({ pageNow: pageNumber }));
     dispatch(changeFirstIdx({ idx: idxPaginateStore[0] }));
     dispatch(
@@ -141,6 +201,8 @@ function Pagination({
     dispatch(changeLastIdx({ idx: showNumberPaginate }));
   }, [showNumberPaginate])
 
+  const { nowShow, toShow, ofShow, totalData } = dataShowing !== undefined && Object.keys(dataShowing).length > 0 ? dataShowing : {}
+
   return (
     <>
       <div className="wrapp-pagination">
@@ -151,7 +213,7 @@ function Pagination({
 
         <div className="container-btn-paginate" style={styleContainerPaginate}>
           <p className="txt-showing" style={styleTxtShowing}>
-            Showing 1 to 10 of 286 entries
+            Showing {nowShow} to {toShow} of {ofShow} entries
           </p>
 
           <div className="paginate">

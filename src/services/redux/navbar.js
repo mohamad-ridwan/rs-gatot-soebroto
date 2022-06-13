@@ -22,7 +22,13 @@ export const navbar = createSlice({
         idxActiveChoose: 1,
         searchDoctor: '',
         activeChooseHeader: 'nama',
-        onActiveChooseOfHeader: true
+        onActiveChooseOfHeader: true,
+        idxShowingDokter: {
+            nowShow: 1,
+            toShow: 10,
+            ofShow: null,
+            totalData: null
+        }
     },
     reducers: {
         changePath: (state, action) => {
@@ -77,10 +83,16 @@ export const navbar = createSlice({
         },
         changeOnActiveChooseOfHeader : (state, action)=>{
             state.onActiveChooseOfHeader = action.payload.condition
+        },
+        changeIdxShowingDokter : (state, action)=>{
+            state.idxShowingDokter.nowShow = action.payload.nowShow
+            state.idxShowingDokter.toShow = action.payload.toShow
+            state.idxShowingDokter.ofShow = action.payload.ofShow
+            state.idxShowingDokter.totalData = action.payload.totalData
         }
     }
 })
 
-export const { changePath, loadPageTentang, loadPageLayanan, changeCurrentPage, changeIdxPaginate, changeFirstIdx, changeLastIdx, changeContentPerPage, changeNowChoose, changeActiveMenuChoose, changeIdxActiveChoose, changeSearchDoctor, changeActiveChooseHeader, changeOnActiveChooseOfHeader } = navbar.actions
+export const { changePath, loadPageTentang, loadPageLayanan, changeCurrentPage, changeIdxPaginate, changeFirstIdx, changeLastIdx, changeContentPerPage, changeNowChoose, changeActiveMenuChoose, changeIdxActiveChoose, changeSearchDoctor, changeActiveChooseHeader, changeOnActiveChooseOfHeader, changeIdxShowingDokter } = navbar.actions
 
 export default navbar.reducer

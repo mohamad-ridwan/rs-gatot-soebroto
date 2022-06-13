@@ -229,6 +229,8 @@ function Home() {
         colorParagraphOne: '#333',
         colorParagraphTwo: '#333',
         bdrRadiusWrapp: '10px',
+        bdrTopLeftRadiusContainerImg: '10px',
+        bdrTopRightRadiusContainerImg: '10px',
         displayBtn: 'none',
         opacityHoverImg: hoverImgLead ? '0.4' : '0',
         transformImg: hoverImgLead ? 'scale(1.1)' : 'scale(1)',
@@ -246,7 +248,9 @@ function Home() {
         fontSizeParagraphTwo: '14px',
         colorParagraphOne: '#333',
         colorParagraphTwo: '#333',
-        bdrRadiusWrapp: '10px'
+        bdrRadiusWrapp: '10px',
+        bdrTopLeftRadiusContainerImg: '10px',
+        bdrTopRightRadiusContainerImg: '10px',
     }
 
     const cardLayananUnggulan = {
@@ -285,8 +289,8 @@ function Home() {
         lineHeightDeskripsi: '1.2',
         textAlignTitle: 'start',
         marginWrapp: '0 0 25px 0',
-        bdrTopLeftRadiusImg: '5px',
-        bdrTopRightRadiusImg: '5px',
+        bdrTopLeftRadiusContainerImg: '5px',
+        bdrTopRightRadiusContainerImg: '5px',
         heightImg: '150px',
         cursorContainerImg: 'pointer',
         displayDateCard: 'flex',

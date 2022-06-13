@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import './Navbar.scss'
-import { loadPageTentang, loadPageLayanan, changeCurrentPage, changeFirstIdx, changeLastIdx, siblingCount, changeIdxPaginate, changeContentPerPage, changeActiveMenuChoose, changeIdxActiveChoose, changeNowChoose, changeSearchDoctor, changeActiveChooseHeader, changeOnActiveChooseOfHeader } from '../../services/redux/navbar'
+import { loadPageTentang, loadPageLayanan, changeCurrentPage, changeFirstIdx, changeLastIdx, siblingCount, changeIdxPaginate, changeContentPerPage, changeActiveMenuChoose, changeIdxActiveChoose, changeNowChoose, changeSearchDoctor, changeActiveChooseHeader, changeOnActiveChooseOfHeader, changeIdxShowingDokter } from '../../services/redux/navbar'
 import API from '../../services/api'
 import address from '../../services/api/address'
 
@@ -132,6 +132,7 @@ function Navbar() {
                 if (dataPage.length > 0 && dataPage[0].id === 'jadwal-dokter') {
                     updatePaginate(dataPage, 10)
                     dispatch(changeContentPerPage({ contentPerPage: 10 }))
+                    dispatch(changeIdxShowingDokter({nowShow: 1, toShow: 10, ofShow: dataPage[0].data.length, totalData: dataPage[0].data.length}))
                 }
             })
             .catch(err => console.log(err))

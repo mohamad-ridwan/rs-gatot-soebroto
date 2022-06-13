@@ -5,7 +5,7 @@ import Card from '../../components/card/Card'
 import Pagination from '../../components/pagination/Pagination'
 import Template from '../../components/template/Template'
 import address from '../../services/api/address'
-import { changeActiveChooseHeader, changeActiveMenuChoose, changeContentPerPage, changeCurrentPage, changeFirstIdx, changeIdxActiveChoose, changeIdxPaginate, changeLastIdx, changeNowChoose, changeOnActiveChooseOfHeader, changeSearchDoctor, siblingCount } from '../../services/redux/navbar'
+import { changeActiveChooseHeader, changeActiveMenuChoose, changeContentPerPage, changeCurrentPage, changeFirstIdx, changeIdxActiveChoose, changeIdxPaginate, changeIdxShowingDokter, changeLastIdx, changeNowChoose, changeOnActiveChooseOfHeader, changeSearchDoctor, siblingCount } from '../../services/redux/navbar'
 
 function Layanan() {
     const [hoverCard, setHoverCard] = useState(null)
@@ -59,6 +59,7 @@ function Layanan() {
         (state) => state.navbar.activeMenuChoose
     );
     const nowChoose = useSelector((state) => state.navbar.nowChoose);
+    const idxShowingDokter = useSelector((state) => state.navbar.idxShowingDokter)
 
     const dataCard = data && data.data
 
@@ -177,9 +178,37 @@ function Layanan() {
         return [];
     }
 
+    function updateIdxShowingDokter(nowShow, toShow, ofShow, totalData) {
+        dispatch(changeIdxShowingDokter({ nowShow: nowShow, toShow: toShow, ofShow: ofShow, totalData: totalData }))
+    }
+
     function userInputSearch(e) {
-        const value = e.target.value;
+        const value = e.target.value
         dispatch(changeSearchDoctor({ input: value }));
+
+        // hanya untuk update data showing, agar mendapatkan data secara real time
+        const newInputSearch =
+            data && data.id === "jadwal-dokter" &&
+            Array.from(dataCard).filter(
+                (e) =>
+                    e.nama.toLowerCase().includes(value.toLowerCase()) ||
+                    e.lokasi.toLowerCase().includes(value.toLowerCase()) ||
+                    e.poli.toLowerCase().includes(value.toLowerCase()) ||
+                    e.subPoli.toLowerCase().includes(value.toLowerCase())
+            )
+        // END hanya untuk update data showing, agar mendapatkan data secara real time
+
+        // update idxShowingDokter
+        if (nowChoose > newInputSearch.length) {
+            if (newInputSearch.length > 0) {
+                updateIdxShowingDokter(1, newInputSearch.length, newInputSearch.length, dataCard.length)
+            } else {
+                updateIdxShowingDokter(0, newInputSearch.length, newInputSearch.length, dataCard.length)
+            }
+        } else if (newInputSearch.length > nowChoose) {
+            updateIdxShowingDokter(1, nowChoose, newInputSearch.length, dataCard.length)
+        }
+        // END update idxShowingDokter
 
         dispatch(
             changeIdxPaginate({ countIdx: 1, length: showNumberPaginate + 1 })
@@ -201,6 +230,7 @@ function Layanan() {
         dispatch(changeCurrentPage({ pageNow: 1 }));
         dispatch(changeFirstIdx({ idx: siblingCount }));
         dispatch(changeLastIdx({ idx: siblingCount }));
+        updateIdxShowingDokter(1, nowChoose, dataCard.length, dataCard.length)
     }
 
     function changeActiveHeader(valueHeader, condition) {
@@ -226,7 +256,25 @@ function Layanan() {
         );
 
         // NOTE!! : state name of > contentPerPageCard jika nilainya dirubah harus tetap berupa integer, karna nilainya berupa jumlah data dokter yang di tampilkan dalam satu halaman.
-        dispatch(changeContentPerPage({ contentPerPage: length }));
+        dispatch(changeContentPerPage({ contentPerPage: length }))
+
+        // update idxShowingDokter
+        if (inputSearch.length > 0) {
+            if (searchDoctorStore.length > 0) {
+                if (inputSearch.length > length) {
+                    updateIdxShowingDokter(1, length, inputSearch.length, dataCard.length)
+                } else if (length > inputSearch.length || length === inputSearch.length) {
+                    updateIdxShowingDokter(1, inputSearch.length, inputSearch.length, dataCard.length)
+                }
+            } else if (searchDoctorStore.length === 0) {
+                if (length > dataCard.length || dataCard.length === length) {
+                    updateIdxShowingDokter(1, dataCard.length, dataCard.length, dataCard.length)
+                } else if (dataCard.length > length) {
+                    updateIdxShowingDokter(1, length, dataCard.length, dataCard.length)
+                }
+            }
+        }
+        // END update idxShowingDokter
 
         const totalNumber = searchDoctorStore.length > 0 && inputSearch !== undefined ? Math.ceil(inputSearch.length / contentPerPageCard) : dataCard && Math.ceil(dataCard.length / contentPerPageCard);
         const showNumberPaginate = totalNumber < siblingCount ? totalNumber : siblingCount;
@@ -454,7 +502,8 @@ function Layanan() {
         contentPerPage: contentPerPageCard,
         id: data && data.id === 'jadwal-dokter' ? 'jadwal-dokter' : null,
         renderCard: <RenderCard />,
-        renderDokter: <RenderJadwalDokter />
+        renderDokter: <RenderJadwalDokter />,
+        dataShowing: idxShowingDokter
     }
 
     return (
