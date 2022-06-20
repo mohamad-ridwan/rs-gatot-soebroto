@@ -1,0 +1,45 @@
+@import '../../../utils/variable.scss';
+
+@mixin mobile {
+    @media (max-width: 479px) {
+        @content;
+    }
+}
+
+@mixin mobileLandscape {
+    @media (min-width: 480px) and (max-width: 767px) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (min-width: 768px) and (max-width: 1023px) {
+        @content;
+    }
+}
+
+.title-detail-berita{
+    font-size: 24px;
+    font-weight: bold;
+    color: $color1;
+    margin: 40px 0 30px 0;
+}
+
+.wrapp-card-galeri-foto{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, (90%/4));
+    grid-gap: 5px;
+    justify-content: space-between;
+
+    @include mobile(){
+        grid-template-columns: repeat(auto-fit, (100%));
+    }
+
+    @include mobileLandscape(){
+        grid-template-columns: repeat(auto-fit, (95%/2));
+    }
+
+    @include tablet(){
+        grid-template-columns: repeat(auto-fit, (90%/3));
+    }
+}

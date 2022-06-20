@@ -2,7 +2,7 @@ import React from 'react'
 import Button from '../button/Button'
 import './Card.scss'
 
-function Card({ img, title, paragraphOne, paragraphTwo, bdrRadiusWrapp, justifyContentDeskripsi, textAlignTitle, textAlignParagraphOne, textAlignParagraphTwo, fontSizeTitle, fontWeightTitle, fontSizeParagraphOne, fontSizeParagraphTwo, widthWrapp, paddingDeskripsi, colorParagraphOne, colorParagraphTwo, displayWrapp, mouseEnterImg, mouseLeaveImg, opacityHoverImg, displayCircleIcon, bgColorCircleIcon, heightCircleIcon, widthCircleIcon, iconCirle, colorTitle, marginWrapp, lineHeightDeskripsi, marginTitle, cursorWrapp, mouseEnterWrapp, mouseLeaveWrapp, bgColorWrapp, colorCircleIcon, bdrTopLeftRadiusImg, bdrTopRightRadiusImg, heightImg, cursorContainerImg, mouseEnterTitle, mouseLeaveTitle, cursorTitle, date, admin, displayDateCard, transformImg, whiteSpaceDeskripsi, heightWrapp, bgColorDeskripsi, heightDeskripsi, marginDeskripsi, bdrRadiusDeskripsi, justifyContentCircleIcon, fontSizeIcon, textAlignDeskripsi, minHeightTitle, bdrTopParagraphOne, paddingCircleIcon, paddingParagraphOne, paddingParagraphTwo, fontWeightParagraphOne, positionDeskripsi, bdrRadiusHoverImg, displayBtn, positionWrapp, fontStyleIcon, bdrBottomLeftRadiusImg, bdrBottomRightRadiusImg, bdrRadiusContainerImg, bdrTopLeftRadiusContainerImg, bdrTopRightRadiusContainerImg }) {
+function Card({ img, title, paragraphOne, paragraphTwo, bdrRadiusWrapp, justifyContentDeskripsi, textAlignTitle, textAlignParagraphOne, textAlignParagraphTwo, fontSizeTitle, fontWeightTitle, fontSizeParagraphOne, fontSizeParagraphTwo, widthWrapp, paddingDeskripsi, colorParagraphOne, colorParagraphTwo, displayWrapp, mouseEnterImg, mouseLeaveImg, opacityHoverImg, displayCircleIcon, bgColorCircleIcon, heightCircleIcon, widthCircleIcon, iconCirle, colorTitle, marginWrapp, lineHeightDeskripsi, marginTitle, cursorWrapp, mouseEnterWrapp, mouseLeaveWrapp, bgColorWrapp, colorCircleIcon, bdrTopLeftRadiusImg, bdrTopRightRadiusImg, heightImg, cursorContainerImg, mouseEnterTitle, mouseLeaveTitle, cursorTitle, date, admin, displayDateCard, transformImg, whiteSpaceDeskripsi, heightWrapp, bgColorDeskripsi, heightDeskripsi, marginDeskripsi, bdrRadiusDeskripsi, justifyContentCircleIcon, fontSizeIcon, textAlignDeskripsi, minHeightTitle, bdrTopParagraphOne, paddingCircleIcon, paddingParagraphOne, paddingParagraphTwo, fontWeightParagraphOne, positionDeskripsi, bdrRadiusHoverImg, displayBtn, positionWrapp, fontStyleIcon, bdrBottomLeftRadiusImg, bdrBottomRightRadiusImg, bdrRadiusContainerImg, bdrTopLeftRadiusContainerImg, bdrTopRightRadiusContainerImg, clickImg, clickTitle, flexDirectionWrapp, widthImg, widthContainerImg }) {
 
     const styleWrapp = {
         display: displayWrapp,
@@ -12,7 +12,8 @@ function Card({ img, title, paragraphOne, paragraphTwo, bdrRadiusWrapp, justifyC
         cursor: cursorWrapp,
         backgroundColor: bgColorWrapp,
         height: heightWrapp,
-        position: positionWrapp
+        position: positionWrapp,
+        flexDirection: flexDirectionWrapp,
     }
     const styleDeskripsi = {
         justifyContent: justifyContentDeskripsi,
@@ -54,10 +55,11 @@ function Card({ img, title, paragraphOne, paragraphTwo, bdrRadiusWrapp, justifyC
         borderRadius: bdrRadiusContainerImg,
         borderTopLeftRadius: bdrTopLeftRadiusContainerImg,
         borderTopRightRadius: bdrTopRightRadiusContainerImg,
+        width: widthContainerImg
     }
     const styleHoverImg = {
         opacity: opacityHoverImg,
-        borderRadius: bdrRadiusHoverImg
+        borderRadius: bdrRadiusHoverImg,
     }
     const styleCircleIcon = {
         display: displayCircleIcon,
@@ -78,7 +80,8 @@ function Card({ img, title, paragraphOne, paragraphTwo, bdrRadiusWrapp, justifyC
         borderBottomLeftRadius: bdrBottomLeftRadiusImg,
         borderBottomRightRadius: bdrBottomRightRadiusImg,
         height: heightImg,
-        transform: transformImg
+        transform: transformImg,
+        width: widthImg
     }
     const styleDateCard = {
         display: displayDateCard
@@ -104,6 +107,7 @@ function Card({ img, title, paragraphOne, paragraphTwo, bdrRadiusWrapp, justifyC
                 <div className="container-img-card" style={styleContainerImg}
                     onMouseOver={mouseEnterImg}
                     onMouseLeave={mouseLeaveImg}
+                    onClick={clickImg}
                 >
                     <img src={img} alt="" className="img-card" style={styleImg} />
 
@@ -116,6 +120,7 @@ function Card({ img, title, paragraphOne, paragraphTwo, bdrRadiusWrapp, justifyC
                     <p className="title-card" style={styleTitle}
                         onMouseOver={mouseEnterTitle}
                         onMouseLeave={mouseLeaveTitle}
+                        onClick={clickTitle}
                     >
                         {title}
                     </p>

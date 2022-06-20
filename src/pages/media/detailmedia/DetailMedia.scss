@@ -1,0 +1,26 @@
+@import '../../../utils/variable.scss';
+
+.wrapp-card-detail-galeri-foto{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, (95%/3));
+    grid-gap: 5px;
+    justify-content: space-between;
+
+    // @include mobile(){
+    //     grid-template-columns: repeat(auto-fit, (100%));
+    // }
+
+    // @include mobileLandscape(){
+    //     grid-template-columns: repeat(auto-fit, (95%/2));
+    // }
+
+    // @include tablet(){
+    //     grid-template-columns: repeat(auto-fit, (90%/3));
+    // }
+}
+
+.youtube-of-page-videos{
+    padding-bottom: 40px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+}

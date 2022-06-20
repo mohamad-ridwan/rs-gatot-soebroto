@@ -443,7 +443,7 @@ function Layanan() {
     };
 
     function RenderCard() {
-        const dataCard = getPaginatedDataCard();
+        const dataCard = getPaginatedDataCard()
 
         return (
             <>
@@ -500,7 +500,7 @@ function Layanan() {
         justifyContentConPaginate: data && data.id !== 'jadwal-dokter' ? 'center' : 'space-between',
         data: dataCard,
         contentPerPage: contentPerPageCard,
-        id: data && data.id === 'jadwal-dokter' ? 'jadwal-dokter' : null,
+        id: data && data.id === 'jadwal-dokter' ? 'jadwal-dokter' : undefined,
         renderCard: <RenderCard />,
         renderDokter: <RenderJadwalDokter />,
         dataShowing: idxShowingDokter

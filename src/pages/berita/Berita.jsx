@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import Card from '../../components/card/Card'
 import Pagination from '../../components/pagination/Pagination'
 import Template from '../../components/template/Template'
 import API from '../../services/api'
 import address from '../../services/api/address'
-import { changePath } from '../../services/redux/navbar'
+import { changeCurrentPage, changeFirstIdx, changeLastIdx, changePath, siblingCount } from '../../services/redux/navbar'
 
 function Berita() {
     const [dataPage, setDataPage] = useState({})
@@ -24,6 +25,7 @@ function Berita() {
         }
     ])
 
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const currentPageStore = useSelector((state) => state.navbar.currentPage)
 
@@ -39,6 +41,11 @@ function Berita() {
     }
 
     useEffect(() => {
+        // update paginate
+        dispatch(changeCurrentPage({ pageNow: 1 }))
+        dispatch(changeFirstIdx({ idx: siblingCount }))
+        dispatch(changeLastIdx({ idx: siblingCount }))
+
         dispatch(changePath('/entries'))
         setAPI()
     }, [])
@@ -73,6 +80,10 @@ function Berita() {
         cursorTitle: 'pointer'
     }
 
+    function toDetailBerita(path) {
+        navigate(`/entry/${path}`)
+    }
+
     function RenderCard() {
         const data = getPaginatedDataCard()
 
@@ -89,6 +100,8 @@ function Berita() {
                             img={`${address}/${e.image}`}
                             date={e.date}
                             admin={e.author}
+                            clickImg={() => toDetailBerita(e.path)}
+                            clickTitle={() => toDetailBerita(e.path)}
                             paragraphOne={<RenderHTML e={removeElement.length > 0 ? removeElement.substr(0, 200) + '...' : removeElement} />}
                             colorTitle={hoverTitleBerita === i ? '#4d784e' : '#333'}
                             transformImg={hoverImgBerita === i ? 'scale(1.1)' : 'scale(1)'}

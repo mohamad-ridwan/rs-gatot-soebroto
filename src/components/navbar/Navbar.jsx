@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import './Navbar.scss'
-import { loadPageTentang, loadPageLayanan, changeCurrentPage, changeFirstIdx, changeLastIdx, siblingCount, changeIdxPaginate, changeContentPerPage, changeActiveMenuChoose, changeIdxActiveChoose, changeNowChoose, changeSearchDoctor, changeActiveChooseHeader, changeOnActiveChooseOfHeader, changeIdxShowingDokter } from '../../services/redux/navbar'
+import { loadPageTentang, loadPageLayanan, changeCurrentPage, changeFirstIdx, changeLastIdx, siblingCount, changeIdxPaginate, changeContentPerPage, changeActiveMenuChoose, changeIdxActiveChoose, changeNowChoose, changeSearchDoctor, changeActiveChooseHeader, changeOnActiveChooseOfHeader, changeIdxShowingDokter, loadPageMedia } from '../../services/redux/navbar'
 import API from '../../services/api'
 import address from '../../services/api/address'
 
@@ -90,6 +90,7 @@ function Navbar() {
     }
 
     function getDataPageLayanan(path) {
+        // update for page doctor
         dispatch(changeActiveMenuChoose({ activeStats: false }))
         dispatch(changeIdxActiveChoose({ idx: 1 }))
         dispatch(changeNowChoose({ choose: 10 }))
@@ -132,7 +133,7 @@ function Navbar() {
                 if (dataPage.length > 0 && dataPage[0].id === 'jadwal-dokter') {
                     updatePaginate(dataPage, 10)
                     dispatch(changeContentPerPage({ contentPerPage: 10 }))
-                    dispatch(changeIdxShowingDokter({nowShow: 1, toShow: 10, ofShow: dataPage[0].data.length, totalData: dataPage[0].data.length}))
+                    dispatch(changeIdxShowingDokter({ nowShow: 1, toShow: 10, ofShow: dataPage[0].data.length, totalData: dataPage[0].data.length }))
                 }
             })
             .catch(err => console.log(err))
@@ -150,10 +151,57 @@ function Navbar() {
         return;
     }
 
+    function getDataPageMedia(path) {
+        API.APIMedia()
+            .then(res => {
+                const result = res.data
+
+                const dataPage = result.filter((e) => e.path === path)
+
+                let newPage = []
+                if (dataPage.length > 0) {
+                    newPage.push(
+                        {
+                            name: 'Home',
+                            path: '/'
+                        },
+                        {
+                            name: 'Media',
+                            path: null
+                        },
+                        {
+                            name: dataPage[0].header,
+                            path: null
+                        }
+                    )
+                }
+
+                dispatch(changeCurrentPage({ pageNow: 1 }))
+                dispatch(changeFirstIdx({ idx: siblingCount }))
+                dispatch(changeLastIdx({ idx: siblingCount }))
+                dispatch(loadPageMedia({page: newPage, data: dataPage[0], path: path}))
+                updatePaginate(dataPage, 6)
+            })
+            .catch(err => console.log(err))
+    }
+
+    function toLoadPageMedia(pathParm) {
+        const path = window.location.pathname
+
+        if (pathParm !== undefined) {
+            getDataPageMedia(pathParm)
+        } else if (path.split('/')[1] === 'media') {
+            getDataPageMedia(path)
+        }
+
+        return;
+    }
+
     useEffect(() => {
         setAPI()
         toLoadPageTentang()
         toLoadPageLayanan()
+        toLoadPageMedia()
     }, [])
 
     function RenderHTML({ txt }) {
@@ -185,6 +233,7 @@ function Navbar() {
 
             toLoadPageTentang(path)
             toLoadPageLayanan(path)
+            toLoadPageMedia(path)
         }
     }
 
@@ -197,8 +246,8 @@ function Navbar() {
 
     return (
         <>
-            <div className="wrapp-nav" style={{
-                backgroundColor: navbarStore !== '/' ? '#fff' : 'transparent'
+            <div className="wrapp-nav" id="wrappNav" style={{
+                backgroundColor: navbarStore !== '/' ? '#fff' : 'transparent',
             }}>
                 {/* kontak */}
                 <div className="contact-nav">

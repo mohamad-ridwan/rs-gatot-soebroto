@@ -68,11 +68,11 @@
                 text-align: start;
                 border-top-right-radius: 10px;
 
-                @include tablet(){
+                @include tablet() {
                     padding: 40px 0 150px 11%;
                 }
 
-                @include minDesktop(){
+                @include minDesktop() {
                     padding: 40px 0px 150px 20%;
                 }
 
@@ -90,11 +90,11 @@
                         margin-right: 10px;
                         transition: 0.3s ease-in-out;
 
-                        &:hover{
+                        &:hover {
                             color: #ddd;
                         }
 
-                        .garis-miring{
+                        .garis-miring {
                             margin-left: 10px;
                         }
                     }
@@ -108,6 +108,24 @@
                     margin-top: 15px;
                     padding: 0 40px 0 0%;
                 }
+
+                // date card
+                .date-card {
+                    display: none;
+                    align-items: center;
+                    margin-top: 15px;
+
+                    p {
+                        font-size: $fontIcon;
+                        color: #fff;
+                        margin-right: 10px;
+
+                        .icon-date {
+                            font-size: 11px;
+                            margin-right: 3px;
+                        }
+                    }
+                }
             }
 
             // content white
@@ -115,11 +133,11 @@
                 margin-top: -110px;
                 padding: 0 10%;
 
-                @include tablet(){
+                @include tablet() {
                     padding: 0 5%;
                 }
 
-                @include minDesktop(){
+                @include minDesktop() {
                     padding: 0 15%;
                 }
 
@@ -136,37 +154,51 @@
                     text-align: justify;
                     letter-spacing: 0.1px;
 
+                    .title-rekomendasi {
+                        font-size: 24px;
+                        margin-bottom: 0;
+                    }
+
+                    .wrapp-rekomendasi-berita {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        margin-top: 30px;
+                    }
+
                     // img content
-                    img{
+                    img {
                         object-fit: cover;
                         object-position: center;
                     }
 
                     // title black (no bold)
-                    .title-black{
+                    .title-black {
                         font-weight: 500;
                     }
 
                     // list paragraph
-                    .list{
+                    .list {
                         padding: 10px 0 10px 20px;
-                        li{
+
+                        li {
                             align-items: center;
-                            p{
+
+                            p {
                                 margin: -27px 0 0 15px;
                             }
                         }
                     }
 
-                    center{
+                    center {
                         padding: 0 60px;
 
-                        @include mobile(){
+                        @include mobile() {
                             padding: 0 20px;
                         }
                     }
 
-                    .title-big-bold{
+                    .title-big-bold {
                         font-size: 18px;
                         font-weight: bold;
                     }

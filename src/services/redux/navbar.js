@@ -28,6 +28,10 @@ export const navbar = createSlice({
             toShow: 10,
             ofShow: null,
             totalData: null
+        },
+        dataOfMedia: {
+            dataMedia: {},
+            pageMedia: []
         }
     },
     reducers: {
@@ -89,10 +93,15 @@ export const navbar = createSlice({
             state.idxShowingDokter.toShow = action.payload.toShow
             state.idxShowingDokter.ofShow = action.payload.ofShow
             state.idxShowingDokter.totalData = action.payload.totalData
+        },
+        loadPageMedia: (state, action)=>{
+            state.dataOfMedia.pageMedia = action.payload.page
+            state.dataOfMedia.dataMedia = action.payload.data
+            state.path = action.payload.path
         }
     }
 })
 
-export const { changePath, loadPageTentang, loadPageLayanan, changeCurrentPage, changeIdxPaginate, changeFirstIdx, changeLastIdx, changeContentPerPage, changeNowChoose, changeActiveMenuChoose, changeIdxActiveChoose, changeSearchDoctor, changeActiveChooseHeader, changeOnActiveChooseOfHeader, changeIdxShowingDokter } = navbar.actions
+export const { changePath, loadPageTentang, loadPageLayanan, changeCurrentPage, changeIdxPaginate, changeFirstIdx, changeLastIdx, changeContentPerPage, changeNowChoose, changeActiveMenuChoose, changeIdxActiveChoose, changeSearchDoctor, changeActiveChooseHeader, changeOnActiveChooseOfHeader, changeIdxShowingDokter, loadPageMedia } = navbar.actions
 
 export default navbar.reducer

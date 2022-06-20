@@ -54,7 +54,7 @@ function Footer() {
 
     return (
         <>
-            <div className="wrapp-footer">
+            <div className="wrapp-footer" id="wrappFooter">
                 {/* list menu */}
                 <div className="container-list-menu-footer">
                     <div className="kontak-footer list-footer-menu">

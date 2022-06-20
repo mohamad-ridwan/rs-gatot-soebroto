@@ -67,11 +67,11 @@ function Pagination({
     if (idx <= totalNumber) {
       dispatch(changeCurrentPage({ pageNow: idx }));
 
+      // for update data idxShowingDokter
       const nowShow = ((nowChoose * idx) - nowChoose) + 1
       const checkUserInput = searchDoctorStore.length > 0 ? inputSearch.length : data.length
       const toShowInNotLastData = nowChoose * idx
 
-      // for update data idxShowingDokter
       if (id === 'jadwal-dokter') {
         if (idx !== totalNumber) {
           // not the last data or not the last idx
@@ -191,6 +191,8 @@ function Pagination({
     );
   }
 
+  // useEffect disini hanya untuk mendapatkan update terbaru untuk showNumberPaginate, agar mendapatkan data secara real time
+  // Note : jangan lakukan update apapun selain dari case ini, karna dapat ikut update berulang ketika fungsi ini terpanggil
   useEffect(() => {
     dispatch(
       changeIdxPaginate({
@@ -203,6 +205,8 @@ function Pagination({
 
   const { nowShow, toShow, ofShow, totalData } = dataShowing !== undefined && Object.keys(dataShowing).length > 0 ? dataShowing : {}
 
+  const filteredData = searchDoctorStore.length > 0 && totalData !== undefined && `(filtered from ${data.length} total entries)`
+
   return (
     <>
       <div className="wrapp-pagination">
@@ -213,7 +217,7 @@ function Pagination({
 
         <div className="container-btn-paginate" style={styleContainerPaginate}>
           <p className="txt-showing" style={styleTxtShowing}>
-            Showing {nowShow} to {toShow} of {ofShow} entries
+            Showing {nowShow} to {toShow} of {ofShow} entries {filteredData}
           </p>
 
           <div className="paginate">

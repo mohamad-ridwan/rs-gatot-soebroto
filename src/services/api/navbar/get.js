@@ -1,8 +1,8 @@
 import address from "../address"
 
-async function GetNavbar(tes){
+async function GetNavbar(path){
     return await new Promise((resolve, reject) => {
-        fetch(`${address}/${tes}`, {
+        fetch(`${address}/${path}`, {
             method: 'GET',
             mode: 'cors',
             headers: {
