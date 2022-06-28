@@ -13,6 +13,9 @@ import Media from './pages/media/Media';
 import DetailMedia from './pages/media/detailmedia/DetailMedia';
 import Pdf from './pages/pdf/Pdf';
 import ZonaIntegritas from './pages/zonaintegritas/ZonaIntegritas';
+import LayananPengaduan from './pages/layananpengaduan/LayananPengaduan';
+import Kontak from './pages/kontak/Kontak';
+import Ppid from './pages/ppid/Ppid';
 
 function App() {
   return (
@@ -22,6 +25,12 @@ function App() {
         <BrowserRouter>
           <Navbar />
           <Routes>
+            <Route path='/kontak' element={<Kontak />} />
+            <Route path='/ppid' element={<Ppid />}>
+              <Route path='/ppid/:path' element={<Ppid />} />
+              <Route path='/ppid/:id/:pathTwo' element={<Ppid />} />
+            </Route>
+            <Route path='/layanan-pengaduan-masyarakat' element={<LayananPengaduan />} />
             <Route path='/whistle-blowing-system' element={<ZonaIntegritas />} />
             <Route path='/media/publikasi/pdf/:idPdf' element={<Pdf />} />
             <Route path='/media/:id/:path' element={<DetailMedia />} />

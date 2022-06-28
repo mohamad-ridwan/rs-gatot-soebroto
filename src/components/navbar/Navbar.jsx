@@ -13,6 +13,8 @@ function Navbar() {
     const [menuPage, setMenuPage] = useState([])
     const [txtMarquee, setTxtMarquee] = useState({})
     const [activeDropdown, setActiveDropdown] = useState(false)
+    const [activeIconNav, setActiveIconNav] = useState(null)
+    const [activeBgMenu, setActiveBgMenu] = useState(null)
     const [language, setLanguage] = useState('BAHASA <b>ID</b>')
     const [activeMenuCollapse, setActiveMenuCollapse] = useState(null)
 
@@ -179,7 +181,7 @@ function Navbar() {
                 dispatch(changeCurrentPage({ pageNow: 1 }))
                 dispatch(changeFirstIdx({ idx: siblingCount }))
                 dispatch(changeLastIdx({ idx: siblingCount }))
-                dispatch(loadPageMedia({page: newPage, data: dataPage[0], path: path}))
+                dispatch(loadPageMedia({ page: newPage, data: dataPage[0], path: path }))
                 updatePaginate(dataPage, 6)
             })
             .catch(err => console.log(err))
@@ -235,6 +237,14 @@ function Navbar() {
             toLoadPageLayanan(path)
             toLoadPageMedia(path)
         }
+    }
+
+    function mouseOverActiveIconNav(i) {
+        setActiveIconNav(i)
+    }
+
+    function mouseLeaveActiveIconNav() {
+        setActiveIconNav(null)
     }
 
     const styleColorNavGrey = {
@@ -324,21 +334,54 @@ function Navbar() {
                                         </>
                                     )}
 
-                                    <ul className="wrapp-menu-collapse" style={{
+                                    {/* Child page */}
+                                    < ul className="wrapp-menu-collapse" style={{
                                         display: activeMenuCollapse === i && menuCollapse.length > 0 ? 'flex' : 'none'
-                                    }}>
+                                    }
+                                    }>
                                         <div className="menu-collapse">
                                             {menuCollapse.length > 0 ? menuCollapse.map((e, i) => {
+                                                const menuChild = e.menuChild
+
                                                 return (
-                                                    <li key={i} className="page-collapse" onClick={() => clickMenuPage(e.path)}>
-                                                        {e.name.toUpperCase()}
+                                                    <li key={i} className="page-collapse"
+                                                        onClick={(p) => {
+                                                            p.stopPropagation()
+                                                            clickMenuPage(e.path)
+                                                        }}
+                                                        onMouseOver={() => mouseOverActiveIconNav(i)}
+                                                        onMouseLeave={mouseLeaveActiveIconNav}
+                                                    >
+                                                        {e.name.toUpperCase()} {menuChild.length > 0 ? (
+                                                            <i className="fas fa-angle-down" style={{
+                                                                color: activeIconNav === i ? '#fff' : '#333'
+                                                            }}></i>
+                                                        ) : (
+                                                            <>
+                                                            </>
+                                                        )}
+
+                                                        {/* Child page of child */}
+                                                        <ul className="wrapp-menu-of-menu-collapse" style={{
+                                                            display: menuChild.length > 0 && activeIconNav === i ? 'flex' : 'none'
+                                                        }}>
+                                                            {menuChild && menuChild.length > 0 ? menuChild.map((e, i) => {
+                                                                return (
+                                                                    <li key={i} className='name-menu-of-menu-collapse'
+                                                                        onClick={() => clickMenuPage(e.path)}
+                                                                    >{e.name}</li>
+                                                                )
+                                                            }) : (
+                                                                <></>
+                                                            )}
+                                                        </ul>
                                                     </li>
                                                 )
                                             }) : (
                                                 <></>
                                             )}
                                         </div>
-                                    </ul>
+                                    </ul >
                                 </li>
                             )
                         }) : (

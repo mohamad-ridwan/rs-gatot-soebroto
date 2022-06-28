@@ -4,7 +4,7 @@ import './Template.scss'
 import Card from '../card/Card'
 import address from '../../services/api/address'
 
-function Template({ img, page, paragraph, title, card, galeriFoto, dataRekomendasi, changeDetailBerita, displayDateCard, date, admin, videos }) {
+function Template({ img, page, paragraph, title, card, galeriFoto, dataRekomendasi, changeDetailBerita, displayDateCard, date, admin, videos, form }) {
     const [hoverPage, setHoverPage] = useState(null)
     const [hoverImgBerita, setHoverImgBerita] = useState(null)
     const [hoverTitleBerita, setHoverTitleBerita] = useState(null)
@@ -38,44 +38,40 @@ function Template({ img, page, paragraph, title, card, galeriFoto, dataRekomenda
         bdrRadiusHoverImg: '0',
     }
 
-    function RenderRekomendasiContent() {
-        return (
-            <>
-                <p className="title-rekomendasi title-detail-berita">
-                    REKOMENDASI
-                </p>
-                Rekomendasi untuk Anda
+    const renderRekomendasiContent = <>
+        <p className="title-rekomendasi title-detail-berita">
+            REKOMENDASI
+        </p>
+        Rekomendasi untuk Anda
 
-                <div className="wrapp-rekomendasi-berita">
-                    {dataRekomendasi && dataRekomendasi.length > 0 ? dataRekomendasi.map((e, i) => {
-                        return (
-                            <Card
-                                {...styleCardRekomendasi}
-                                key={i}
-                                title={e.header}
-                                img={`${address}/${e.image}`}
-                                date={e.date}
-                                admin={e.author}
-                                colorTitle={hoverTitleBerita === i ? '#4d784e' : '#333'}
-                                transformImg={hoverImgBerita === i ? 'scale(1.1)' : 'scale(1)'}
-                                opacityHoverImg={hoverImgBerita === i ? '0.4' : '0'}
-                                mouseEnterImg={() => mouseOverRekomendasiImg(i)}
-                                mouseLeaveImg={mouseLeaveRekomendasiImg}
-                                mouseEnterTitle={() => mouseOverTitleBerita(i)}
-                                mouseLeaveTitle={mouseLeaveTitleBerita}
-                                clickImg={() => changeDetailBerita(e.path)}
-                                clickTitle={() => changeDetailBerita(e.path)}
-                            />
-                        )
-                    }) : (
-                        <></>
-                    )}
-                </div>
-            </>
-        )
-    }
+        <div className="wrapp-rekomendasi-berita">
+            {dataRekomendasi && dataRekomendasi.length > 0 ? dataRekomendasi.map((e, i) => {
+                return (
+                    <Card
+                        {...styleCardRekomendasi}
+                        key={i}
+                        title={e.header}
+                        img={`${address}/${e.image}`}
+                        date={e.date}
+                        admin={e.author}
+                        colorTitle={hoverTitleBerita === i ? '#4d784e' : '#333'}
+                        transformImg={hoverImgBerita === i ? 'scale(1.1)' : 'scale(1)'}
+                        opacityHoverImg={hoverImgBerita === i ? '0.4' : '0'}
+                        mouseEnterImg={() => mouseOverRekomendasiImg(i)}
+                        mouseLeaveImg={mouseLeaveRekomendasiImg}
+                        mouseEnterTitle={() => mouseOverTitleBerita(i)}
+                        mouseLeaveTitle={mouseLeaveTitleBerita}
+                        clickImg={() => changeDetailBerita(e.path)}
+                        clickTitle={() => changeDetailBerita(e.path)}
+                    />
+                )
+            }) : (
+                <></>
+            )}
+        </div>
+    </>
 
-    const styleDateCard ={ 
+    const styleDateCard = {
         display: displayDateCard
     }
 
@@ -165,10 +161,13 @@ function Template({ img, page, paragraph, title, card, galeriFoto, dataRekomenda
                                 ) : (
                                     <></>
                                 )}
+                                {form}
                                 {card}
                                 {galeriFoto}
                                 {dataRekomendasi !== undefined && dataRekomendasi.length > 0 ? (
-                                    <RenderRekomendasiContent />
+                                    <>
+                                        {renderRekomendasiContent}
+                                    </>
                                 ) : (
                                     <></>
                                 )}

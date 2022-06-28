@@ -139,42 +139,32 @@ function DetailMedia() {
         navigate(`/media/${params.id}/${path}`)
     }
 
-    function RenderCard() {
-        return (
-            <>
-                <div className="wrapp-card-detail-galeri-foto">
-                    {galeri && galeri.length > 0 ? galeri.map((e, i) => {
-                        return (
-                            <Card
-                                {...styleCard}
-                                key={i}
-                                img={`${address}/${e.image}`}
-                                transformImg={hover === i ? 'scale(1.1)' : 'scale(1)'}
-                                opacityHoverImg={hover === i ? '0.4' : '0'}
-                                mouseEnterImg={() => mouseOverImgBerita(i)}
-                                mouseLeaveImg={mouseLeaveImgBerita}
-                                clickImg={() => onViewImg(i)}
-                            />
-                        )
-                    }) : (
-                        <></>
-                    )}
-                </div>
+    const renderCard = <>
+        <div className="wrapp-card-detail-galeri-foto">
+            {galeri && galeri.length > 0 ? galeri.map((e, i) => {
+                return (
+                    <Card
+                        {...styleCard}
+                        key={i}
+                        img={`${address}/${e.image}`}
+                        transformImg={hover === i ? 'scale(1.1)' : 'scale(1)'}
+                        opacityHoverImg={hover === i ? '0.4' : '0'}
+                        mouseEnterImg={() => mouseOverImgBerita(i)}
+                        mouseLeaveImg={mouseLeaveImgBerita}
+                        clickImg={() => onViewImg(i)}
+                    />
+                )
+            }) : (
+                <></>
+            )}
+        </div>
 
-                <ViewImage {...dataViewImg} />
-            </>
-        )
-    }
+        <ViewImage {...dataViewImg} />
+    </>
 
-    function RenderVideos() {
-        return (
-            <>
-                {data && data.linkVideo && (
-                    <iframe className='youtube-of-page-videos' src={data.linkVideo} frameborder="0" height='400'></iframe>
-                )}
-            </>
-        )
-    }
+    const renderVideos = data && data.linkVideo && (
+        <iframe className='youtube-of-page-videos' src={data.linkVideo} frameborder="0" height='400'></iframe>
+    )
 
     return (
         <Template
@@ -182,10 +172,10 @@ function DetailMedia() {
             title={data && data.header}
             paragraph={data && data.paragraph}
             page={page}
-            galeriFoto={<RenderCard />}
+            galeriFoto={renderCard}
             dataRekomendasi={dataRekomendasi}
             changeDetailBerita={(path) => changeDetailBerita(path)}
-            videos={<RenderVideos />}
+            videos={renderVideos}
         />
     )
 }

@@ -1,0 +1,56 @@
+@import '../../utils/variable.scss';
+
+.wrapp-form{
+    display: flex;
+    flex-direction: column;
+    margin-top: 60px;
+
+    .label-input{
+        display: flex;
+        align-items: center;
+        font-size: $font2;
+        color: $color2;
+        margin-bottom: 7px;
+
+        .red-stars{
+            color: #ff0000;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+    }
+
+    .input-card{
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        font-size: $font2;
+        color: $color2;
+        outline: none;
+        padding: 8px 13px;
+        width: 100%;
+    }
+
+    .input-card::placeholder{
+        color: #999;
+    }
+
+    .input-area{
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        font-size: $font2;
+        color: $color2;
+        outline: none;
+        padding: 8px 13px;
+        width: 100%;
+        resize: vertical;
+    }
+
+    .input-area::placeholder{
+        color: #999;
+    }
+
+    .error-message{
+        font-size: 11px;
+        color: #ff0000;
+        margin-bottom: 10px;
+    }
+}

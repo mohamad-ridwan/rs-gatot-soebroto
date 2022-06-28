@@ -299,115 +299,108 @@ function Layanan() {
         }
     }
 
-    function RenderJadwalDokter() {
-        const newData = dataDoctor();
+    const newDataDoctor = dataDoctor();
 
-        return (
-            <>
-                {data && data.id === "jadwal-dokter" ? (
-                    <div className="wrapp-content-jadwal-dokter">
-                        {/* search */}
-                        <div className="container-search-jadwal">
-                            <div className="column-txt-show">
-                                <p className="filter-show">
-                                    Show{" "}
-                                    <button className="btn-filter" onClick={onShowMenuChoose}>
-                                        {nowChoose} <i className="fas fa-sort icon-filter"></i>
-                                        {/* menu choose */}
-                                        <ul className="menu-choose-show" style={styleMenuShow}>
-                                            {chooseShowing.map((e, i) => (
-                                                <li
-                                                    key={i}
-                                                    className={
-                                                        idxActiveChoose === i
-                                                            ? "list-choose active-choose"
-                                                            : "list-choose"
-                                                    }
-                                                    onClick={() => updateShowDokter(i, e.nama)}
-                                                >
-                                                    {e.nama}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </button>
-                                    entries
-                                </p>
-                            </div>
-                            <div className="column-search">
-                                <p className="txt-search">Search:</p>
-                                <div className="col-input-search">
-                                    <input
-                                        type="text"
-                                        className="input-search"
-                                        id="inputSearch"
-                                        onChange={userInputSearch}
-                                        value={searchDoctorStore}
-                                        autoFocus
-                                    />
-                                    <i
-                                        className={`fas fa-times icon-remove ${searchDoctorStore.length > 0 ? "icon-remove-active" : ""
-                                            }`}
-                                        onClick={clickDeleteInput}
-                                    ></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* table */}
-                        <table className="table-dokter">
-                            <tr style={{ backgroundColor: "#fff" }}>
-                                {headerTable.map((e, i) => (
-                                    <th
+    const renderJadwalDokter = data && data.id === "jadwal-dokter" ? (
+        <div className="wrapp-content-jadwal-dokter">
+            {/* search */}
+            <div className="container-search-jadwal">
+                <div className="column-txt-show">
+                    <p className="filter-show">
+                        Show{" "}
+                        <button className="btn-filter" onClick={onShowMenuChoose}>
+                            {nowChoose} <i className="fas fa-sort icon-filter"></i>
+                            {/* menu choose */}
+                            <ul className="menu-choose-show" style={styleMenuShow}>
+                                {chooseShowing.map((e, i) => (
+                                    <li
                                         key={i}
-                                        onClick={() =>
-                                            changeActiveHeader(
-                                                e.nama.toLowerCase().split("-").join(""),
-                                                onActiveChooseOfHeader
-                                            )
+                                        className={
+                                            idxActiveChoose === i
+                                                ? "list-choose active-choose"
+                                                : "list-choose"
                                         }
+                                        onClick={() => updateShowDokter(i, e.nama)}
                                     >
-                                        {e.nama}{" "}
-                                        <div className="column-icon-updown">
-                                            <i
-                                                className={`fas fa-long-arrow-alt-up icon-up ${e.nama.toLowerCase().split("-").join("") ===
-                                                    activeChooseHeader && onActiveChooseOfHeader
-                                                    ? "icon-active"
-                                                    : ""
-                                                    }`}
-                                            ></i>
-                                            <i
-                                                className={`fas fa-long-arrow-alt-down icon-down ${e.nama.toLowerCase().split("-").join("") ===
-                                                    activeChooseHeader && !onActiveChooseOfHeader
-                                                    ? "icon-active"
-                                                    : ""
-                                                    }`}
-                                            ></i>
-                                        </div>
-                                    </th>
+                                        {e.nama}
+                                    </li>
                                 ))}
-                            </tr>
-                            {newData && newData.length > 0 ? (
-                                newData.map((e, i) => {
-                                    return (
-                                        <tr key={i}>
-                                            <td>{e.nama}</td>
-                                            <td style={{ paddingRight: "20px" }}>{e.lokasi}</td>
-                                            <td>{e.poli}</td>
-                                            <td>{e.subPoli}</td>
-                                        </tr>
-                                    );
-                                })
-                            ) : (
-                                <></>
-                            )}
-                        </table>
+                            </ul>
+                        </button>
+                        entries
+                    </p>
+                </div>
+                <div className="column-search">
+                    <p className="txt-search">Search:</p>
+                    <div className="col-input-search">
+                        <input
+                            type="text"
+                            className="input-search"
+                            id="inputSearch"
+                            onChange={userInputSearch}
+                            value={searchDoctorStore}
+                        />
+                        <i
+                            className={`fas fa-times icon-remove ${searchDoctorStore.length > 0 ? "icon-remove-active" : ""
+                                }`}
+                            onClick={clickDeleteInput}
+                        ></i>
                     </div>
+                </div>
+            </div>
+
+            {/* table */}
+            <table className="table-dokter">
+                <tr style={{ backgroundColor: "#fff" }}>
+                    {headerTable.map((e, i) => (
+                        <th
+                            key={i}
+                            onClick={() =>
+                                changeActiveHeader(
+                                    e.nama.toLowerCase().split("-").join(""),
+                                    onActiveChooseOfHeader
+                                )
+                            }
+                        >
+                            {e.nama}{" "}
+                            <div className="column-icon-updown">
+                                <i
+                                    className={`fas fa-long-arrow-alt-up icon-up ${e.nama.toLowerCase().split("-").join("") ===
+                                        activeChooseHeader && onActiveChooseOfHeader
+                                        ? "icon-active"
+                                        : ""
+                                        }`}
+                                ></i>
+                                <i
+                                    className={`fas fa-long-arrow-alt-down icon-down ${e.nama.toLowerCase().split("-").join("") ===
+                                        activeChooseHeader && !onActiveChooseOfHeader
+                                        ? "icon-active"
+                                        : ""
+                                        }`}
+                                ></i>
+                            </div>
+                        </th>
+                    ))}
+                </tr>
+                {newDataDoctor && newDataDoctor.length > 0 ? (
+                    newDataDoctor.map((e, i) => {
+                        return (
+                            <tr key={i}>
+                                <td>{e.nama}</td>
+                                <td style={{ paddingRight: "20px" }}>{e.lokasi}</td>
+                                <td>{e.poli}</td>
+                                <td>{e.subPoli}</td>
+                            </tr>
+                        );
+                    })
                 ) : (
                     <></>
                 )}
-            </>
-        );
-    }
+            </table>
+        </div>
+    ) : (
+        <></>
+    )
     // end page dokter
 
     // page card
@@ -418,7 +411,8 @@ function Layanan() {
     const getPaginatedDataCard = () => {
         const startIndex = currentPageStore * contentPerPageCard - contentPerPageCard;
         const endIndex = startIndex + contentPerPageCard;
-        return dataCard.slice(startIndex, endIndex);
+        const result = dataCard && dataCard !== undefined ? dataCard.slice(startIndex, endIndex) : []
+        return result
     };
 
     const styleCard = {
@@ -442,48 +436,42 @@ function Layanan() {
         cursorWrapp: "pointer",
     };
 
-    function RenderCard() {
-        const dataCard = getPaginatedDataCard()
+    const newDataCard = getPaginatedDataCard()
 
-        return (
-            <>
-                {dataCard !== undefined && data && data.id !== "jadwal-dokter" ? (
-                    dataCard.map((e, i) => {
-                        const removeElement =
-                            e && e.paragraph !== undefined
-                                ? e.paragraph.replace(/<\/?[^>]+(>|$)/g, "")
-                                : "";
+    const renderCard = newDataCard !== undefined && data && data.id !== "jadwal-dokter" ? (
+        newDataCard.map((e, i) => {
+            const removeElement =
+                e && e.paragraph !== undefined
+                    ? e.paragraph.replace(/<\/?[^>]+(>|$)/g, "")
+                    : "";
 
-                        return (
-                            <Card
-                                {...styleCard}
-                                key={i}
-                                title={e.header}
-                                paragraphOne={
-                                    <RenderHTML
-                                        e={
-                                            removeElement.length > 100
-                                                ? removeElement.substr(0, 100) + "..."
-                                                : removeElement
-                                        }
-                                    />
-                                }
-                                colorTitle={hoverCard === i ? "#fff" : "#4d784e"}
-                                bgColorCircleIcon={hoverCard === i ? "#fff" : "#4d784e"}
-                                colorCircleIcon={hoverCard === i ? "#4d784e" : "#fff"}
-                                colorParagraphOne={hoverCard === i ? "#fff" : "#333"}
-                                mouseEnterWrapp={() => mouseOverCard(i)}
-                                mouseLeaveWrapp={mouseLeaveCard}
-                                bgColorWrapp={hoverCard === i ? "#4d784e" : "#fff"}
-                            />
-                        );
-                    })
-                ) : (
-                    <></>
-                )}
-            </>
-        );
-    }
+            return (
+                <Card
+                    {...styleCard}
+                    key={i}
+                    title={e.header}
+                    paragraphOne={
+                        <RenderHTML
+                            e={
+                                removeElement.length > 100
+                                    ? removeElement.substr(0, 100) + "..."
+                                    : removeElement
+                            }
+                        />
+                    }
+                    colorTitle={hoverCard === i ? "#fff" : "#4d784e"}
+                    bgColorCircleIcon={hoverCard === i ? "#fff" : "#4d784e"}
+                    colorCircleIcon={hoverCard === i ? "#4d784e" : "#fff"}
+                    colorParagraphOne={hoverCard === i ? "#fff" : "#333"}
+                    mouseEnterWrapp={() => mouseOverCard(i)}
+                    mouseLeaveWrapp={mouseLeaveCard}
+                    bgColorWrapp={hoverCard === i ? "#4d784e" : "#fff"}
+                />
+            );
+        })
+    ) : (
+        <></>
+    )
 
     function mouseOverCard(i) {
         setHoverCard(i);
@@ -501,8 +489,8 @@ function Layanan() {
         data: dataCard,
         contentPerPage: contentPerPageCard,
         id: data && data.id === 'jadwal-dokter' ? 'jadwal-dokter' : undefined,
-        renderCard: <RenderCard />,
-        renderDokter: <RenderJadwalDokter />,
+        renderCard: renderCard,
+        renderDokter: renderJadwalDokter,
         dataShowing: idxShowingDokter
     }
 

@@ -102,35 +102,29 @@ function Media() {
         }
     }
 
-    function RenderCard() {
-        const dataCard = getPaginatedDataCard()
+    const newDataCard = getPaginatedDataCard()
 
+    const renderCard = newDataCard.length > 0 && newDataCard.map((e, i) => {
         return (
-            <>
-                {dataCard.length > 0 && dataCard.map((e, i) => {
-                    return (
-                        <Card
-                            {...styleCard}
-                            key={i}
-                            title={e.header}
-                            img={`${address}/${e.image}`}
-                            date={e.date}
-                            admin={e.author}
-                            clickImg={() => toDetailBerita(e.path, e.id)}
-                            clickTitle={() => toDetailBerita(e.path, e.id)}
-                            colorTitle={hoverTitleBerita === i ? '#4d784e' : '#333'}
-                            transformImg={hoverImgBerita === i ? 'scale(1.1)' : 'scale(1)'}
-                            opacityHoverImg={hoverImgBerita === i ? '0.4' : '0'}
-                            mouseEnterImg={() => mouseOverImgBerita(i)}
-                            mouseLeaveImg={mouseLeaveImgBerita}
-                            mouseEnterTitle={() => mouseOverTitleBerita(i)}
-                            mouseLeaveTitle={mouseLeaveTitleBerita}
-                        />
-                    )
-                })}
-            </>
+            <Card
+                {...styleCard}
+                key={i}
+                title={e.header}
+                img={`${address}/${e.image}`}
+                date={e.date}
+                admin={e.author}
+                clickImg={() => toDetailBerita(e.path, e.id)}
+                clickTitle={() => toDetailBerita(e.path, e.id)}
+                colorTitle={hoverTitleBerita === i ? '#4d784e' : '#333'}
+                transformImg={hoverImgBerita === i ? 'scale(1.1)' : 'scale(1)'}
+                opacityHoverImg={hoverImgBerita === i ? '0.4' : '0'}
+                mouseEnterImg={() => mouseOverImgBerita(i)}
+                mouseLeaveImg={mouseLeaveImgBerita}
+                mouseEnterTitle={() => mouseOverTitleBerita(i)}
+                mouseLeaveTitle={mouseLeaveTitleBerita}
+            />
         )
-    }
+    })
 
     function mouseOverImgBerita(i) {
         setHoverImgBerita(i)
@@ -153,7 +147,7 @@ function Media() {
         justifyContentConPaginate: 'center',
         data: dataCard,
         contentPerPage: contentPerPage,
-        renderCard: <RenderCard />
+        renderCard: renderCard
     }
 
     return (

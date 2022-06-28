@@ -231,11 +231,32 @@
                             text-align: start;
                             font-weight: 450;
                             color: $color2;
+                            // position: relative;
 
                             &:hover {
                                 background-color: $color1;
                                 color: #fff;
                                 transition: 0.2s ease-in-out;
+                            }
+
+                            // child page of child
+                            .wrapp-menu-of-menu-collapse{
+                                display: flex;
+                                flex-direction: column;
+                                position: absolute;
+                                background-color: #fff;
+                                border-radius: 3px;
+                                top: 20px;
+                                left: -163px;
+                                color: #333;
+                                list-style: none;
+                                padding: 8px 0;
+                                border: 1px solid #ddd;
+
+                                .name-menu-of-menu-collapse{
+                                    padding: 8px 20px;
+                                    text-transform: uppercase;
+                                }
                             }
                         }
                     }

@@ -119,36 +119,32 @@ function DetailBerita() {
         document.body.style.overflow = 'hidden'
     }
 
-    function RenderGaleriFoto() {
-        return (
-            <>
-                <p className="title-galeri-foto title-detail-berita">
-                    GALERI FOTO
-                </p>
+    const renderGaleriFoto = <>
+        <p className="title-galeri-foto title-detail-berita">
+            GALERI FOTO
+        </p>
 
-                <div className="wrapp-card-galeri-foto">
-                    {galeriFoto && galeriFoto.length > 0 ? galeriFoto.map((e, i) => {
-                        return (
-                            <Card
-                                {...styleCard}
-                                key={i}
-                                img={`${address}/${e.image}`}
-                                transformImg={hover === i ? 'scale(1.1)' : 'scale(1)'}
-                                opacityHoverImg={hover === i ? '0.4' : '0'}
-                                mouseEnterImg={() => mouseOverImgBerita(i)}
-                                mouseLeaveImg={mouseLeaveImgBerita}
-                                clickImg={() => onViewImg(i)}
-                            />
-                        )
-                    }) : (
-                        <></>
-                    )}
-                </div>
+        <div className="wrapp-card-galeri-foto">
+            {galeriFoto && galeriFoto.length > 0 ? galeriFoto.map((e, i) => {
+                return (
+                    <Card
+                        {...styleCard}
+                        key={i}
+                        img={`${address}/${e.image}`}
+                        transformImg={hover === i ? 'scale(1.1)' : 'scale(1)'}
+                        opacityHoverImg={hover === i ? '0.4' : '0'}
+                        mouseEnterImg={() => mouseOverImgBerita(i)}
+                        mouseLeaveImg={mouseLeaveImgBerita}
+                        clickImg={() => onViewImg(i)}
+                    />
+                )
+            }) : (
+                <></>
+            )}
+        </div>
 
-                <ViewImage {...dataViewImg} />
-            </>
-        )
-    }
+        <ViewImage {...dataViewImg} />
+    </>
 
     return (
         <Template
@@ -156,9 +152,9 @@ function DetailBerita() {
             page={page}
             title={data && data.header}
             paragraph={data && data.paragraph}
-            galeriFoto={<RenderGaleriFoto />}
+            galeriFoto={renderGaleriFoto}
             dataRekomendasi={dataRekomendasi}
-            changeDetailBerita={(path)=>changeDetailBerita(path)}
+            changeDetailBerita={(path) => changeDetailBerita(path)}
             displayDateCard={'flex'}
             date={data && data.date}
             admin={data && data.author}

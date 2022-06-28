@@ -84,40 +84,34 @@ function Berita() {
         navigate(`/entry/${path}`)
     }
 
-    function RenderCard() {
-        const data = getPaginatedDataCard()
+    const data = getPaginatedDataCard()
+
+    const renderCard = data && data.length > 0 ? data.map((e, i) => {
+        const removeElement = e.paragraph.replace(/<\/?[^>]+(>|$)/g, "")
 
         return (
-            <>
-                {data && data.length > 0 ? data.map((e, i) => {
-                    const removeElement = e.paragraph.replace(/<\/?[^>]+(>|$)/g, "")
-
-                    return (
-                        <Card
-                            {...styleCard}
-                            key={i}
-                            title={e.header}
-                            img={`${address}/${e.image}`}
-                            date={e.date}
-                            admin={e.author}
-                            clickImg={() => toDetailBerita(e.path)}
-                            clickTitle={() => toDetailBerita(e.path)}
-                            paragraphOne={<RenderHTML e={removeElement.length > 0 ? removeElement.substr(0, 200) + '...' : removeElement} />}
-                            colorTitle={hoverTitleBerita === i ? '#4d784e' : '#333'}
-                            transformImg={hoverImgBerita === i ? 'scale(1.1)' : 'scale(1)'}
-                            opacityHoverImg={hoverImgBerita === i ? '0.4' : '0'}
-                            mouseEnterImg={() => mouseOverImgBerita(i)}
-                            mouseLeaveImg={mouseLeaveImgBerita}
-                            mouseEnterTitle={() => mouseOverTitleBerita(i)}
-                            mouseLeaveTitle={mouseLeaveTitleBerita}
-                        />
-                    )
-                }) : (
-                    <></>
-                )}
-            </>
+            <Card
+                {...styleCard}
+                key={i}
+                title={e.header}
+                img={`${address}/${e.image}`}
+                date={e.date}
+                admin={e.author}
+                clickImg={() => toDetailBerita(e.path)}
+                clickTitle={() => toDetailBerita(e.path)}
+                paragraphOne={<RenderHTML e={removeElement.length > 0 ? removeElement.substr(0, 200) + '...' : removeElement} />}
+                colorTitle={hoverTitleBerita === i ? '#4d784e' : '#333'}
+                transformImg={hoverImgBerita === i ? 'scale(1.1)' : 'scale(1)'}
+                opacityHoverImg={hoverImgBerita === i ? '0.4' : '0'}
+                mouseEnterImg={() => mouseOverImgBerita(i)}
+                mouseLeaveImg={mouseLeaveImgBerita}
+                mouseEnterTitle={() => mouseOverTitleBerita(i)}
+                mouseLeaveTitle={mouseLeaveTitleBerita}
+            />
         )
-    }
+    }) : (
+        <></>
+    )
 
     function mouseOverImgBerita(i) {
         setHoverImgBerita(i)
@@ -140,7 +134,7 @@ function Berita() {
         justifyContentConPaginate: 'center',
         data: dataCard,
         contentPerPage: 6,
-        renderCard: <RenderCard />
+        renderCard: renderCard
     }
 
     return (

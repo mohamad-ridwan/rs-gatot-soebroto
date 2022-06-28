@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import API from '../../services/api'
-import address from '../../services/api/address'
-import Form from '../../components/form/Form'
-import Template from '../../components/template/Template'
+import React, { useEffect, useState } from "react"
+import Form from "../../components/form/Form"
+import Template from "../../components/template/Template"
+import API from "../../services/api"
+import address from "../../services/api/address"
 
-function ZonaIntegritas() {
+function LayananPengaduan() {
     const [data, setData] = useState({})
     const [valueImg, setValueImg] = useState('')
     const [errMsg, setErrMsg] = useState({})
@@ -56,7 +56,7 @@ function ZonaIntegritas() {
     ])
 
     function setAPI() {
-        API.APIZonaIntegritas()
+        API.APILayananPengaduan()
             .then(res => {
                 const result = res.data
 
@@ -161,7 +161,7 @@ function ZonaIntegritas() {
     }
 
     function postDataToAPI(_id, data) {
-        API.APIPostZonaIntegritas(_id, data)
+        API.APIPostLayananPengaduan(_id, data)
             .then(res => {
                 if (res && res.data) {
                     alert('Anda telah berhasil mengirimkan data')
@@ -267,4 +267,4 @@ function ZonaIntegritas() {
     )
 }
 
-export default ZonaIntegritas
+export default LayananPengaduan
