@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
+import {useDispatch} from 'react-redux'
 import API from '../../services/api'
 import address from '../../services/api/address'
 import Form from '../../components/form/Form'
 import Template from '../../components/template/Template'
+import { changePath } from '../../services/redux/navbar'
 
 function ZonaIntegritas() {
     const [data, setData] = useState({})
@@ -54,6 +56,18 @@ function ZonaIntegritas() {
             errorMessage: ''
         }
     ])
+    const [page] = useState([
+        {
+            name: 'Home',
+            path: '/'
+        },
+        {
+            name: 'Whistle Blowing System',
+            path: null
+        }
+    ])
+
+    const dispatch = useDispatch()
 
     function setAPI() {
         API.APIZonaIntegritas()
@@ -68,6 +82,7 @@ function ZonaIntegritas() {
     }
 
     useEffect(() => {
+        dispatch(changePath('/whistle-blowing-system'))
         setAPI()
     }, [])
 
@@ -263,6 +278,7 @@ function ZonaIntegritas() {
             img={`${address}/${data && data.image}`}
             paragraph={data && data.paragraph}
             form={<Form {...styleForm} />}
+            page={page}
         />
     )
 }

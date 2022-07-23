@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import './Button.scss'
 
-function Button({click, name, widthBtn, paddingBtn, bdrRadiusBtn, bgColorBtn, colorDefault, colorChange, displayBtn, marginIcon, bdrRadiusShadow, displayIcon, marginBtn}){
+function Button({click, name, widthBtn, paddingBtn, bdrRadiusBtn, bgColorBtn, colorDefault, colorChange, displayBtn, marginIcon, bdrRadiusShadow, displayIcon, marginBtn, cursorBtn}){
     const [hover, setHover] = useState(false)
 
     const styleBtn = {
@@ -10,7 +10,8 @@ function Button({click, name, widthBtn, paddingBtn, bdrRadiusBtn, bgColorBtn, co
         padding: paddingBtn,
         borderRadius: bdrRadiusBtn,
         backgroundColor: bgColorBtn,
-        margin: marginBtn
+        margin: marginBtn,
+        cursor: cursorBtn
     }
     const styleIcon = {
         margin: marginIcon,

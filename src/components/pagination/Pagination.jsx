@@ -20,28 +20,27 @@ function Pagination({
   dataShowing,
   ...propsAddition
 }) {
-  const { data, contentPerPage } = propsAddition;
+  // props yang wajib dikonsumsikan di masing2 page : data dan contentPerPage
+  const { data, contentPerPage, nowChoose, searchDoctorStore } = propsAddition
 
   const dispatch = useDispatch();
   const currentPageStore = useSelector((state) => state.navbar.currentPage);
   const idxPaginateStore = useSelector((state) => state.navbar.idxPaginate);
   const firstIdxStore = useSelector((state) => state.navbar.firstIdx);
   const lastIdxStore = useSelector((state) => state.navbar.lastIdx);
-  const searchDoctorStore = useSelector((state) => state.navbar.searchDoctor);
-  const nowChoose = useSelector((state) => state.navbar.nowChoose);
   const idxShowingDokter = useSelector((state) => state.navbar.idxShowingDokter)
 
   const inputSearch =
-    id === "jadwal-dokter" &&
+    id === "jadwal-dokter" && 
     Array.from(data).filter(
       (e) =>
         e.nama.toLowerCase().includes(searchDoctorStore.toLowerCase()) ||
         e.lokasi.toLowerCase().includes(searchDoctorStore.toLowerCase()) ||
         e.poli.toLowerCase().includes(searchDoctorStore.toLowerCase()) ||
         e.subPoli.toLowerCase().includes(searchDoctorStore.toLowerCase())
-    );
+    ) 
 
-  const totalNumber = searchDoctorStore.length > 0 && inputSearch !== undefined ? Math.ceil(inputSearch.length / contentPerPage) : data && Math.ceil(data && data.length / contentPerPage);
+  const totalNumber = searchDoctorStore !== undefined && searchDoctorStore.length > 0 && inputSearch !== undefined ? Math.ceil(inputSearch.length / contentPerPage) : data && Math.ceil(data && data.length / contentPerPage);
   const showNumberPaginate = totalNumber < siblingCount ? totalNumber : siblingCount;
 
   const styleContainerPaginate = {
@@ -69,7 +68,7 @@ function Pagination({
 
       // for update data idxShowingDokter
       const nowShow = ((nowChoose * idx) - nowChoose) + 1
-      const checkUserInput = searchDoctorStore.length > 0 ? inputSearch.length : data.length
+      const checkUserInput = searchDoctorStore !== undefined && searchDoctorStore.length > 0 ? inputSearch.length : data.length
       const toShowInNotLastData = nowChoose * idx
 
       if (id === 'jadwal-dokter') {
@@ -123,7 +122,7 @@ function Pagination({
       dispatch(changeCurrentPage({ pageNow: idx }));
 
       // for update data idxShowingDokter
-      const checkUserInput = searchDoctorStore.length > 0 ? inputSearch.length : data.length
+      const checkUserInput = searchDoctorStore !== undefined && searchDoctorStore.length > 0 ? inputSearch.length : data.length
 
       if (id === 'jadwal-dokter') {
         const nowShow = idxShowingDokter.nowShow - nowChoose
@@ -166,10 +165,10 @@ function Pagination({
   }
 
   function changePage(event) {
-    const pageNumber = Number(event.target.textContent);
+    const pageNumber = Number(event.target.textContent)
 
-    const nowShow = ((nowChoose * pageNumber) - nowChoose) + 1
-    const checkUserInput = searchDoctorStore.length > 0 ? inputSearch.length : data.length
+    const nowShow = nowChoose === 'semua' ? ((data && data.length * pageNumber) - (data && data.length)) + 1 : ((nowChoose * pageNumber) - nowChoose) + 1
+    const checkUserInput = searchDoctorStore !== undefined && searchDoctorStore.length > 0 ? inputSearch.length : data.length
     const toShowInNotLastData = nowChoose * pageNumber
 
     // for update data idxShowingDokter
@@ -205,7 +204,7 @@ function Pagination({
 
   const { nowShow, toShow, ofShow, totalData } = dataShowing !== undefined && Object.keys(dataShowing).length > 0 ? dataShowing : {}
 
-  const filteredData = searchDoctorStore.length > 0 && totalData !== undefined && `(filtered from ${data.length} total entries)`
+  const filteredData = searchDoctorStore !== undefined && searchDoctorStore.length > 0 && totalData !== undefined && `(filtered from ${data.length} total entries)`
 
   return (
     <>
@@ -223,9 +222,10 @@ function Pagination({
           <div className="paginate">
             <button
               className={
-                currentPageStore === 1
+                totalNumber !== 0 ? currentPageStore === 1
                   ? "btn-paginate previous disable"
                   : "btn-paginate previous"
+                  : 'btn-paginate previous disable'
               }
               onClick={() => goToPreviousPage(currentPageStore - 1)}
             >

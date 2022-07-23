@@ -77,5 +77,39 @@
                 }
             }
         }
+
+        .date-card-search{
+            display: none;
+        }
+    }
+}
+
+// wrapp card only in page search
+.wrapp-card-search{
+    flex-direction: row;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 40px;
+
+    // deskripsi
+    .container-deskripsi-card{
+        margin: 0 15px;
+        width: 80%;
+
+        // date card search
+        .date-card-search{
+            display: none;
+            align-items: center;
+            margin-top: 0px;
+
+            p{
+                font-size: 11px;
+                color: #777;
+                margin-right: 10px;
+                .icon-date{
+                    font-size: 11px;
+                    margin-right: 3px;
+                }
+            }
+        }
     }
 }

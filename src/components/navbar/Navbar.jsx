@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import './Navbar.scss'
-import { loadPageTentang, loadPageLayanan, changeCurrentPage, changeFirstIdx, changeLastIdx, siblingCount, changeIdxPaginate, changeContentPerPage, changeActiveMenuChoose, changeIdxActiveChoose, changeNowChoose, changeSearchDoctor, changeActiveChooseHeader, changeOnActiveChooseOfHeader, changeIdxShowingDokter, loadPageMedia } from '../../services/redux/navbar'
 import API from '../../services/api'
 import address from '../../services/api/address'
 
@@ -20,7 +19,7 @@ function Navbar() {
 
     // redux
     const navbarStore = useSelector((state) => state.navbar.path)
-    const dispatch = useDispatch()
+    const storageLang = localStorage.getItem('wglang') || 'id'
 
     // router
     const navigate = useNavigate()
@@ -38,172 +37,19 @@ function Navbar() {
                 setContact(contact)
                 setMedsos(medsos)
                 setLogoWeb(logo)
-                setMenuPage(page)
                 setTxtMarquee(txtMarquee[0])
+                setMenuPage(page)
             })
             .catch(err => console.log(err))
-    }
-
-    function getDataPageTentang(path) {
-        API.APITentang()
-            .then(res => {
-                const result = res.data
-                const dataPage = result.filter(e => e.path === path)
-
-                let newPage = []
-                if (dataPage.length > 0) {
-                    newPage.push(
-                        {
-                            name: 'Home',
-                            path: '/'
-                        },
-                        {
-                            name: 'Tentang',
-                            path: null
-                        },
-                        {
-                            name: dataPage[0].header,
-                            path: null
-                        }
-                    )
-                }
-
-                dispatch(loadPageTentang({ data: dataPage[0], page: newPage, path: path }))
-            })
-            .catch(err => console.log(err))
-    }
-
-    function toLoadPageTentang(pathParm) {
-        const path = window.location.pathname
-
-        if (pathParm !== undefined) {
-            getDataPageTentang(pathParm)
-        } else if (path.split('/')[1] === 'tentang') {
-            getDataPageTentang(path)
-        }
-
-        return;
-    }
-
-    function updatePaginate(data, contentPerPage) {
-        const totalNumber = data && Math.ceil(data[0].data.length / contentPerPage)
-        const showNumberPaginate = totalNumber < siblingCount ? totalNumber : siblingCount
-        dispatch(changeIdxPaginate({ countIdx: 1, length: showNumberPaginate + 1 }))
-    }
-
-    function getDataPageLayanan(path) {
-        // update for page doctor
-        dispatch(changeActiveMenuChoose({ activeStats: false }))
-        dispatch(changeIdxActiveChoose({ idx: 1 }))
-        dispatch(changeNowChoose({ choose: 10 }))
-        dispatch(changeSearchDoctor({ input: '' }))
-        dispatch(changeActiveChooseHeader({ nama: 'nama' }))
-        dispatch(changeOnActiveChooseOfHeader({ condition: true }))
-
-        API.APILayanan()
-            .then(res => {
-                const result = res.data
-                const dataPage = result.filter(e => e.path === path)
-
-                let newPage = []
-                if (dataPage.length > 0) {
-                    newPage.push(
-                        {
-                            name: 'Home',
-                            path: '/'
-                        },
-                        {
-                            name: 'Layanan',
-                            path: null
-                        },
-                        {
-                            name: dataPage[0].header,
-                            path: null
-                        }
-                    )
-                }
-
-                dispatch(changeCurrentPage({ pageNow: 1 }))
-                dispatch(changeFirstIdx({ idx: siblingCount }))
-                dispatch(changeLastIdx({ idx: siblingCount }))
-                dispatch(loadPageLayanan({ data: dataPage[0], page: newPage, path: path }))
-
-                if (dataPage.length > 0 && dataPage[0].id !== 'jadwal-dokter') {
-                    updatePaginate(dataPage, 6)
-                    dispatch(changeContentPerPage({ contentPerPage: 6 }))
-                }
-                if (dataPage.length > 0 && dataPage[0].id === 'jadwal-dokter') {
-                    updatePaginate(dataPage, 10)
-                    dispatch(changeContentPerPage({ contentPerPage: 10 }))
-                    dispatch(changeIdxShowingDokter({ nowShow: 1, toShow: 10, ofShow: dataPage[0].data.length, totalData: dataPage[0].data.length }))
-                }
-            })
-            .catch(err => console.log(err))
-    }
-
-    function toLoadPageLayanan(pathParm) {
-        const path = window.location.pathname
-
-        if (pathParm !== undefined) {
-            getDataPageLayanan(pathParm)
-        } else if (path.split('/')[1] === 'layanan') {
-            getDataPageLayanan(path)
-        }
-
-        return;
-    }
-
-    function getDataPageMedia(path) {
-        API.APIMedia()
-            .then(res => {
-                const result = res.data
-
-                const dataPage = result.filter((e) => e.path === path)
-
-                let newPage = []
-                if (dataPage.length > 0) {
-                    newPage.push(
-                        {
-                            name: 'Home',
-                            path: '/'
-                        },
-                        {
-                            name: 'Media',
-                            path: null
-                        },
-                        {
-                            name: dataPage[0].header,
-                            path: null
-                        }
-                    )
-                }
-
-                dispatch(changeCurrentPage({ pageNow: 1 }))
-                dispatch(changeFirstIdx({ idx: siblingCount }))
-                dispatch(changeLastIdx({ idx: siblingCount }))
-                dispatch(loadPageMedia({ page: newPage, data: dataPage[0], path: path }))
-                updatePaginate(dataPage, 6)
-            })
-            .catch(err => console.log(err))
-    }
-
-    function toLoadPageMedia(pathParm) {
-        const path = window.location.pathname
-
-        if (pathParm !== undefined) {
-            getDataPageMedia(pathParm)
-        } else if (path.split('/')[1] === 'media') {
-            getDataPageMedia(path)
-        }
-
-        return;
     }
 
     useEffect(() => {
         setAPI()
-        toLoadPageTentang()
-        toLoadPageLayanan()
-        toLoadPageMedia()
+        if (storageLang === 'en') {
+            setLanguage('ENGLISH <b>EN</b>')
+        } else {
+            setLanguage('BAHASA <b>ID</b>')
+        }
     }, [])
 
     function RenderHTML({ txt }) {
@@ -220,7 +66,9 @@ function Navbar() {
         setActiveDropdown(!activeDropdown)
 
         if (path !== undefined) {
-            setLanguage(path)
+            const newPath = path.includes('EN') ? 'en' : 'id'
+            localStorage.setItem('wglang', newPath)
+            window.location.reload()
         }
     }
 
@@ -229,13 +77,11 @@ function Navbar() {
     }
 
     function clickMenuPage(path) {
-        if (path !== 'null') {
+        if (path !== 'null' && !path.includes('https://')) {
             navigate(path)
             window.scrollTo(0, 0)
-
-            toLoadPageTentang(path)
-            toLoadPageLayanan(path)
-            toLoadPageMedia(path)
+        } else if (path.includes('https://')) {
+            window.open(path)
         }
     }
 
@@ -265,7 +111,7 @@ function Navbar() {
                         {contact && contact.length > 0 ? contact.map((e, i) => {
                             return (
                                 <div key={i} className="address">
-                                    <i className="fas fa-user" style={styleColorNavGreen}></i>
+                                    <i className={e.icon} style={styleColorNavGreen}></i>
                                     <p className="txt-address" style={styleColorNavGrey}>
                                         {e.name}
                                     </p>
@@ -278,7 +124,7 @@ function Navbar() {
                     <div className="medsos-nav">
                         {medsos && medsos.length > 0 ? medsos.map((e, i) => {
                             return (
-                                <i key={i} className="fas fa-user" style={styleColorNavGreen}
+                                <i key={i} className={e.icon} style={styleColorNavGreen}
                                     onClick={() => btnMedsos(e.link)}></i>
                             )
                         }) : (
@@ -294,7 +140,7 @@ function Navbar() {
                             <div className="dropdown" style={{
                                 display: activeDropdown ? 'flex' : 'none'
                             }}>
-                                <button className="language" onClick={() => btnLanguage('BAHASA <b>ID</b>')}>
+                                <button id='btn-indo' className="language" onClick={() => btnLanguage('BAHASA <b>ID</b>')}>
                                     BAHASA INDONESIA (ID)
                                 </button>
                                 <button className="language" onClick={() => btnLanguage('ENGLISH <b>EN</b>')}>
@@ -352,7 +198,7 @@ function Navbar() {
                                                         onMouseOver={() => mouseOverActiveIconNav(i)}
                                                         onMouseLeave={mouseLeaveActiveIconNav}
                                                     >
-                                                        {e.name.toUpperCase()} {menuChild.length > 0 ? (
+                                                        {e.name} {menuChild.length > 0 ? (
                                                             <i className="fas fa-angle-down" style={{
                                                                 color: activeIconNav === i ? '#fff' : '#333'
                                                             }}></i>
@@ -387,7 +233,9 @@ function Navbar() {
                         }) : (
                             <div></div>
                         )}
-                        <i className="fas fa-search btn-search" style={styleColorNavGrey}></i>
+                        <i className="fas fa-search btn-search"
+                            onClick={() => clickMenuPage('/search')}
+                            style={styleColorNavGrey}></i>
                     </ul>
                 </div>
 

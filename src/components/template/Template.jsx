@@ -1,19 +1,29 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import './Template.scss'
 import Card from '../card/Card'
 import address from '../../services/api/address'
 
-function Template({ img, page, paragraph, title, card, galeriFoto, dataRekomendasi, changeDetailBerita, displayDateCard, date, admin, videos, form }) {
+function Template({ img, page, paragraph, title, card, galeriFoto, dataRekomendasi, changeDetailBerita, displayDateCard, date, admin, videos, form, searchPage }) {
     const [hoverPage, setHoverPage] = useState(null)
     const [hoverImgBerita, setHoverImgBerita] = useState(null)
     const [hoverTitleBerita, setHoverTitleBerita] = useState(null)
+    const [stopScrollToInSearch, setStopScrollToInSearch] = useState(true)
 
     const navigate = useNavigate()
+    const params = useParams()
 
     useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [])
+        const pageSearch = window.location.pathname
+        if(pageSearch === '/search'){
+            setStopScrollToInSearch(false)
+        }else{
+            setStopScrollToInSearch(true)
+        }
+        if(stopScrollToInSearch){
+            window.scrollTo(0, 0)
+        }
+    }, [params])
 
     function RenderHTML({ txt }) {
         return (
@@ -171,6 +181,7 @@ function Template({ img, page, paragraph, title, card, galeriFoto, dataRekomenda
                                 ) : (
                                     <></>
                                 )}
+                                {searchPage}
                             </p>
                         </div>
                     </div>

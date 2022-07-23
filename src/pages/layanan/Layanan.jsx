@@ -1,14 +1,25 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useParams, useNavigate } from 'react-router-dom'
 import './Layanan.scss'
 import Card from '../../components/card/Card'
 import Pagination from '../../components/pagination/Pagination'
 import Template from '../../components/template/Template'
 import address from '../../services/api/address'
-import { changeActiveChooseHeader, changeActiveMenuChoose, changeContentPerPage, changeCurrentPage, changeFirstIdx, changeIdxActiveChoose, changeIdxPaginate, changeIdxShowingDokter, changeLastIdx, changeNowChoose, changeOnActiveChooseOfHeader, changeSearchDoctor, siblingCount } from '../../services/redux/navbar'
+import { changeContentPerPage, changeCurrentPage, changeFirstIdx, changeIdxPaginate, changeIdxShowingDokter, changeLastIdx, changePath, siblingCount } from '../../services/redux/navbar'
+import API from '../../services/api'
 
 function Layanan() {
+    const [data, setData] = useState({})
+    const [page, setPage] = useState([])
     const [hoverCard, setHoverCard] = useState(null)
+    // for page doctor
+    const [activeMenuChoose, setActiveMenuChoose] = useState(false)
+    const [idxActiveChoose, setIdxActiveChoose] = useState(1)
+    const [nowChoose, setNowChoose] = useState(10)
+    const [searchDoctorStore, setSearchDoctorStore] = useState('')
+    const [activeChooseHeader, setActiveChooseHeader] = useState('nama')
+    const [onActiveChooseOfHeader, setOnActiveChooseOfHeader] = useState(true)
     const [chooseShowing] = useState([
         {
             nama: "semua",
@@ -43,23 +54,74 @@ function Layanan() {
 
     // redux
     const dispatch = useDispatch()
-    const data = useSelector((state) => state.navbar.dataLayanan)
-    const page = useSelector((state) => state.navbar.pageLayanan)
     const contentPerPageCard = useSelector((state) => state.navbar.contentPerPageCard)
     const currentPageStore = useSelector((state) => state.navbar.currentPage)
-    const searchDoctorStore = useSelector((state) => state.navbar.searchDoctor)
-    const idxActiveChoose = useSelector((state) => state.navbar.idxActiveChoose);
-    const activeChooseHeader = useSelector(
-        (state) => state.navbar.activeChooseHeader
-    );
-    const onActiveChooseOfHeader = useSelector(
-        (state) => state.navbar.onActiveChooseOfHeader
-    );
-    const activeMenuChoose = useSelector(
-        (state) => state.navbar.activeMenuChoose
-    );
-    const nowChoose = useSelector((state) => state.navbar.nowChoose);
     const idxShowingDokter = useSelector((state) => state.navbar.idxShowingDokter)
+
+    const params = useParams()
+    const navigate = useNavigate()
+
+    function updatePaginate(data, contentPerPage) {
+        const totalNumber = data && Math.ceil(data[0].data.length / contentPerPage)
+        const showNumberPaginate = totalNumber < siblingCount ? totalNumber : siblingCount
+        dispatch(changeIdxPaginate({ countIdx: 1, length: showNumberPaginate + 1 }))
+    }
+
+    function setAPI() {
+        // update for page doctor
+        setActiveMenuChoose(false)
+        setIdxActiveChoose(1)
+        setNowChoose(10)
+        setSearchDoctorStore('')
+        setActiveChooseHeader('nama')
+        setOnActiveChooseOfHeader(true)
+
+        API.APILayanan()
+            .then(res => {
+                const result = res.data
+                const dataPage = result.filter(e => e.path === `/layanan/${params.id}`)
+
+                let newPage = []
+                if (dataPage.length > 0) {
+                    newPage.push(
+                        {
+                            name: 'Home',
+                            path: '/'
+                        },
+                        {
+                            name: 'Layanan',
+                            path: null
+                        },
+                        {
+                            name: dataPage[0].header,
+                            path: null
+                        }
+                    )
+                }
+
+                dispatch(changeCurrentPage({ pageNow: 1 }))
+                dispatch(changeFirstIdx({ idx: siblingCount }))
+                dispatch(changeLastIdx({ idx: siblingCount }))
+                setData(dataPage[0])
+                setPage(newPage)
+
+                if (dataPage.length > 0 && dataPage[0].id !== 'jadwal-dokter') {
+                    updatePaginate(dataPage, 6)
+                    dispatch(changeContentPerPage({ contentPerPage: 6 }))
+                }
+                if (dataPage.length > 0 && dataPage[0].id === 'jadwal-dokter') {
+                    updatePaginate(dataPage, 10)
+                    dispatch(changeContentPerPage({ contentPerPage: 10 }))
+                    dispatch(changeIdxShowingDokter({ nowShow: 1, toShow: 10, ofShow: dataPage[0].data.length, totalData: dataPage[0].data.length }))
+                }
+            })
+            .catch(err => console.log(err))
+    }
+
+    useEffect(() => {
+        dispatch(changePath(`/layanan/${params.id}`))
+        setAPI()
+    }, [params])
 
     const dataCard = data && data.data
 
@@ -184,7 +246,7 @@ function Layanan() {
 
     function userInputSearch(e) {
         const value = e.target.value
-        dispatch(changeSearchDoctor({ input: value }));
+        setSearchDoctorStore(value)
 
         // hanya untuk update data showing, agar mendapatkan data secara real time
         const newInputSearch =
@@ -198,15 +260,19 @@ function Layanan() {
             )
         // END hanya untuk update data showing, agar mendapatkan data secara real time
 
+        const checkValueNowChoose = nowChoose === 'semua' ? dataCard.length : nowChoose
+
         // update idxShowingDokter
-        if (nowChoose > newInputSearch.length) {
+        if (checkValueNowChoose > newInputSearch.length) {
             if (newInputSearch.length > 0) {
                 updateIdxShowingDokter(1, newInputSearch.length, newInputSearch.length, dataCard.length)
             } else {
                 updateIdxShowingDokter(0, newInputSearch.length, newInputSearch.length, dataCard.length)
             }
-        } else if (newInputSearch.length > nowChoose) {
-            updateIdxShowingDokter(1, nowChoose, newInputSearch.length, dataCard.length)
+        } else if (newInputSearch.length > checkValueNowChoose) {
+            updateIdxShowingDokter(1, checkValueNowChoose, newInputSearch.length, dataCard.length)
+        }else if(checkValueNowChoose === newInputSearch.length){
+            updateIdxShowingDokter(1, checkValueNowChoose, newInputSearch.length, dataCard.length)
         }
         // END update idxShowingDokter
 
@@ -223,37 +289,36 @@ function Layanan() {
         const showNumberPaginate =
             totalNumber < siblingCount ? totalNumber : siblingCount;
 
-        dispatch(changeSearchDoctor({ input: "" }));
+        setSearchDoctorStore('')
         dispatch(
             changeIdxPaginate({ countIdx: 1, length: showNumberPaginate + 1 })
         );
         dispatch(changeCurrentPage({ pageNow: 1 }));
         dispatch(changeFirstIdx({ idx: siblingCount }));
         dispatch(changeLastIdx({ idx: siblingCount }));
-        updateIdxShowingDokter(1, nowChoose, dataCard.length, dataCard.length)
+        const checkValueNowChoose = nowChoose === 'semua' ? dataCard.length : nowChoose
+        updateIdxShowingDokter(1, checkValueNowChoose, dataCard.length, dataCard.length)
     }
 
     function changeActiveHeader(valueHeader, condition) {
         if (valueHeader !== activeChooseHeader) {
-            dispatch(changeActiveChooseHeader({ nama: valueHeader }));
-            dispatch(changeOnActiveChooseOfHeader({ condition: true }));
+            setActiveChooseHeader(valueHeader)
+            setOnActiveChooseOfHeader(true)
         }
         if (valueHeader === activeChooseHeader && condition) {
-            dispatch(changeOnActiveChooseOfHeader({ condition: false }));
+            setOnActiveChooseOfHeader(false)
         }
         if (valueHeader === activeChooseHeader && !condition) {
-            dispatch(changeOnActiveChooseOfHeader({ condition: true }));
+            setOnActiveChooseOfHeader(true)
         }
     }
 
     function onShowMenuChoose() {
-        dispatch(changeActiveMenuChoose({ activeStats: !activeMenuChoose }));
+        setActiveMenuChoose(!activeMenuChoose)
     }
 
     function updateDataOfRedux(length, allData) {
-        dispatch(
-            changeNowChoose({ choose: allData !== undefined ? allData : length })
-        );
+        setNowChoose(allData !== undefined ? allData : length)
 
         // NOTE!! : state name of > contentPerPageCard jika nilainya dirubah harus tetap berupa integer, karna nilainya berupa jumlah data dokter yang di tampilkan dalam satu halaman.
         dispatch(changeContentPerPage({ contentPerPage: length }))
@@ -288,7 +353,7 @@ function Layanan() {
     }
 
     function updateShowDokter(idx, length) {
-        dispatch(changeIdxActiveChoose({ idx: idx }));
+        setIdxActiveChoose(idx)
 
         if (length !== "semua") {
             // NOTE!! : state name of > contentPerPageCard jika nilainya dirubah harus tetap berupa integer, karna nilainya berupa jumlah data dokter yang di tampilkan dalam satu halaman.
@@ -466,12 +531,17 @@ function Layanan() {
                     mouseEnterWrapp={() => mouseOverCard(i)}
                     mouseLeaveWrapp={mouseLeaveCard}
                     bgColorWrapp={hoverCard === i ? "#4d784e" : "#fff"}
+                    clickWrapp={()=>toPageDetail(`/layanan/${params.id}/${e.path}`)}
                 />
             );
         })
     ) : (
         <></>
     )
+
+    function toPageDetail(path){
+        navigate(path)
+    }
 
     function mouseOverCard(i) {
         setHoverCard(i);
@@ -491,7 +561,9 @@ function Layanan() {
         id: data && data.id === 'jadwal-dokter' ? 'jadwal-dokter' : undefined,
         renderCard: renderCard,
         renderDokter: renderJadwalDokter,
-        dataShowing: idxShowingDokter
+        dataShowing: idxShowingDokter,
+        nowChoose: nowChoose,
+        searchDoctorStore: searchDoctorStore,
     }
 
     return (

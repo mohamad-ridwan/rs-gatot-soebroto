@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import './Home.scss'
 import API from '../../services/api'
 import Carousel from '../../components/carousel/Carousel'
@@ -29,9 +30,12 @@ function Home() {
     const [hoverTitleBerita, setHoverTitleBerita] = useState(null)
     const [hoverTitleMedia, setHoverTitleMedia] = useState(null)
     const [hoverImgMedia, setHoverImgMedia] = useState(null)
+    const [nameBtn] = useState('SELENGKAPNYA')
 
     // redux
     const dispatch = useDispatch()
+
+    const navigate = useNavigate()
 
     function setAPI() {
         API.APIHome()
@@ -50,6 +54,7 @@ function Home() {
                 setMedia(media)
             })
             .catch(err => console.log(err))
+
         API.APINavbar()
             .then(res => {
                 const results = res.data
@@ -274,7 +279,7 @@ function Home() {
     }
 
     const btnSelengkapnya = {
-        name: 'SELENGKAPNYA',
+        name: nameBtn,
         colorDefault: 'transparent',
         colorChange: '#000'
     }
@@ -322,6 +327,10 @@ function Home() {
         cursorTitle: 'pointer'
     }
 
+    function toPage(path) {
+        navigate(path)
+    }
+
     return (
         <>
             <div className="wrapp-home">
@@ -329,7 +338,7 @@ function Home() {
                 <div className="banner-video">
                     {bannerVideo && Object.keys(bannerVideo).length > 0 ? (
                         <iframe src={`${bannerVideo.link}
-                        ?iv_load_policy=3&modestbranding=0&autoplay=1&controls=0&showinfo=0&wmode=transparent&branding=0&autohide=0&fs=0&disablekb=1&loop=1&rel=0`} className='video'></iframe>
+                        ?iv_load_policy=3&modestbranding=0&autoplay=1&controls=0&showinfo=0&wmode=transparent&branding=0&autohide=0&fs=0&disablekb=1&loop=1&rel=0`} frameBorder="0" className='video'></iframe>
                     ) : (
                         <></>
                     )}
@@ -361,7 +370,10 @@ function Home() {
                                         <RenderHTML e={selayangPandang.paragraphUtama} />
                                     </p>
 
-                                    <Button {...btnSelengkapnya} />
+                                    <Button
+                                        {...btnSelengkapnya}
+                                        click={() => toPage(selayangPandang.path)}
+                                    />
                                 </div>
                             </div>
                         ) : (
@@ -444,6 +456,7 @@ function Home() {
                                                 mouseEnterWrapp={() => mouseOverLayanan(i)}
                                                 mouseLeaveWrapp={mouseLeaveLayanan}
                                                 bgColorWrapp={hoverLayanan === i ? '#4d784e' : '#fff'}
+                                                clickWrapp={() => toPage(`${layananUnggulan.path}/${e.path}`)}
                                             />
                                         )
                                     }) : (
@@ -452,7 +465,10 @@ function Home() {
                                 </div>
 
                                 <div className="container-btn">
-                                    <Button {...btnSelengkapnya} />
+                                    <Button
+                                        {...btnSelengkapnya}
+                                        click={() => toPage(layananUnggulan.path)}
+                                    />
                                 </div>
                             </div>
                         ) : (
@@ -487,6 +503,8 @@ function Home() {
                                                 mouseLeaveImg={mouseLeaveImgBerita}
                                                 mouseEnterTitle={() => mouseOverTitleBerita(i)}
                                                 mouseLeaveTitle={mouseLeaveTitleBerita}
+                                                clickImg={() => toPage(`/entry/${e.path}`)}
+                                                clickTitle={() => toPage(`/entry/${e.path}`)}
                                             />
                                         )
                                     }) : (
@@ -495,7 +513,10 @@ function Home() {
                                 </div>
 
                                 <div className="container-btn">
-                                    <Button {...btnSelengkapnya} />
+                                    <Button
+                                        {...btnSelengkapnya}
+                                        click={() => toPage('/entries')}
+                                    />
                                 </div>
                             </div>
                         ) : (
@@ -539,6 +560,8 @@ function Home() {
                                         mouseLeaveTitle={mouseLeaveTitleMedia}
                                         mouseEnterWrapp={() => mouseEnterImgMedia(i)}
                                         mouseLeaveWrapp={mouseLeaveImgMedia}
+                                        clickTitle={() => toPage(`/media${e.link}`)}
+                                        clickBtnCard={() => toPage(`/media${e.link}`)}
                                     />
                                 )
                             }) : (

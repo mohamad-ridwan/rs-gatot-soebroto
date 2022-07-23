@@ -1,12 +1,52 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import {useDispatch} from 'react-redux'
+import { useParams } from 'react-router-dom'
 import Template from '../../components/template/Template'
 import address from '../../services/api/address'
+import API from '../../services/api'
+import { changePath } from '../../services/redux/navbar'
 
 function Tentang() {
-    // redux
-    const data = useSelector((state) => state.navbar.dataTentang)
-    const page = useSelector((state) => state.navbar.pageTentang)
+    const [data, setData] = useState({})
+    const [page, setPage] = useState([])
+
+    const params = useParams()
+    const dispatch = useDispatch()
+
+    function setAPI() {
+        API.APITentang()
+            .then(res => {
+                const result = res.data
+                const dataPage = result.filter(e => e.path === `/tentang/${params.id}`)
+
+                let newPage = []
+                if (dataPage.length > 0) {
+                    newPage.push(
+                        {
+                            name: 'Home',
+                            path: '/'
+                        },
+                        {
+                            name: 'Tentang',
+                            path: null
+                        },
+                        {
+                            name: dataPage[0].header,
+                            path: null
+                        }
+                    )
+                }
+
+                setData(dataPage[0])
+                setPage(newPage)
+            })
+            .catch(err => console.log(err))
+    }
+
+    useEffect(() => {
+        dispatch(changePath(`/tentang/${params.id}`))
+        setAPI()
+    }, [params])
 
     return (
         <>

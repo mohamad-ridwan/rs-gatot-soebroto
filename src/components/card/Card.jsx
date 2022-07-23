@@ -2,7 +2,7 @@ import React from 'react'
 import Button from '../button/Button'
 import './Card.scss'
 
-function Card({ img, title, paragraphOne, paragraphTwo, bdrRadiusWrapp, justifyContentDeskripsi, textAlignTitle, textAlignParagraphOne, textAlignParagraphTwo, fontSizeTitle, fontWeightTitle, fontSizeParagraphOne, fontSizeParagraphTwo, widthWrapp, paddingDeskripsi, colorParagraphOne, colorParagraphTwo, displayWrapp, mouseEnterImg, mouseLeaveImg, opacityHoverImg, displayCircleIcon, bgColorCircleIcon, heightCircleIcon, widthCircleIcon, iconCirle, colorTitle, marginWrapp, lineHeightDeskripsi, marginTitle, cursorWrapp, mouseEnterWrapp, mouseLeaveWrapp, bgColorWrapp, colorCircleIcon, bdrTopLeftRadiusImg, bdrTopRightRadiusImg, heightImg, cursorContainerImg, mouseEnterTitle, mouseLeaveTitle, cursorTitle, date, admin, displayDateCard, transformImg, whiteSpaceDeskripsi, heightWrapp, bgColorDeskripsi, heightDeskripsi, marginDeskripsi, bdrRadiusDeskripsi, justifyContentCircleIcon, fontSizeIcon, textAlignDeskripsi, minHeightTitle, bdrTopParagraphOne, paddingCircleIcon, paddingParagraphOne, paddingParagraphTwo, fontWeightParagraphOne, positionDeskripsi, bdrRadiusHoverImg, displayBtn, positionWrapp, fontStyleIcon, bdrBottomLeftRadiusImg, bdrBottomRightRadiusImg, bdrRadiusContainerImg, bdrTopLeftRadiusContainerImg, bdrTopRightRadiusContainerImg, clickImg, clickTitle, flexDirectionWrapp, widthImg, widthContainerImg }) {
+function Card({ img, title, paragraphOne, paragraphTwo, bdrRadiusWrapp, justifyContentDeskripsi, textAlignTitle, textAlignParagraphOne, textAlignParagraphTwo, fontSizeTitle, fontWeightTitle, fontSizeParagraphOne, fontSizeParagraphTwo, widthWrapp, paddingDeskripsi, colorParagraphOne, colorParagraphTwo, displayWrapp, mouseEnterImg, mouseLeaveImg, opacityHoverImg, displayCircleIcon, bgColorCircleIcon, heightCircleIcon, widthCircleIcon, iconCirle, colorTitle, marginWrapp, lineHeightDeskripsi, marginTitle, cursorWrapp, mouseEnterWrapp, mouseLeaveWrapp, bgColorWrapp, colorCircleIcon, bdrTopLeftRadiusImg, bdrTopRightRadiusImg, heightImg, cursorContainerImg, mouseEnterTitle, mouseLeaveTitle, cursorTitle, date, admin, displayDateCard, transformImg, whiteSpaceDeskripsi, heightWrapp, bgColorDeskripsi, heightDeskripsi, marginDeskripsi, bdrRadiusDeskripsi, justifyContentCircleIcon, fontSizeIcon, textAlignDeskripsi, minHeightTitle, bdrTopParagraphOne, paddingCircleIcon, paddingParagraphOne, paddingParagraphTwo, fontWeightParagraphOne, positionDeskripsi, bdrRadiusHoverImg, displayBtn, positionWrapp, fontStyleIcon, bdrBottomLeftRadiusImg, bdrBottomRightRadiusImg, bdrRadiusContainerImg, bdrTopLeftRadiusContainerImg, bdrTopRightRadiusContainerImg, clickImg, clickTitle, flexDirectionWrapp, widthImg, widthContainerImg, classWrapp, displayDateCardSearch, clickWrapp, clickBtnCard }) {
 
     const styleWrapp = {
         display: displayWrapp,
@@ -86,6 +86,9 @@ function Card({ img, title, paragraphOne, paragraphTwo, bdrRadiusWrapp, justifyC
     const styleDateCard = {
         display: displayDateCard
     }
+    const styleDateCardSearch = {
+        display: displayDateCardSearch
+    }
     const styleBtnCard = {
         displayBtn: displayBtn,
         colorDefault: 'transparent',
@@ -95,14 +98,16 @@ function Card({ img, title, paragraphOne, paragraphTwo, bdrRadiusWrapp, justifyC
         paddingBtn: '8px 13px',
         bdrRadiusBtn: '5px',
         marginIcon: '0 0 0 1px',
-        bdrRadiusShadow: '5px'
+        bdrRadiusShadow: '5px',
+        click: clickBtnCard
     }
 
     return (
         <>
-            <div className="wrapp-card" style={styleWrapp}
+            <div className={`wrapp-card ${classWrapp}`} style={styleWrapp}
                 onMouseOver={mouseEnterWrapp}
                 onMouseLeave={mouseLeaveWrapp}
+                onClick={clickWrapp}
             >
                 <div className="container-img-card" style={styleContainerImg}
                     onMouseOver={mouseEnterImg}
@@ -124,6 +129,9 @@ function Card({ img, title, paragraphOne, paragraphTwo, bdrRadiusWrapp, justifyC
                     >
                         {title}
                     </p>
+                    <div className="date-card-search" style={styleDateCardSearch}>
+                        <p><i className="fas fa-calendar-alt icon-date"></i>{date}</p>
+                    </div>
                     <p className="paragraph-one-card" style={styleParagraphOne}>
                         {paragraphOne}
                     </p>

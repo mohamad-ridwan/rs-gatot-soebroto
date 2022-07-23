@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import {useDispatch} from 'react-redux'
 import '../detailmedia/DetailMedia.scss'
 import Template from '../../../components/template/Template'
 import API from '../../../services/api'
 import address from '../../../services/api/address'
 import ViewImage from '../../../components/viewimage/ViewImage'
 import Card from '../../../components/card/Card'
+import { changePath } from '../../../services/redux/navbar'
 
 function DetailMedia() {
     const [page, setPage] = useState([])
@@ -18,6 +20,7 @@ function DetailMedia() {
 
     const params = useParams()
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     function setAPI(id, path) {
         API.APIMedia()
@@ -76,6 +79,7 @@ function DetailMedia() {
     }
 
     useEffect(() => {
+        dispatch(changePath(`/media/${params.id}/${params.path}`))
         setAPI(params.id, params.path)
     }, [])
 

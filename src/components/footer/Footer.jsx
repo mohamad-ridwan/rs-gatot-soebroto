@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js'
+import {Pie} from 'react-chartjs-2'
 import './Footer.scss'
 import API from '../../services/api'
 import Button from '../button/Button'
@@ -9,12 +12,23 @@ function Footer() {
     const [layanan, setLayanan] = useState([])
     const [copyRight, setCopyRight] = useState({})
     const [idxChoose, setIdxChoose] = useState(null)
-    const [choosePolling, setChoosePolling] = useState([
-        { name: 'Sangat Baik' },
-        { name: 'Baik' },
-        { name: 'Sedang' },
-        { name: 'Cukup' },
+    const [resultPolling, setResultPolling] = useState([])
+    const [pendapat, setPendapat] = useState({
+        pendapat: ''
+    })
+    const [idPolling, setIdPolling] = useState('')
+    const [choosePolling] = useState([
+        'Sangat Baik',
+        'Baik',
+        'Sedang',
+        'Cukup',
     ])
+
+    const navigate = useNavigate()
+
+    ChartJS.register(ArcElement, Tooltip, Legend)
+
+    const keyResultPolling = localStorage.getItem('polling') || null
 
     function setAPI() {
         API.APINavbar()
@@ -27,6 +41,7 @@ function Footer() {
                 const tentang = page.filter(e => e.name.toLowerCase() === 'tentang')
                 const layanan = page.filter(e => e.name.toLowerCase() === 'layanan')
                 const copyRight = results.filter(e => e.id === 'copy-right')
+                const polling = results.filter(e=> e.id === 'polling')
 
                 let newKontak = {}
 
@@ -39,6 +54,15 @@ function Footer() {
                     setTentang(tentang[0].menuCollapse)
                     setLayanan(layanan[0].menuCollapse)
                     setCopyRight(copyRight[0])
+                    setIdPolling(polling[0]._id)
+
+                    // result polling
+                    const sangatBaik = polling[0].dataPolling.filter(e=>e.pendapat.toLowerCase() === 'sangat baik')
+                    const baik = polling[0].dataPolling.filter(e=>e.pendapat.toLowerCase() === 'baik')
+                    const sedang = polling[0].dataPolling.filter(e=>e.pendapat.toLowerCase() === 'sedang')
+                    const cukup = polling[0].dataPolling.filter(e=>e.pendapat.toLowerCase() === 'cukup')
+
+                    setResultPolling([sangatBaik.length, baik.length, sedang.length, cukup.length])
                 }
             })
             .catch(err => console.log(err))
@@ -48,8 +72,56 @@ function Footer() {
         setAPI()
     }, [])
 
-    function clickChoose(i) {
+    function clickChoose(i, pendapat) {
         setIdxChoose(i)
+        setPendapat({pendapat: pendapat})
+    }
+
+    function submitPolling(){
+        const time = new Date().getTime()
+        if(pendapat.pendapat.length > 0 && keyResultPolling === null){
+            API.APIPostPolling(idPolling, pendapat)
+            .then(res=>{
+                setIdxChoose(null)
+                setPendapat({pendapat: ''})
+                localStorage.setItem('polling', `${time}`)
+                window.location.reload()
+
+                return res
+            })
+            .catch(err=>console.log(err))
+        }
+    }
+
+    function toPage(path) {
+        if (!path.includes('https://')) {
+            navigate(path)
+        } else if (path.includes('https://')) {
+            window.open(path)
+        }
+    }
+
+    const dataDiagram = {
+        labels: choosePolling,
+        datasets: [
+            {
+                label: '# of Votes',
+                data: resultPolling,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                ],
+                borderWidth: 1,
+            },
+        ],
     }
 
     return (
@@ -74,7 +146,9 @@ function Footer() {
                                         {phone ? 'P :' : ''} {address ? e[1] : ''}
                                     </p>
                                     {medsos ? e[1].map((e, i) => (
-                                        <i key={i} className="fas fa-user list"></i>
+                                        <i key={i} className={e.icon}
+                                            onClick={() => toPage(e.link)}
+                                        ></i>
                                     )
                                     ) : (
                                         <></>
@@ -93,7 +167,9 @@ function Footer() {
 
                         {tentang && tentang.length > 0 ? tentang.map((e, i) => {
                             return (
-                                <p key={i} className="list-tentang list">
+                                <p key={i} className="list-tentang list"
+                                    onClick={() => toPage(e.path)}
+                                >
                                     {e.name}
                                 </p>
                             )
@@ -109,7 +185,9 @@ function Footer() {
 
                         {layanan && layanan.length > 0 ? layanan.map((e, i) => {
                             return (
-                                <p key={i} className="list-layanan list">
+                                <p key={i} className="list-layanan list"
+                                    onClick={() => toPage(e.path)}
+                                >
                                     {e.name}
                                 </p>
                             )
@@ -123,41 +201,55 @@ function Footer() {
                         </p>
                         <div className="border-title"></div>
 
-                        <p className="list">
-                            Bagaimana Kinerja Pelayanan Di Rumah Sakit Pusat Angkatan Darat Gatot Soebroto?
-                        </p>
+                        {/* form polling */}
+                        <div className="container-form-polling" style={{
+                            display: keyResultPolling !== null ? 'none': 'flex'
+                        }}>
+                            <p className="list">
+                                Bagaimana Kinerja Pelayanan Di Rumah Sakit Pusat Angkatan Darat Gatot Soebroto?
+                            </p>
 
-                        <form onSubmit={(e) => {
-                            e.preventDefault()
-                        }} className="input-polling">
-                            <ul className="list-input-polling">
-                                {choosePolling.map((e, i) => {
-                                    return (
-                                        <li key={i} className="choose-polling"
-                                            onClick={() => clickChoose(i)}
-                                        >
-                                            <div className="circle-choose" style={{
-                                                border: idxChoose === i ? '4px solid #2fa931' : '4px solid #fff'
-                                            }}></div>
-                                            <p className="name-choose">
-                                                {e.name}
-                                            </p>
-                                        </li>
-                                    )
-                                })}
-                            </ul>
+                            <form onSubmit={(e) => {
+                                e.preventDefault()
+                            }} className="input-polling">
+                                <ul className="list-input-polling">
+                                    {choosePolling.map((e, i) => {
+                                        return (
+                                            <li key={i} className="choose-polling"
+                                                onClick={() => clickChoose(i, e)}
+                                            >
+                                                <div className="circle-choose" style={{
+                                                    border: idxChoose === i ? '4px solid #2fa931' : '4px solid #fff'
+                                                }}></div>
+                                                <p className="name-choose">
+                                                    {e}
+                                                </p>
+                                            </li>
+                                        )
+                                    })}
+                                </ul>
 
-                            <Button
-                                name={'Kirim'}
-                                paddingBtn={'10px 0'}
-                                bdrRadiusBtn={'5px'}
-                                displayIcon={'none'}
-                                bgColorBtn={'#2fa931'}
-                                colorDefault={'transparent'}
-                                colorChange={'#000'}
-                                bdrRadiusShadow={'5px'}
-                            />
-                        </form>
+                                <Button
+                                    name={'Kirim'}
+                                    paddingBtn={'10px 0'}
+                                    bdrRadiusBtn={'5px'}
+                                    displayIcon={'none'}
+                                    bgColorBtn={'#2fa931'}
+                                    colorDefault={'transparent'}
+                                    colorChange={idxChoose !== null ? '#000' : 'none'}
+                                    cursorBtn={idxChoose !== null ? 'pointer' : 'not-allowed'}
+                                    bdrRadiusShadow={'5px'}
+                                    click={submitPolling}
+                                />
+                            </form>
+                        </div>
+
+                        {/* result polling (diagram) */}
+                        <div className="container-result-polling" style={{
+                            display: keyResultPolling !== null ? 'flex' : 'none'
+                        }}>
+                            <Pie data={dataDiagram} color="rgba(255, 99, 132, 1)"/>
+                        </div>
                     </div>
                 </div>
 

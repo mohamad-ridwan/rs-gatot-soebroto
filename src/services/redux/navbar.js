@@ -8,45 +8,22 @@ export const navbar = createSlice({
     name: 'navbar',
     initialState: {
         path: '',
-        dataTentang: {},
-        pageTentang: [],
-        dataLayanan: {},
-        pageLayanan: [],
         currentPage: 1,
         idxPaginate: [],
         contentPerPageCard: 6,
         firstIdx: siblingCount,
         lastIdx: siblingCount,
-        nowChoose: 10,
-        activeMenuChoose: false,
-        idxActiveChoose: 1,
-        searchDoctor: '',
-        activeChooseHeader: 'nama',
-        onActiveChooseOfHeader: true,
         idxShowingDokter: {
             nowShow: 1,
             toShow: 10,
             ofShow: null,
             totalData: null
         },
-        dataOfMedia: {
-            dataMedia: {},
-            pageMedia: []
-        }
+        language: 'BAHASA <b>ID</b>'
     },
     reducers: {
         changePath: (state, action) => {
             state.path = action.payload
-        },
-        loadPageTentang: (state, action) => {
-            state.dataTentang = action.payload.data
-            state.pageTentang = action.payload.page
-            state.path = action.payload.path
-        },
-        loadPageLayanan: (state, action) => {
-            state.dataLayanan = action.payload.data
-            state.pageLayanan = action.payload.page
-            state.path = action.payload.path
         },
         changeCurrentPage: (state, action) => {
             state.currentPage = action.payload.pageNow
@@ -70,38 +47,18 @@ export const navbar = createSlice({
         changeContentPerPage:(state, action)=>{
             state.contentPerPageCard = action.payload.contentPerPage
         },
-        changeNowChoose: (state, action)=>{
-            state.nowChoose = action.payload.choose
-        },
-        changeActiveMenuChoose: (state, action)=>{
-            state.activeMenuChoose = action.payload.activeStats
-        },
-        changeIdxActiveChoose: (state, action)=>{
-            state.idxActiveChoose = action.payload.idx
-        },
-        changeSearchDoctor: (state, action)=>{
-            state.searchDoctor = action.payload.input
-        },
-        changeActiveChooseHeader: (state, action)=>{
-            state.activeChooseHeader = action.payload.nama
-        },
-        changeOnActiveChooseOfHeader : (state, action)=>{
-            state.onActiveChooseOfHeader = action.payload.condition
-        },
         changeIdxShowingDokter : (state, action)=>{
             state.idxShowingDokter.nowShow = action.payload.nowShow
             state.idxShowingDokter.toShow = action.payload.toShow
             state.idxShowingDokter.ofShow = action.payload.ofShow
             state.idxShowingDokter.totalData = action.payload.totalData
         },
-        loadPageMedia: (state, action)=>{
-            state.dataOfMedia.pageMedia = action.payload.page
-            state.dataOfMedia.dataMedia = action.payload.data
-            state.path = action.payload.path
+        changeLanguage: (state, action)=>{
+            state.language = action.payload.lng
         }
     }
 })
 
-export const { changePath, loadPageTentang, loadPageLayanan, changeCurrentPage, changeIdxPaginate, changeFirstIdx, changeLastIdx, changeContentPerPage, changeNowChoose, changeActiveMenuChoose, changeIdxActiveChoose, changeSearchDoctor, changeActiveChooseHeader, changeOnActiveChooseOfHeader, changeIdxShowingDokter, loadPageMedia } = navbar.actions
+export const { changePath, changeCurrentPage, changeIdxPaginate, changeFirstIdx, changeLastIdx, changeContentPerPage, changeIdxShowingDokter, changeLanguage } = navbar.actions
 
 export default navbar.reducer

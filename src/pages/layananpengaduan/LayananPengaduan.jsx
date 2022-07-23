@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react"
+import {useDispatch} from 'react-redux'
 import Form from "../../components/form/Form"
 import Template from "../../components/template/Template"
 import API from "../../services/api"
 import address from "../../services/api/address"
+import { changePath } from "../../services/redux/navbar"
 
 function LayananPengaduan() {
     const [data, setData] = useState({})
@@ -54,6 +56,18 @@ function LayananPengaduan() {
             errorMessage: ''
         }
     ])
+    const [page] = useState([
+        {
+            name: 'Home',
+            path: '/'
+        },
+        {
+            name: 'Layanan Pengaduan Masyarakat',
+            path: null
+        }
+    ])
+
+    const dispatch = useDispatch()
 
     function setAPI() {
         API.APILayananPengaduan()
@@ -68,6 +82,7 @@ function LayananPengaduan() {
     }
 
     useEffect(() => {
+        dispatch(changePath('/layanan-pengaduan-masyarakat'))
         setAPI()
     }, [])
 
@@ -263,6 +278,7 @@ function LayananPengaduan() {
             img={`${address}/${data && data.image}`}
             paragraph={data && data.paragraph}
             form={<Form {...styleForm} />}
+            page={page}
         />
     )
 }

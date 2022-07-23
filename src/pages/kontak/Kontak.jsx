@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
+import {useDispatch} from 'react-redux'
 import Form from '../../components/form/Form'
 import Template from '../../components/template/Template'
 import API from '../../services/api'
 import address from '../../services/api/address'
+import { changePath } from '../../services/redux/navbar'
 
 function Kontak() {
     const [data, setData] = useState({})
@@ -28,6 +30,18 @@ function Kontak() {
             errorMessage: ''
         }
     ])
+    const [page] = useState([
+        {
+            name: 'Home',
+            path: '/'
+        },
+        {
+            name: 'Kontak',
+            path: null
+        }
+    ])
+
+    const dispatch = useDispatch()
 
     function setAPI() {
         API.APIKontak()
@@ -42,6 +56,7 @@ function Kontak() {
     }
 
     useEffect(() => {
+        dispatch(changePath('/kontak'))
         setAPI()
     }, [])
 
@@ -173,6 +188,7 @@ function Kontak() {
             img={`${address}/${data && data.image}`}
             paragraph={data && data.paragraph}
             form={<Form {...styleForm} />}
+            page={page}
         />
     )
 }

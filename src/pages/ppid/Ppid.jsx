@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react"
 import { useParams } from 'react-router-dom'
+import {useDispatch} from 'react-redux'
 import Template from "../../components/template/Template"
 import API from "../../services/api"
 import address from "../../services/api/address"
+import { changePath } from "../../services/redux/navbar"
 
 function Ppid() {
     const [data, setData] = useState({})
     const [page, setPage] = useState([])
 
     const params = useParams()
+    const dispatch = useDispatch()
 
     function updateData(data, page) {
         let newPage = []
@@ -85,7 +88,18 @@ function Ppid() {
             .catch(err => console.log(err))
     }
 
+    function updateRoutePage(){
+        if(params.path !== undefined){
+            dispatch(changePath(`/ppid/${params.path}`))
+        }else if(params.id !== undefined && params.pathTwo !== undefined){
+            dispatch(changePath(`/ppid/${params.id}/${params.pathTwo}`))
+        }else if(params && Object.keys(params).length === 0){
+            dispatch(changePath('/ppid'))
+        }
+    }
+
     useEffect(() => {
+        updateRoutePage()
         setAPI()
     }, [params])
 

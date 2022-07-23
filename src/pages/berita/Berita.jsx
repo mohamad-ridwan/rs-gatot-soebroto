@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Card from '../../components/card/Card'
 import Pagination from '../../components/pagination/Pagination'
 import Template from '../../components/template/Template'
 import API from '../../services/api'
 import address from '../../services/api/address'
-import { changeCurrentPage, changeFirstIdx, changeLastIdx, changePath, siblingCount } from '../../services/redux/navbar'
+import { changeCurrentPage, changeFirstIdx, changeIdxPaginate, changeLastIdx, changePath, siblingCount } from '../../services/redux/navbar'
 
 function Berita() {
     const [dataPage, setDataPage] = useState({})
@@ -28,6 +28,14 @@ function Berita() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const currentPageStore = useSelector((state) => state.navbar.currentPage)
+    const params = useParams()
+
+    // masing2 page memiliki struktur data yang berbeda, jadi perlu di periksa kembali untuk copy paste function ini
+    function updatePaginate(data, contentPerPage) {
+        const totalNumber = data && Math.ceil(data.length / contentPerPage)
+        const showNumberPaginate = totalNumber < siblingCount ? totalNumber : siblingCount
+        dispatch(changeIdxPaginate({ countIdx: 1, length: showNumberPaginate + 1 }))
+    }
 
     function setAPI() {
         API.APIBerita()
@@ -36,19 +44,21 @@ function Berita() {
                 const resDataCard = res.data[0].data
                 setDataPage(respons)
                 setDataCard(resDataCard)
+
+                // update paginate
+                dispatch(changeCurrentPage({ pageNow: 1 }))
+                dispatch(changeFirstIdx({ idx: siblingCount }))
+                dispatch(changeLastIdx({ idx: siblingCount }))
+
+                updatePaginate(resDataCard, 6)
             })
             .catch(err => console.log(err))
     }
 
     useEffect(() => {
-        // update paginate
-        dispatch(changeCurrentPage({ pageNow: 1 }))
-        dispatch(changeFirstIdx({ idx: siblingCount }))
-        dispatch(changeLastIdx({ idx: siblingCount }))
-
         dispatch(changePath('/entries'))
         setAPI()
-    }, [])
+    }, [params])
 
     const getPaginatedDataCard = () => {
         const startIndex = currentPageStore * contentPerPage - contentPerPage;

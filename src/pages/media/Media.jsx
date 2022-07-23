@@ -6,16 +6,16 @@ import Pagination from "../../components/pagination/Pagination"
 import Template from "../../components/template/Template"
 import API from "../../services/api"
 import address from "../../services/api/address"
-import { changeCurrentPage, changeFirstIdx, changeIdxPaginate, changeLastIdx, loadPageMedia, siblingCount } from "../../services/redux/navbar"
+import { changeCurrentPage, changeFirstIdx, changeIdxPaginate, changeLastIdx, changePath, siblingCount } from "../../services/redux/navbar"
 
 function Media() {
+    const [data, setData] = useState({})
+    const [page, setPage] = useState([])
     const [hoverImgBerita, setHoverImgBerita] = useState(null)
     const [hoverTitleBerita, setHoverTitleBerita] = useState(null)
     const [contentPerPage] = useState(6)
 
     const dispatch = useDispatch()
-    const page = useSelector((state) => state.navbar.dataOfMedia.pageMedia)
-    const data = useSelector((state) => state.navbar.dataOfMedia.dataMedia)
     const currentPageStore = useSelector((state) => state.navbar.currentPage)
 
     const navigate = useNavigate()
@@ -29,12 +29,12 @@ function Media() {
         dispatch(changeIdxPaginate({ countIdx: 1, length: showNumberPaginate + 1 }))
     }
 
-    function setAPI(path) {
+    function setAPI() {
         API.APIMedia()
             .then(res => {
                 const result = res.data
 
-                const dataPage = result.filter((e) => e.path === `/media/${path}`)
+                const dataPage = result.filter((e) => e.path === `/media/${params.id}`)
 
                 let newPage = []
                 if (dataPage.length > 0) {
@@ -57,15 +57,17 @@ function Media() {
                 dispatch(changeCurrentPage({ pageNow: 1 }))
                 dispatch(changeFirstIdx({ idx: siblingCount }))
                 dispatch(changeLastIdx({ idx: siblingCount }))
-                dispatch(loadPageMedia({ page: newPage, data: dataPage[0], path: path }))
+                setData(dataPage[0])
+                setPage(newPage)
                 updatePaginate(dataPage, 6)
             })
             .catch(err => console.log(err))
     }
 
     useEffect(() => {
-        setAPI(params.id)
-    }, [])
+        dispatch(changePath(`/media/${params.id}`))
+        setAPI()
+    }, [params])
 
     const styleCard = {
         widthWrapp: 'calc(96%/3)',

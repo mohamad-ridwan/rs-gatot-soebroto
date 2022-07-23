@@ -1,0 +1,100 @@
+@import '../../utils/variable.scss';
+
+.wrapp-search{
+    flex-direction: column;
+
+    .title-pencarian{
+        font-size: $font2;
+        color: $color2;
+    }
+
+    // form
+    .form-search{
+        display: flex;
+        width: 100%;
+        margin: 10px 0;
+
+        .column-input-search-page{
+            display: flex;
+            width: 100%;
+            position: relative;
+            align-items: center;
+
+            .remove-search-page{
+                display: none;
+                right: 20px;
+                position: absolute;
+                cursor: pointer;
+                color: $color2;
+            }
+
+            .input-search-page{
+                width: 100%;
+                border: 1px solid #ddd;
+                outline: none;
+                padding: 15px 35px 15px 17px;
+                font-size: $font2;
+                color: #777;
+                border-top-left-radius: 5px;
+                border-bottom-left-radius: 5px;
+                transition: 0.2s ease-in-out;
+            }
+            .input-search-page::placeholder{
+                color: #777;
+            }
+            .input-search-page:focus{
+                border: 1px solid $color1;
+            }
+        }
+
+        .btn-search-page{
+            display: flex;
+            background-color: $color1;
+            color: #fff;
+            justify-content: center;
+            align-items: center;
+            height: auto;
+            width: 80px;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            transition: 0.2s ease-in-out;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            &:hover{
+                background-color: $color9;
+            }
+
+            .icon-search-page{
+                font-style: normal;
+            }
+        }
+    }
+
+    // txt result search
+    .container-hasil-pencarian{
+        display: none;
+        flex-wrap: wrap;
+        padding: 13px 17px 15px 17px;
+        background-color: #fff3cd;
+        border-radius: 5px;
+        color: #856404;
+        word-break: break-all;
+        align-items: center;
+
+        .txt-hasil-pencarian{
+            font-weight: lighter;
+            margin-right: 10px;
+        }
+        .txt-result-search{
+            margin-right: 10px;
+        }
+    }
+
+    // card
+    .container-card-result-search{
+        display: flex;
+        flex-direction: column;
+        margin-top: 40px;
+    }
+}

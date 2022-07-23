@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import {useDispatch} from 'react-redux'
 import '../detailberita/DetailBerita.scss'
 import Template from '../../../components/template/Template'
 import API from '../../../services/api'
 import address from '../../../services/api/address'
 import Card from '../../../components/card/Card'
 import ViewImage from '../../../components/viewimage/ViewImage'
+import { changePath } from '../../../services/redux/navbar'
 
 function DetailBerita() {
     const [hover, setHover] = useState(null)
@@ -27,6 +29,7 @@ function DetailBerita() {
 
     const params = useParams()
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     function setAPI(path) {
         API.APIBerita()
@@ -57,6 +60,7 @@ function DetailBerita() {
     }
 
     useEffect(() => {
+        dispatch(changePath(`/entry/${params.path}`))
         setAPI(params.path)
     }, [])
 
