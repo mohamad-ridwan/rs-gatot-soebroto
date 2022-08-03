@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import {Helmet} from 'react-helmet'
 import './Template.scss'
 import Card from '../card/Card'
 import address from '../../services/api/address'
+import Loading from '../loading/Loading'
 
-function Template({ img, page, paragraph, title, card, galeriFoto, dataRekomendasi, changeDetailBerita, displayDateCard, date, admin, videos, form, searchPage }) {
+function Template({ img, page, paragraph, title, card, galeriFoto, dataRekomendasi, changeDetailBerita, displayDateCard, date, admin, videos, form, searchPage, loading, barTitle }) {
     const [hoverPage, setHoverPage] = useState(null)
     const [hoverImgBerita, setHoverImgBerita] = useState(null)
     const [hoverTitleBerita, setHoverTitleBerita] = useState(null)
@@ -32,7 +34,7 @@ function Template({ img, page, paragraph, title, card, galeriFoto, dataRekomenda
     }
 
     const styleCardRekomendasi = {
-        widthWrapp: "calc(96%/2)",
+        classWrapp: 'card-rekomendasi-in-page',
         displayBtn: "none",
         bdrRadiusContainerImg: '5px',
         bdrTopLeftRadiusContainerImg: '5px',
@@ -119,6 +121,13 @@ function Template({ img, page, paragraph, title, card, galeriFoto, dataRekomenda
 
     return (
         <>
+            <Helmet>
+                <meta charSet='utf-8'/>
+                <title>{barTitle}</title>
+            </Helmet>
+
+            <Loading display={loading}/>
+
             <div className="wrapp-template">
                 {/* banner page */}
                 <div className="container-banner-page">

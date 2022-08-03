@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import Form from '../../components/form/Form'
 import Template from '../../components/template/Template'
 import API from '../../services/api'
@@ -9,6 +9,8 @@ import { changePath } from '../../services/redux/navbar'
 function Kontak() {
     const [data, setData] = useState({})
     const [errMsg, setErrMsg] = useState({})
+    const [loadingSubmit, setLoadingSubmit] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [inputValue, setInputValue] = useState({
         nama: '',
         email: '',
@@ -44,6 +46,8 @@ function Kontak() {
     const dispatch = useDispatch()
 
     function setAPI() {
+        document.body.style.overflowY = 'hidden'
+
         API.APIKontak()
             .then(res => {
                 const result = res.data
@@ -51,6 +55,8 @@ function Kontak() {
                 if (result) {
                     setData(result[0])
                 }
+                setLoading(false)
+                document.body.style.overflowY = 'scroll'
             })
             .catch(err => console.log(err))
     }
@@ -70,6 +76,7 @@ function Kontak() {
         displayInputFile: 'none',
         valueArea: inputValue.pesan,
         errInputArea: errMsg && errMsg.pesan,
+        loadingSubmit: loadingSubmit,
         changeInput: (e, i) => changeInput(e, i),
         submit: submitData
     }
@@ -126,6 +133,7 @@ function Kontak() {
                 if (res && res.data) {
                     alert('Anda telah berhasil mengirimkan data')
                     setErrMsg({})
+                    setLoadingSubmit(false)
                     setInputCard([
                         {
                             label: 'Nama',
@@ -149,46 +157,54 @@ function Kontak() {
                     })
                 } else {
                     alert('Terjadi kesalahan server!\nMohon coba lagi nanti')
+                    setLoadingSubmit(false)
                 }
             })
             .catch(err => {
                 alert('Terjadi kesalahan server!\nMohon coba lagi nanti')
+                setLoadingSubmit(false)
                 console.log(err)
             })
     }
 
     function submitData() {
-        validateForm()
-            .then(res => {
-                if (res && res.message === 'success') {
-                    const nameDay = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']
-                    const nameMonth = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
+        if (loadingSubmit === false) {
+            validateForm()
+                .then(res => {
+                    if (res && res.message === 'success') {
+                        setLoadingSubmit(true)
 
-                    const years = new Date().getFullYear()
-                    const dateNow = new Date().getDate()
-                    const month = new Date().getMonth()
-                    const day = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1
+                        const nameDay = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']
+                        const nameMonth = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
 
-                    const getHours = new Date().getHours()
-                    const hours = getHours.toString().length === 1 ? `0${getHours}` : getHours
-                    const getMinute = new Date().getMinutes()
-                    const minute = getMinute.toString().length === 1 ? `0${getMinute}` : getMinute
+                        const years = new Date().getFullYear()
+                        const dateNow = new Date().getDate()
+                        const month = new Date().getMonth()
+                        const day = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1
 
-                    inputValue.date = `${nameDay[day]}, ${dateNow} ${nameMonth[month]} ${years} ${hours}:${minute}`
+                        const getHours = new Date().getHours()
+                        const hours = getHours.toString().length === 1 ? `0${getHours}` : getHours
+                        const getMinute = new Date().getMinutes()
+                        const minute = getMinute.toString().length === 1 ? `0${getMinute}` : getMinute
 
-                    return postDataToAPI(data && data._id, inputValue)
-                }
-            })
-            .catch(err => console.log(err))
+                        inputValue.date = `${nameDay[day]}, ${dateNow} ${nameMonth[month]} ${years} ${hours}:${minute}`
+
+                        return postDataToAPI(data && data._id, inputValue)
+                    }
+                })
+                .catch(err => console.log(err))
+        }
     }
 
     return (
         <Template
             title={data && data.header}
+            barTitle={`${data && data.header} | RSPAD Gatot Soebroto`}
             img={`${address}/${data && data.image}`}
             paragraph={data && data.paragraph}
             form={<Form {...styleForm} />}
             page={page}
+            loading={loading ? 'flex' : 'none'}
         />
     )
 }

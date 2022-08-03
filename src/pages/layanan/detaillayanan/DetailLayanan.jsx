@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useParams } from 'react-router-dom'
-import {useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import Template from "../../../components/template/Template"
 import API from "../../../services/api"
 import address from "../../../services/api/address"
@@ -9,11 +9,14 @@ import { changePath } from "../../../services/redux/navbar"
 function DetailLayanan() {
     const [data, setData] = useState({})
     const [page, setPage] = useState([])
+    const [loading, setLoading] = useState(true)
 
     const params = useParams()
     const dispatch = useDispatch()
 
     function setAPI() {
+        document.body.style.overflowY = 'hidden'
+
         API.APILayanan()
             .then(res => {
                 const result = res.data
@@ -51,6 +54,8 @@ function DetailLayanan() {
                         }
                     }
                 }
+                setLoading(false)
+                document.body.style.overflowY = 'scroll'
             })
             .catch(err => console.log(err))
     }
@@ -64,8 +69,10 @@ function DetailLayanan() {
         <Template
             page={page}
             title={data && data.header}
+            barTitle={`${data && data.header} | RSPAD Gatot Soebroto`}
             img={`${address}/${data && data.image}`}
             paragraph={data && data.paragraph}
+            loading={loading ? 'flex' : 'none'}
         />
     )
 }

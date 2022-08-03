@@ -1,5 +1,18 @@
 @import '../../utils/variable.scss';
 
+// for mobile card testimoni
+@mixin mobileCardTestimoni {
+    @media (max-width: 901px) {
+        @content;
+    }
+}
+
+@mixin tabletCardTestimoni {
+    @media (min-width: 901px) {
+        @content;
+    }
+}
+
 .wrapp-carousel {
     overflow: hidden;
     border-radius: 10px;
@@ -11,7 +24,11 @@
         align-items: center;
         padding: 0 30px 20px 0;
 
-        button{
+        @include mobileCardTestimoni(){
+            padding: 0;
+        }
+
+        .btn-testimoni-desktop{
             background-color: #fff;
             border-radius: 5px;
             height: 35px;
@@ -22,6 +39,44 @@
             margin-left: 15px;
             color: $color1;
             transition: 0.3s ease-in-out;
+
+            @include mobileCardTestimoni(){
+                display: none;
+            }
+
+            &:hover{
+                background-color: $color1;
+                color: #fff;
+            }
+
+            i{
+                font-size: 18px;
+                margin-top: 2px;
+            }
+        }
+    }
+
+    .container-btn-testimoni-mobile{
+        display: none;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 0 30px 20px 0;
+
+        .btn-testimoni-mobile{
+            background-color: #fff;
+            border-radius: 5px;
+            height: 35px;
+            width: 35px;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            margin-left: 15px;
+            color: $color1;
+            transition: 0.3s ease-in-out;
+
+            @include tabletCardTestimoni(){
+                display: none;
+            }
 
             &:hover{
                 background-color: $color1;
@@ -44,6 +99,24 @@
             width: 100%;
             object-fit: cover;
             object-position: center;
+        }
+
+        .testimoni-card-desktop{
+            display: inline-block;
+            width: 50%;
+
+            @include mobileCardTestimoni(){
+                display: none;
+            }
+        }
+
+        .testimoni-card-mobile{
+            display: inline-block;
+            width: 100%;
+
+            @include tabletCardTestimoni(){
+                display: none;
+            }
         }
     }
 

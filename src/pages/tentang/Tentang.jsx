@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import Template from '../../components/template/Template'
 import address from '../../services/api/address'
@@ -9,11 +9,15 @@ import { changePath } from '../../services/redux/navbar'
 function Tentang() {
     const [data, setData] = useState({})
     const [page, setPage] = useState([])
+    const [loading, setLoading] = useState(true)
 
     const params = useParams()
     const dispatch = useDispatch()
 
     function setAPI() {
+        setLoading(true)
+        document.body.style.overflowY = 'hidden'
+        
         API.APITentang()
             .then(res => {
                 const result = res.data
@@ -39,6 +43,8 @@ function Tentang() {
 
                 setData(dataPage[0])
                 setPage(newPage)
+                setLoading(false)
+                document.body.style.overflowY = 'scroll'
             })
             .catch(err => console.log(err))
     }
@@ -56,6 +62,8 @@ function Tentang() {
                     page={page}
                     title={data && data.header}
                     paragraph={data && data.paragraphUtama + data && data.paragraphDetail}
+                    barTitle={`${data && data.header} | RSPAD Gatot Soebroto`}
+                    loading={loading ? 'flex' : 'none'}
                 />
             ) : (
                 <Template
@@ -63,6 +71,8 @@ function Tentang() {
                     page={page}
                     title={data && data.header}
                     paragraph={data && data.paragraph}
+                    barTitle={`${data && data.header} | RSPAD Gatot Soebroto`}
+                    loading={loading ? 'flex' : 'none'}
                 />
             )}
         </>

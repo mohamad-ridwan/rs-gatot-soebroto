@@ -1,14 +1,68 @@
 @import '../../utils/variable.scss';
 
+// for card yang di render di props renderCard
+@mixin mobileCard {
+    @media (max-width: 576px) {
+        @content;
+    }
+}
+
+@mixin tabletCard {
+    @media (min-width: 567px) and (max-width: 967px) {
+        @content;
+    }
+}
+
+// card media page
+@mixin mobileCardMedia {
+    @media (min-width: 467px) and (max-width: 576px) {
+        @content;
+    }
+}
+
 .wrapp-pagination {
     display: flex;
     flex-direction: column;
 
     // content
     .container-content {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
+        // tempat component2 card yg di render dari props renderCard
+
+        // page layanan
+        .container-card-three-line-page {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, (95%/3));
+            justify-content: space-between;
+
+            @include mobileCard() {
+                grid-template-columns: repeat(auto-fit, (100%));
+            }
+
+            @include tabletCard() {
+                grid-template-columns: repeat(auto-fit, (95%/2));
+            }
+
+            .card-media-page{
+                .img-card{
+                    height: 180px;
+
+                    @include mobileCardMedia(){
+                        height: 220px;
+                    }
+                }
+            }
+        }
+
+        // page berita
+        .container-card-berita-page{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, (96%/2));
+            justify-content: space-between;
+
+            @include mobileCard() {
+                grid-template-columns: repeat(auto-fit, (100%));
+            }
+        }
     }
 
     // btn paginate

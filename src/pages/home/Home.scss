@@ -16,13 +16,39 @@
 
 // for content home
 @mixin tablet {
-    @media (max-width: 1254px) {
+    @media (min-width: 1115px) and (max-width: 1254px) {
         @content;
     }
 }
 
 @mixin minDesktop {
     @media (min-width: 1681px) {
+        @content;
+    }
+}
+
+@mixin mobileContent {
+    @media (max-width: 767px) {
+        @content;
+    }
+}
+
+// for mobile card 3 baris
+@mixin mobileCardThree {
+    @media (max-width: 701px) {
+        @content;
+    }
+}
+
+@mixin tabletCardThree {
+    @media (min-width: 701px) and (max-width: 1023px) {
+        @content;
+    }
+}
+
+// for img media
+@mixin mobileImgMedia {
+    @media (max-width: 421px) {
         @content;
     }
 }
@@ -37,7 +63,7 @@
         height: 100vh;
         position: relative;
 
-        @include mobile(){
+        @include mobile() {
             display: none;
         }
 
@@ -52,32 +78,44 @@
             bottom: 15px;
             color: #fff;
             font-size: 14px;
+            z-index: 11;
 
-            @include laptop(){
+            @include laptop() {
                 margin: 0 5%;
             }
 
-            @include minDesktop(){
+            @include minDesktop() {
                 margin: 0 15%;
             }
         }
+
+        .inactive-hover-yt {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
     }
 
-    .wrapp-content-home{
+    .wrapp-content-home {
         display: flex;
         flex-direction: column;
         width: auto;
         padding: 40px 10%;
 
-        @include tablet(){
+        @include mobileContent(){
             padding: 40px 5%;
         }
 
-        @include minDesktop(){
+        @include tablet() {
+            padding: 40px 5%;
+        }
+
+        @include minDesktop() {
             padding: 40px 15%;
         }
 
-        .container-blog-home{
+        .container-blog-home {
             display: flex;
             flex-direction: column;
             margin-top: 40px;
@@ -87,32 +125,48 @@
             padding: 40px 0px;
 
             // selayang pandang
-            .selayang-pandang-home{
+            .selayang-pandang-home {
                 display: flex;
                 padding: 0 30px;
 
-                .img-selayang-pandang{
+                @include mobile(){
+                    flex-direction: column;
+                }
+
+                .img-selayang-pandang {
                     width: 40%;
                     object-fit: cover;
                     object-position: center;
                     border-radius: 3px;
+
+                    @include mobile(){
+                        width: 100%;
+                    }
                 }
 
-                .paragraph-selayang-pandang{
+                .paragraph-selayang-pandang {
                     display: flex;
                     flex-direction: column;
                     margin-left: 30px;
 
-                    .title-selayang-pandang{
+                    @include mobile(){
+                        margin-left: 0;
+                    }
+
+                    .title-selayang-pandang {
                         color: $color1;
                         font-weight: bold;
                         font-size: 20px;
                         text-align: start;
                         margin-bottom: 20px;
                         margin-top: 10px;
+
+                        @include mobile(){
+                            margin-top: 20px;
+                        }
                     }
 
-                    .deskripsi-selayang-pandang{
+                    .deskripsi-selayang-pandang {
                         color: $color2;
                         font-size: $font2;
                         text-align: start;
@@ -123,39 +177,82 @@
             }
 
             // jajaran pimpinan
-            .jajaran-pimpinan{
+            .jajaran-pimpinan {
                 padding: 0 30px;
-                .struktur-pimpinan{
+
+                .struktur-pimpinan {
                     display: flex;
                     flex-direction: column;
                     align-items: center;
                     margin-top: 40px;
 
-                    .tiga-pimpinan-lainnya{
+                    .pimpinan-rs{
+                        width: calc(95%/3);
+
+                        @include mobile(){
+                            width: 100%;
+                            margin-top: 20px;
+                        }
+                    }
+
+                    .tiga-pimpinan-lainnya {
                         margin-top: 30px;
+
+                        @include mobile(){
+                            margin-top: 0;
+                        }
                     }
                 }
             }
 
             // layanan unggulan
-            .layanan-unggulan{
+            .layanan-unggulan {
                 padding: 0 30px;
+
+                .card-layanan-unggulan-home{
+                    width: calc(95%/3);
+
+                    @include mobileCardThree(){
+                        width: 100%;
+                    }
+
+                    @include tabletCardThree(){
+                        width: calc(96%/2);
+                    }
+                }
             }
 
             // berita
-            .berita-home{
+            .berita-home {
                 padding: 0 30px;
+
+                .card-berita-home{
+                    width: calc(95%/3);
+
+                    @include mobileCardThree(){
+                        width: 100%;
+                    }
+
+                    @include tabletCardThree(){
+                        width: calc(96%/2);
+                    }
+                }
             }
-            
+
             // testimoni
-            .testimoni{
+            .testimoni {
                 padding: 0 0 0 30px;
+
+                .deskripsi{
+                    padding-right: 30px;
+                }
             }
 
             // col group
-            .col-group{
+            .col-group {
                 margin-top: 60px;
-                .title{
+
+                .title {
                     text-align: start;
                     font-size: 24px;
                     color: $color1;
@@ -163,20 +260,20 @@
                     margin-bottom: 10px;
                 }
 
-                .deskripsi{
+                .deskripsi {
                     text-align: start;
                     color: $color2;
                     font-size: $font2;
                 }
 
-                .col-card{
+                .col-card {
                     display: flex;
                     margin-top: 40px;
                     flex-wrap: wrap;
                     justify-content: space-between;
                 }
 
-                .container-btn{
+                .container-btn {
                     display: flex;
                     justify-content: center;
                     margin-top: 5px;
@@ -184,12 +281,30 @@
             }
 
             // media
-            .media{
+            .media {
                 display: flex;
                 margin: 40px 30px 0 30px;
                 border-radius: 10px;
                 overflow: hidden;
                 position: relative;
+
+                @include mobile(){
+                    flex-direction: column;
+                }
+
+                .card-media-home{
+                    width: calc(100%/3);
+
+                    @include mobile(){
+                        width: 100%;
+                    }
+
+                    .container-img-card{
+                        @include mobileImgMedia(){
+                            height: 220px;
+                        }
+                    }
+                }
             }
         }
     }

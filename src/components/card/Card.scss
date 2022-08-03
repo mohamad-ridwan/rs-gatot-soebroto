@@ -64,13 +64,14 @@
         // date card
         .date-card{
             display: none;
+            flex-wrap: wrap;
             align-items: center;
-            margin-top: 15px;
 
             p{
                 font-size: $fontIcon;
                 color: #777;
                 margin-right: 10px;
+                margin-top: 5px;
                 .icon-date{
                     font-size: 11px;
                     margin-right: 3px;

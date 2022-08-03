@@ -8,6 +8,7 @@ import PostLayananPengaduan from "./layananpengaduan/post"
 import GetMedia from "./media/get"
 import GetNavbar from "./navbar/get"
 import PostPolling from "./navbar/post"
+import PutCopyRight from "./navbar/put"
 import GetPpid from "./ppid/get"
 import GetTentang from "./tentang/get"
 import GetZonaIntegritas from "./zonaintegritas/get"
@@ -15,6 +16,7 @@ import PostZonaIntegritas from "./zonaintegritas/post"
 
 const APINavbar = () => GetNavbar('v1/navbar/get')
 const APIPostPolling = (_id, data) => PostPolling(`v1/navbar/post/polling/data-polling/${_id}`, data)
+const APIPutCopyRight = (_id, data)=>PutCopyRight(`v1/navbar/put/copy-right/${_id}/jumlah-pengunjung`, data)
 const APIHome = () => GetHome('v2/home/get')
 const APITentang = () => GetTentang('v3/tentang/get')
 const APILayanan = () => GetLayanan('v4/layanan/get')
@@ -31,6 +33,7 @@ const APIPostKontak = (_id, data) => PostKontak(`v10/kontak/post/data/${_id}`, d
 const API = {
     APINavbar,
     APIPostPolling,
+    APIPutCopyRight,
     APIHome,
     APITentang,
     APILayanan,

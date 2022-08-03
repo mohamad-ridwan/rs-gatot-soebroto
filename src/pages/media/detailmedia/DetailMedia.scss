@@ -1,22 +1,30 @@
 @import '../../../utils/variable.scss';
 
+@mixin mobileCard {
+    @media (max-width: 479px) {
+        @content;
+    }
+}
+
+@mixin tabletCard {
+    @media (min-width: 479px) and (max-width: 767px) {
+        @content;
+    }
+}
+
 .wrapp-card-detail-galeri-foto{
     display: grid;
     grid-template-columns: repeat(auto-fit, (95%/3));
     grid-gap: 5px;
     justify-content: space-between;
 
-    // @include mobile(){
-    //     grid-template-columns: repeat(auto-fit, (100%));
-    // }
+    @include mobileCard() {
+        grid-template-columns: repeat(auto-fit, (100%));
+    }
 
-    // @include mobileLandscape(){
-    //     grid-template-columns: repeat(auto-fit, (95%/2));
-    // }
-
-    // @include tablet(){
-    //     grid-template-columns: repeat(auto-fit, (90%/3));
-    // }
+    @include tabletCard() {
+        grid-template-columns: repeat(auto-fit, (95%/2));
+    }
 }
 
 .youtube-of-page-videos{

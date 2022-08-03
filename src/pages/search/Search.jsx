@@ -19,6 +19,7 @@ function Search() {
     const [hoverImg, setHoverImg] = useState(null)
     const [hoverTitle, setHoverTitle] = useState(null)
     const [contentPerPage] = useState(10)
+    const [loading, setLoading] = useState(true)
     const [page] = useState([
         {
             name: 'Home',
@@ -121,8 +122,8 @@ function Search() {
                 .then(res => {
                     const result = res.data
 
-                    if(result){
-                        result.map(e=>newData.push(e))
+                    if (result) {
+                        result.map(e => newData.push(e))
                     }
                     if (result) {
                         result.map(e => {
@@ -210,6 +211,8 @@ function Search() {
     }
 
     async function setAPI() {
+        document.body.style.overflowY = 'hidden'
+
         await getTentang().catch(err => console.log(err))
         await getLayanan().catch(err => console.log(err))
         await getBerita().catch(err => console.log(err))
@@ -225,7 +228,8 @@ function Search() {
                     dispatch(changeFirstIdx({ idx: siblingCount }))
                     dispatch(changeLastIdx({ idx: siblingCount }))
                     updatePaginate(dataSearch, contentPerPage)
-                    alert('masuk')
+                    setLoading(false)
+                    document.body.style.overflowY = 'scroll'
                 }
             })
             .catch(err => console.log(err))
@@ -393,7 +397,11 @@ function Search() {
                 display: conditionResult ? 'flex' : 'none'
             }}>
                 <p className="txt-hasil-pencarian">
-                    Hasil pencarian untuk
+                    {dataSearch.length > 0 ? (
+                        'Hasil pencarian untuk'
+                    ) : (
+                        'Tidak ada hasil pencarian untuk'
+                    )}
                 </p>
                 <p className="txt-result-search">
                     {resultInputSearch}
@@ -402,7 +410,7 @@ function Search() {
 
             {/* card */}
             <div className="container-card-result-search" style={{
-                display: conditionResult ? 'flex' : 'none',
+                display: conditionResult && dataSearch.length > 0 ? 'flex' : 'none',
             }}>
                 <Pagination {...styleOnCardTemplate} />
             </div>
@@ -414,7 +422,9 @@ function Search() {
             page={page}
             title={'PENCARIAN'}
             img={headerSearch}
+            barTitle={'Search | RSPAD Gatot Soebroto'}
             searchPage={renderSearch}
+            loading={loading ? 'flex' : 'none'}
         />
     )
 }

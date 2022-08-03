@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import {Helmet} from 'react-helmet'
 import './Home.scss'
 import API from '../../services/api'
 import Carousel from '../../components/carousel/Carousel'
@@ -8,6 +9,7 @@ import address from '../../services/api/address'
 import Button from '../../components/button/Button'
 import Card from '../../components/card/Card'
 import { changePath } from '../../services/redux/navbar'
+import Loading from '../../components/loading/Loading'
 
 function Home() {
     const [bannerVideo, setBannerVideo] = useState({})
@@ -22,6 +24,7 @@ function Home() {
     const [textMarquee, setTextMarquee] = useState({})
     const [idxActiveCarousel, setIdxActiveCarousel] = useState(0)
     const [idxActiveTestimoni, setIdxActiveTestimoni] = useState(0)
+    const [idxActiveTestimoniMobile, setIdxActiveTestimoniMobile] = useState(0)
     const [pauseSlide, setPauseSlide] = useState(true)
     const [hoverImgLead, setHoverImgLead] = useState(false)
     const [hoverImgOther, setHoverImgOther] = useState(null)
@@ -31,6 +34,7 @@ function Home() {
     const [hoverTitleMedia, setHoverTitleMedia] = useState(null)
     const [hoverImgMedia, setHoverImgMedia] = useState(null)
     const [nameBtn] = useState('SELENGKAPNYA')
+    const [loading, setLoading] = useState(true)
 
     // redux
     const dispatch = useDispatch()
@@ -38,6 +42,8 @@ function Home() {
     const navigate = useNavigate()
 
     function setAPI() {
+        document.body.style.overflowY = 'hidden'
+
         API.APIHome()
             .then(res => {
                 const result = res.data
@@ -94,6 +100,9 @@ function Home() {
                         setBlogBerita(newArr)
                     }
                 }
+
+                setLoading(false)
+                document.body.style.overflowY = 'scroll'
             })
             .catch(err => console.log(err))
     }
@@ -156,6 +165,23 @@ function Home() {
         }
     }
 
+    function btnLeftTestimoniMobile(i) {
+        console.log(i)
+        if (i < 0) {
+            setIdxActiveTestimoniMobile(testimoni.komentar.length - 1)
+        } else {
+            setIdxActiveTestimoniMobile(i)
+        }
+    }
+
+    function btnRightTestimoniMobile(i) {
+        if (i < testimoni.komentar.length) {
+            setIdxActiveTestimoniMobile(i)
+        } else {
+            setIdxActiveTestimoniMobile(0)
+        }
+    }
+
     function mouseOverImgLead() {
         setHoverImgLead(true)
     }
@@ -214,6 +240,7 @@ function Home() {
 
     const carouselTop = {
         displayInner: 'flex',
+        displayBtnTestimoniMobile: 'none',
         data: carousel,
         idxActiveCarousel: idxActiveCarousel,
         pauseSlide: pauseSlide,
@@ -225,7 +252,7 @@ function Home() {
     }
 
     const cardPimpinan = {
-        widthWrapp: 'calc(95%/3)',
+        classWrapp: 'pimpinan-rs',
         paddingDeskripsi: '20px',
         fontSizeTitle: '14px',
         fontWeightTitle: '500',
@@ -244,7 +271,7 @@ function Home() {
     }
 
     const cardTigaPimpinan = {
-        widthWrapp: 'calc(95%/3)',
+        classWrapp: 'pimpinan-rs',
         paddingDeskripsi: '20px',
         fontSizeTitle: '14px',
         fontWeightTitle: '500',
@@ -261,7 +288,7 @@ function Home() {
     const cardLayananUnggulan = {
         displayCircleIcon: 'flex',
         iconCirle: "fas fa-user",
-        widthWrapp: 'calc(95%/3)',
+        classWrapp: 'card-layanan-unggulan-home',
         fontSizeTitle: '18px',
         fontSizeParagraphOne: '14px',
         fontWeightTitle: 'bold',
@@ -285,13 +312,14 @@ function Home() {
     }
 
     const cardBerita = {
-        widthWrapp: 'calc(95%/3)',
+        classWrapp: 'card-berita-home',
         paddingDeskripsi: '20px',
         fontSizeTitle: '18px',
         displayBtn: 'none',
         fontWeightTitle: 'bold',
         bdrRadiusWrapp: '5px',
         lineHeightDeskripsi: '1.2',
+        marginTitle: '0 0 10px 0',
         textAlignTitle: 'start',
         marginWrapp: '0 0 25px 0',
         bdrTopLeftRadiusContainerImg: '5px',
@@ -304,16 +332,27 @@ function Home() {
 
     const carouselTestimoni = {
         displayIndikator: 'none',
+        classTestimoni: 'testimoni-card-desktop',
         bdrRadiusWrapp: '0',
         marginTopWrapp: '40px',
         displayBtnTestimoni: 'flex',
         btnLeftTestimoni: () => btnLeftTestimoni(idxActiveTestimoni - 1),
         btnRightTestimoni: () => btnRightTestimoni(idxActiveTestimoni + 1),
-        idxActiveCarousel: idxActiveTestimoni
+        idxActiveCarousel: idxActiveTestimoni,
+    }
+
+    const carouselTestimoniMobile = {
+        displayIndikator: 'none',
+        classTestimoni: 'testimoni-card-mobile',
+        bdrRadiusWrapp: '0',
+        displayBtnTestimoniMobile: 'flex',
+        idxActiveCarousel: idxActiveTestimoniMobile,
+        btnLeftTestimoniMobile: () => btnLeftTestimoniMobile(idxActiveTestimoniMobile - 1),
+        btnRightTestimoniMobile: () => btnRightTestimoniMobile(idxActiveTestimoniMobile + 1)
     }
 
     const cardMedia = {
-        widthWrapp: 'calc(100%/3)',
+        classWrapp: 'card-media-home',
         positionDeskripsi: 'absolute',
         positionWrapp: 'relative',
         bdrRadiusHoverImg: '0',
@@ -333,12 +372,18 @@ function Home() {
 
     return (
         <>
+            <Helmet>
+                <meta charSet='utf-8'/>
+                <title>RSPAD Gatot Soebroto | Presidential Hospital</title>
+            </Helmet>
+
+            <Loading display={loading ? 'flex' : 'none'} />
+
             <div className="wrapp-home">
                 {/* banner video */}
                 <div className="banner-video">
                     {bannerVideo && Object.keys(bannerVideo).length > 0 ? (
-                        <iframe src={`${bannerVideo.link}
-                        ?iv_load_policy=3&modestbranding=0&autoplay=1&controls=0&showinfo=0&wmode=transparent&branding=0&autohide=0&fs=0&disablekb=1&loop=1&rel=0`} frameBorder="0" className='video'></iframe>
+                        <iframe src={`${bannerVideo.link}?autoplay=1&mute=1&loop=1&modestbranding=1&controls=0&playlist=${bannerVideo.path}`} frameBorder="0" className='video'></iframe>
                     ) : (
                         <></>
                     )}
@@ -350,6 +395,9 @@ function Home() {
                     ) : (
                         <></>
                     )}
+                    <div className="inactive-hover-yt">
+                        
+                    </div>
                 </div>
 
                 <div className="wrapp-content-home">
@@ -534,9 +582,16 @@ function Home() {
                                     {testimoni.paragraph}
                                 </p>
 
+                                {/* desktop */}
                                 <Carousel
                                     {...carouselTestimoni}
                                     dataTestimoni={testimoni.komentar}
+                                />
+
+                                {/* mobile */}
+                                <Carousel
+                                    {...carouselTestimoniMobile}
+                                    dataTestimoniMobile={testimoni.komentar}
                                 />
                             </div>
                         ) : (

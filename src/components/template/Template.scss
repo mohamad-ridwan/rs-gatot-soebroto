@@ -1,19 +1,33 @@
 @import '../../utils/variable.scss';
 
 @mixin mobile {
-    @media (max-width: 700px) {
+    @media (max-width: 767px) {
         @content;
     }
 }
 
 @mixin tablet {
-    @media (max-width: 1254px) {
+    @media (min-width: 1115px) and (max-width: 1254px) {
         @content;
     }
 }
 
 @mixin minDesktop {
     @media (min-width: 1681px) {
+        @content;
+    }
+}
+
+// for header and white content at size tablet
+@mixin tabletHeaderAndContent {
+    @media (min-width: 767px) and (max-width: 1115px) {
+        @content;
+    }
+}
+
+// for card rekomendasi
+@mixin mobileCard {
+    @media (max-width: 567px) {
         @content;
     }
 }
@@ -63,21 +77,33 @@
                 display: flex;
                 flex-direction: column;
                 width: 55%;
-                padding: 40px 0px 150px 16%;
+                padding: 35px 0px 150px 16%;
                 background-color: $color1;
                 text-align: start;
                 border-top-right-radius: 10px;
 
+                @include mobile() {
+                    width: auto;
+                    padding: 35px 0 150px 5%;
+                    border-top-right-radius: 0px;
+                }
+
+                @include tabletHeaderAndContent(){
+                    width: auto;
+                    border-top-right-radius: 0px;
+                }
+
                 @include tablet() {
-                    padding: 40px 0 150px 11%;
+                    padding: 35px 0 150px 11%;
                 }
 
                 @include minDesktop() {
-                    padding: 40px 0px 150px 20%;
+                    padding: 35px 0px 150px 20%;
                 }
 
                 .list-link-page {
                     display: flex;
+                    flex-wrap: wrap;
                     align-items: center;
 
                     .link-page {
@@ -89,6 +115,7 @@
                         font-size: 12px;
                         margin-right: 10px;
                         transition: 0.3s ease-in-out;
+                        margin-top: 5px;
 
                         &:hover {
                             color: #ddd;
@@ -133,6 +160,14 @@
                 margin-top: -110px;
                 padding: 0 10%;
 
+                @include mobile() {
+                    padding: 0%;
+                }
+
+                @include tabletHeaderAndContent(){
+                    padding: 0% 0 0 10%;
+                }
+
                 @include tablet() {
                     padding: 0 5%;
                 }
@@ -154,6 +189,16 @@
                     text-align: justify;
                     letter-spacing: 0.1px;
 
+                    @include mobile() {
+                        padding: 5%;
+                        border-top-left-radius: 0px;
+                        border-top-right-radius: 0px;
+                    }
+
+                    @include tabletHeaderAndContent(){
+                        border-top-right-radius: 0px;
+                    }
+
                     .title-rekomendasi {
                         font-size: 24px;
                         margin-bottom: 0;
@@ -163,7 +208,19 @@
                         display: flex;
                         flex-direction: row;
                         justify-content: space-between;
-                        margin-top: 30px;
+
+                        @include mobileCard() {
+                            flex-direction: column;
+                        }
+
+                        .card-rekomendasi-in-page{
+                            width: calc(96%/2);
+                            margin-top: 30px;
+                            
+                            @include mobileCard() {
+                                width: 100%;
+                            }
+                        }
                     }
 
                     // img content

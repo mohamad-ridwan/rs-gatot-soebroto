@@ -18,6 +18,7 @@ function Pagination({
   renderCard,
   renderDokter,
   dataShowing,
+  displayBtnPaginate,
   ...propsAddition
 }) {
   // props yang wajib dikonsumsikan di masing2 page : data dan contentPerPage
@@ -219,7 +220,9 @@ function Pagination({
             Showing {nowShow} to {toShow} of {ofShow} entries {filteredData}
           </p>
 
-          <div className="paginate">
+          <div className="paginate" style={{
+            display: displayBtnPaginate
+          }}>
             <button
               className={
                 totalNumber !== 0 ? currentPageStore === 1

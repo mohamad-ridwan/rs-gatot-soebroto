@@ -50,9 +50,9 @@
     right: 0;
     left: 0;
 
-    // @include mobile(){
-    //     display: none;
-    // }
+    @include mobile(){
+        display: none;
+    }
 
     // kontak
     .contact-nav {

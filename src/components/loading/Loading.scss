@@ -1,0 +1,28 @@
+@import '../../utils/variable.scss';
+
+.wrapp-loading{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999999999;
+    background-color: #eee;
+    justify-content: center;
+    align-items: center;
+
+    .circle-loading{
+        border: 2px solid $color1;
+        border-top-color: #fff;
+        border-radius: 500px;
+        height: 35px;
+        width: 35px;
+        animation: load 0.5s ease-in-out infinite;
+    }
+}
+
+@keyframes load {
+    to{
+        transform: rotate(360deg);
+    }
+}

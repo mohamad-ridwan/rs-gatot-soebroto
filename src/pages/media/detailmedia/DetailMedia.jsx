@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import {useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import '../detailmedia/DetailMedia.scss'
 import Template from '../../../components/template/Template'
 import API from '../../../services/api'
@@ -17,12 +17,16 @@ function DetailMedia() {
     const [hover, setHover] = useState(null)
     const [idxActiveViewImg, setIdxActiveViewImg] = useState(null)
     const [viewImgActive, setViewImgActive] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     const params = useParams()
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
     function setAPI(id, path) {
+        setLoading(true)
+        document.body.style.overflowY = 'hidden'
+
         API.APIMedia()
             .then(res => {
                 window.scrollTo(0, 0)
@@ -74,6 +78,9 @@ function DetailMedia() {
 
                     setDataRekomendasi(dataRekomendasi)
                 }
+
+                setLoading(false)
+                document.body.style.overflowY = 'scroll'
             })
             .catch(err => console.log(err))
     }
@@ -174,12 +181,14 @@ function DetailMedia() {
         <Template
             img={`${address}/${data && data.image}`}
             title={data && data.header}
+            barTitle={`${data && data.header} | RSPAD Gatot Soebroto`}
             paragraph={data && data.paragraph}
             page={page}
             galeriFoto={renderCard}
             dataRekomendasi={dataRekomendasi}
             changeDetailBerita={(path) => changeDetailBerita(path)}
             videos={renderVideos}
+            loading={loading ? 'flex' : 'none'}
         />
     )
 }

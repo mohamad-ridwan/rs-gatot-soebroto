@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import {useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import Form from "../../components/form/Form"
 import Template from "../../components/template/Template"
 import API from "../../services/api"
@@ -10,6 +10,8 @@ function LayananPengaduan() {
     const [data, setData] = useState({})
     const [valueImg, setValueImg] = useState('')
     const [errMsg, setErrMsg] = useState({})
+    const [loadingSubmit, setLoadingSubmit] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [inputValue, setInputValue] = useState({
         nama: '',
         email: '',
@@ -70,6 +72,8 @@ function LayananPengaduan() {
     const dispatch = useDispatch()
 
     function setAPI() {
+        document.body.style.overflowY = 'hidden'
+
         API.APILayananPengaduan()
             .then(res => {
                 const result = res.data
@@ -77,6 +81,8 @@ function LayananPengaduan() {
                 if (result) {
                     setData(result[0])
                 }
+                setLoading(false)
+                document.body.style.overflowY = 'scroll'
             })
             .catch(err => console.log(err))
     }
@@ -98,6 +104,7 @@ function LayananPengaduan() {
         valueArea: inputValue.detailPengaduan,
         errInputArea: errMsg && errMsg.detailPengaduan,
         errFiles: errMsg && errMsg.image,
+        loadingSubmit: loadingSubmit,
         changeInput: (e, i) => changeInput(e, i),
         submit: submitData
     }
@@ -181,6 +188,7 @@ function LayananPengaduan() {
                 if (res && res.data) {
                     alert('Anda telah berhasil mengirimkan data')
                     setErrMsg({})
+                    setLoadingSubmit(false)
                     setInputCard([
                         {
                             label: 'Nama',
@@ -230,55 +238,63 @@ function LayananPengaduan() {
                     setValueImg('')
                 } else {
                     alert('Terjadi kesalahan server!\nMohon coba lagi nanti')
+                    setLoadingSubmit(false)
                 }
             })
             .catch(err => {
                 alert('Terjadi kesalahan server!\nMohon coba lagi nanti')
+                setLoadingSubmit(false)
                 console.log(err)
             })
     }
 
     function submitData() {
-        validateForm()
-            .then(res => {
-                if (res && res.message === 'success') {
-                    const nameDay = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']
-                    const nameMonth = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
+        if (loadingSubmit === false) {
+            validateForm()
+                .then(res => {
+                    if (res && res.message === 'success') {
+                        setLoadingSubmit(true)
 
-                    const years = new Date().getFullYear()
-                    const dateNow = new Date().getDate()
-                    const month = new Date().getMonth()
-                    const day = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1
+                        const nameDay = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']
+                        const nameMonth = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
 
-                    const getHours = new Date().getHours()
-                    const hours = getHours.toString().length === 1 ? `0${getHours}` : getHours
-                    const getMinute = new Date().getMinutes()
-                    const minute = getMinute.toString().length === 1 ? `0${getMinute}` : getMinute
+                        const years = new Date().getFullYear()
+                        const dateNow = new Date().getDate()
+                        const month = new Date().getMonth()
+                        const day = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1
 
-                    const { nama, email, alamat, tempatKejadian, waktuKejadian, detailPengaduan, image } = { ...inputValue }
+                        const getHours = new Date().getHours()
+                        const hours = getHours.toString().length === 1 ? `0${getHours}` : getHours
+                        const getMinute = new Date().getMinutes()
+                        const minute = getMinute.toString().length === 1 ? `0${getMinute}` : getMinute
 
-                    const newData = new FormData()
-                    newData.append('nama', nama)
-                    newData.append('email', email)
-                    newData.append('alamat', alamat)
-                    newData.append('tempatKejadian', tempatKejadian)
-                    newData.append('waktuKejadian', waktuKejadian)
-                    newData.append('detailPengaduan', detailPengaduan)
-                    newData.append('image', image)
-                    newData.append('date', `${nameDay[day]}, ${dateNow} ${nameMonth[month]} ${years} ${hours}:${minute}`)
-                    return postDataToAPI(data && data._id, newData)
-                }
-            })
-            .catch(err => console.log(err))
+                        const { nama, email, alamat, tempatKejadian, waktuKejadian, detailPengaduan, image } = { ...inputValue }
+
+                        const newData = new FormData()
+                        newData.append('nama', nama)
+                        newData.append('email', email)
+                        newData.append('alamat', alamat)
+                        newData.append('tempatKejadian', tempatKejadian)
+                        newData.append('waktuKejadian', waktuKejadian)
+                        newData.append('detailPengaduan', detailPengaduan)
+                        newData.append('image', image)
+                        newData.append('date', `${nameDay[day]}, ${dateNow} ${nameMonth[month]} ${years} ${hours}:${minute}`)
+                        return postDataToAPI(data && data._id, newData)
+                    }
+                })
+                .catch(err => console.log(err))
+        }
     }
 
     return (
         <Template
             title={data && data.header}
+            barTitle={`${data && data.header} | RSPAD Gatot Soebroto`}
             img={`${address}/${data && data.image}`}
             paragraph={data && data.paragraph}
             form={<Form {...styleForm} />}
             page={page}
+            loading={loading ? 'flex' : 'none'}
         />
     )
 }

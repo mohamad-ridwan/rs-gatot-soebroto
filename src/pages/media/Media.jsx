@@ -14,6 +14,7 @@ function Media() {
     const [hoverImgBerita, setHoverImgBerita] = useState(null)
     const [hoverTitleBerita, setHoverTitleBerita] = useState(null)
     const [contentPerPage] = useState(6)
+    const [loading, setLoading] = useState(true)
 
     const dispatch = useDispatch()
     const currentPageStore = useSelector((state) => state.navbar.currentPage)
@@ -30,6 +31,9 @@ function Media() {
     }
 
     function setAPI() {
+        setLoading(true)
+        document.body.style.overflowY = 'hidden'
+
         API.APIMedia()
             .then(res => {
                 const result = res.data
@@ -60,6 +64,8 @@ function Media() {
                 setData(dataPage[0])
                 setPage(newPage)
                 updatePaginate(dataPage, 6)
+                setLoading(false)
+                document.body.style.overflowY = 'scroll'
             })
             .catch(err => console.log(err))
     }
@@ -70,7 +76,7 @@ function Media() {
     }, [params])
 
     const styleCard = {
-        widthWrapp: 'calc(96%/3)',
+        classWrapp: 'card-three-line-page card-media-page',
         paddingDeskripsi: '20px 0 0 0',
         fontSizeTitle: '18px',
         displayBtn: 'none',
@@ -82,7 +88,6 @@ function Media() {
         bdrTopRightRadiusContainerImg: '5px',
         bdrRadiusContainerImg: '5px',
         bdrRadiusHoverImg: '0',
-        heightImg: params.id === 'publications' ? '300px' : '150px',
         cursorContainerImg: 'pointer',
         displayDateCard: 'flex',
         cursorTitle: 'pointer'
@@ -106,27 +111,31 @@ function Media() {
 
     const newDataCard = getPaginatedDataCard()
 
-    const renderCard = newDataCard.length > 0 && newDataCard.map((e, i) => {
-        return (
-            <Card
-                {...styleCard}
-                key={i}
-                title={e.header}
-                img={`${address}/${e.image}`}
-                date={e.date}
-                admin={e.author}
-                clickImg={() => toDetailBerita(e.path, e.id)}
-                clickTitle={() => toDetailBerita(e.path, e.id)}
-                colorTitle={hoverTitleBerita === i ? '#4d784e' : '#333'}
-                transformImg={hoverImgBerita === i ? 'scale(1.1)' : 'scale(1)'}
-                opacityHoverImg={hoverImgBerita === i ? '0.4' : '0'}
-                mouseEnterImg={() => mouseOverImgBerita(i)}
-                mouseLeaveImg={mouseLeaveImgBerita}
-                mouseEnterTitle={() => mouseOverTitleBerita(i)}
-                mouseLeaveTitle={mouseLeaveTitleBerita}
-            />
-        )
-    })
+    const renderCard = newDataCard.length > 0 && (
+        <div className="container-card-three-line-page">
+            {newDataCard.map((e, i) => {
+                return (
+                    <Card
+                        {...styleCard}
+                        key={i}
+                        title={e.header}
+                        img={`${address}/${e.image}`}
+                        date={e.date}
+                        admin={e.author}
+                        clickImg={() => toDetailBerita(e.path, e.id)}
+                        clickTitle={() => toDetailBerita(e.path, e.id)}
+                        colorTitle={hoverTitleBerita === i ? '#4d784e' : '#333'}
+                        transformImg={hoverImgBerita === i ? 'scale(1.1)' : 'scale(1)'}
+                        opacityHoverImg={hoverImgBerita === i ? '0.4' : '0'}
+                        mouseEnterImg={() => mouseOverImgBerita(i)}
+                        mouseLeaveImg={mouseLeaveImgBerita}
+                        mouseEnterTitle={() => mouseOverTitleBerita(i)}
+                        mouseLeaveTitle={mouseLeaveTitleBerita}
+                    />
+                )
+            })}
+        </div>
+    )
 
     function mouseOverImgBerita(i) {
         setHoverImgBerita(i)
@@ -157,7 +166,9 @@ function Media() {
             page={page}
             img={`${address}/${data && data.image}`}
             title={data && data.header}
+            barTitle={`${data && data.header} | RSPAD Gatot Soebroto`}
             card={<Pagination {...styleOnCardTemplate} />}
+            loading={loading ? 'flex' : 'none'}
         />
     )
 }

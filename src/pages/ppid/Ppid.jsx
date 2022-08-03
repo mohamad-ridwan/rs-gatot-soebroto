@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useParams } from 'react-router-dom'
-import {useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import Template from "../../components/template/Template"
 import API from "../../services/api"
 import address from "../../services/api/address"
@@ -9,6 +9,7 @@ import { changePath } from "../../services/redux/navbar"
 function Ppid() {
     const [data, setData] = useState({})
     const [page, setPage] = useState([])
+    const [loading, setLoading] = useState(true)
 
     const params = useParams()
     const dispatch = useDispatch()
@@ -22,6 +23,9 @@ function Ppid() {
     }
 
     function setAPI() {
+        setLoading(true)
+        document.body.style.overflowY = 'hidden'
+
         API.APIPpid()
             .then(res => {
                 const result = res.data
@@ -84,16 +88,18 @@ function Ppid() {
                         updateData(getDataOfMainPage, newArr)
                     }
                 }
+                setLoading(false)
+                document.body.style.overflowY = 'scroll'
             })
             .catch(err => console.log(err))
     }
 
-    function updateRoutePage(){
-        if(params.path !== undefined){
+    function updateRoutePage() {
+        if (params.path !== undefined) {
             dispatch(changePath(`/ppid/${params.path}`))
-        }else if(params.id !== undefined && params.pathTwo !== undefined){
+        } else if (params.id !== undefined && params.pathTwo !== undefined) {
             dispatch(changePath(`/ppid/${params.id}/${params.pathTwo}`))
-        }else if(params && Object.keys(params).length === 0){
+        } else if (params && Object.keys(params).length === 0) {
             dispatch(changePath('/ppid'))
         }
     }
@@ -107,8 +113,10 @@ function Ppid() {
         <Template
             page={page}
             title={data && data.header}
+            barTitle={`${data && data.header} | RSPAD Gatot Soebroto`}
             img={`${address}/${data && data.image}`}
             paragraph={data && data.paragraph}
+            loading={loading ? 'flex' : 'none'}
         />
     )
 }

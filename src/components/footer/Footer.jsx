@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js'
-import {Pie} from 'react-chartjs-2'
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
+import { Pie } from 'react-chartjs-2'
 import './Footer.scss'
 import API from '../../services/api'
 import Button from '../button/Button'
@@ -11,6 +11,7 @@ function Footer() {
     const [tentang, setTentang] = useState([])
     const [layanan, setLayanan] = useState([])
     const [copyRight, setCopyRight] = useState({})
+    const [loadingSubmit, setLoadingSubmit] = useState(false)
     const [idxChoose, setIdxChoose] = useState(null)
     const [resultPolling, setResultPolling] = useState([])
     const [pendapat, setPendapat] = useState({
@@ -27,8 +28,10 @@ function Footer() {
     const navigate = useNavigate()
 
     ChartJS.register(ArcElement, Tooltip, Legend)
+    ChartJS.defaults.color = '#fff'
 
     const keyResultPolling = localStorage.getItem('polling') || null
+    const keyPengunjung = localStorage.getItem('id-pengunjung') || null
 
     function setAPI() {
         API.APINavbar()
@@ -41,7 +44,7 @@ function Footer() {
                 const tentang = page.filter(e => e.name.toLowerCase() === 'tentang')
                 const layanan = page.filter(e => e.name.toLowerCase() === 'layanan')
                 const copyRight = results.filter(e => e.id === 'copy-right')
-                const polling = results.filter(e=> e.id === 'polling')
+                const polling = results.filter(e => e.id === 'polling')
 
                 let newKontak = {}
 
@@ -53,16 +56,31 @@ function Footer() {
                     setKontak(newKontak)
                     setTentang(tentang[0].menuCollapse)
                     setLayanan(layanan[0].menuCollapse)
-                    setCopyRight(copyRight[0])
                     setIdPolling(polling[0]._id)
 
                     // result polling
-                    const sangatBaik = polling[0].dataPolling.filter(e=>e.pendapat.toLowerCase() === 'sangat baik')
-                    const baik = polling[0].dataPolling.filter(e=>e.pendapat.toLowerCase() === 'baik')
-                    const sedang = polling[0].dataPolling.filter(e=>e.pendapat.toLowerCase() === 'sedang')
-                    const cukup = polling[0].dataPolling.filter(e=>e.pendapat.toLowerCase() === 'cukup')
+                    const sangatBaik = polling[0].dataPolling.filter(e => e.pendapat.toLowerCase() === 'sangat baik')
+                    const baik = polling[0].dataPolling.filter(e => e.pendapat.toLowerCase() === 'baik')
+                    const sedang = polling[0].dataPolling.filter(e => e.pendapat.toLowerCase() === 'sedang')
+                    const cukup = polling[0].dataPolling.filter(e => e.pendapat.toLowerCase() === 'cukup')
 
                     setResultPolling([sangatBaik.length, baik.length, sedang.length, cukup.length])
+
+                    // jumlah pengunjung
+                    if (keyPengunjung === null) {
+                        const time = new Date().getTime()
+                        const data = {
+                            jumlahPengunjung: parseInt(copyRight[0].jumlahPengunjung) + 1
+                        }
+                        API.APIPutCopyRight(copyRight[0]._id, data)
+                            .then(res => {
+                                localStorage.setItem('id-pengunjung', `${time}`)
+                                setCopyRight(res.data)
+                            })
+                            .catch(err => console.log(err))
+                    }else{
+                        setCopyRight(copyRight[0])
+                    }
                 }
             })
             .catch(err => console.log(err))
@@ -72,24 +90,26 @@ function Footer() {
         setAPI()
     }, [])
 
-    function clickChoose(i, pendapat) {
+    function clickChoose(i) {
         setIdxChoose(i)
-        setPendapat({pendapat: pendapat})
+        setPendapat({ pendapat: choosePolling[i] })
     }
 
-    function submitPolling(){
+    function submitPolling() {
         const time = new Date().getTime()
-        if(pendapat.pendapat.length > 0 && keyResultPolling === null){
+        if (pendapat.pendapat.length > 0 && keyResultPolling === null && loadingSubmit === false) {
+            setLoadingSubmit(true)
+            
             API.APIPostPolling(idPolling, pendapat)
-            .then(res=>{
-                setIdxChoose(null)
-                setPendapat({pendapat: ''})
-                localStorage.setItem('polling', `${time}`)
-                window.location.reload()
+                .then(res => {
+                    setIdxChoose(null)
+                    setPendapat({ pendapat: '' })
+                    localStorage.setItem('polling', `${time}`)
+                    window.location.reload()
 
-                return res
-            })
-            .catch(err=>console.log(err))
+                    return res
+                })
+                .catch(err => console.log(err))
         }
     }
 
@@ -203,7 +223,7 @@ function Footer() {
 
                         {/* form polling */}
                         <div className="container-form-polling" style={{
-                            display: keyResultPolling !== null ? 'none': 'flex'
+                            display: keyResultPolling !== null ? 'none' : 'flex'
                         }}>
                             <p className="list">
                                 Bagaimana Kinerja Pelayanan Di Rumah Sakit Pusat Angkatan Darat Gatot Soebroto?
@@ -216,7 +236,7 @@ function Footer() {
                                     {choosePolling.map((e, i) => {
                                         return (
                                             <li key={i} className="choose-polling"
-                                                onClick={() => clickChoose(i, e)}
+                                                onClick={() => clickChoose(i)}
                                             >
                                                 <div className="circle-choose" style={{
                                                     border: idxChoose === i ? '4px solid #2fa931' : '4px solid #fff'
@@ -236,8 +256,8 @@ function Footer() {
                                     displayIcon={'none'}
                                     bgColorBtn={'#2fa931'}
                                     colorDefault={'transparent'}
-                                    colorChange={idxChoose !== null ? '#000' : 'none'}
-                                    cursorBtn={idxChoose !== null ? 'pointer' : 'not-allowed'}
+                                    colorChange={idxChoose !== null ? loadingSubmit ? 'none' : '#000' : 'none'}
+                                    cursorBtn={idxChoose !== null ? loadingSubmit ? 'not-allowed' : 'pointer' : 'not-allowed'}
                                     bdrRadiusShadow={'5px'}
                                     click={submitPolling}
                                 />
@@ -248,7 +268,7 @@ function Footer() {
                         <div className="container-result-polling" style={{
                             display: keyResultPolling !== null ? 'flex' : 'none'
                         }}>
-                            <Pie data={dataDiagram} color="rgba(255, 99, 132, 1)"/>
+                            <Pie data={dataDiagram} />
                         </div>
                     </div>
                 </div>

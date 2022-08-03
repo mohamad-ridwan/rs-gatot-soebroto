@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import {useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import '../detailberita/DetailBerita.scss'
 import Template from '../../../components/template/Template'
 import API from '../../../services/api'
@@ -16,6 +16,7 @@ function DetailBerita() {
     const [data, setData] = useState({})
     const [galeriFoto, setGaleriFoto] = useState([])
     const [dataRekomendasi, setDataRekomendasi] = useState([])
+    const [loading, setLoading] = useState(true)
     const [page] = useState([
         {
             name: 'Home',
@@ -32,6 +33,9 @@ function DetailBerita() {
     const dispatch = useDispatch()
 
     function setAPI(path) {
+        setLoading(true)
+        document.body.style.overflowY = 'hidden'
+
         API.APIBerita()
             .then(res => {
                 const respons = res.data[0].data
@@ -55,6 +59,8 @@ function DetailBerita() {
                 setDataRekomendasi(dataRekomendasi)
                 setData(getData)
                 setGaleriFoto(getData.galeriFoto)
+                setLoading(false)
+                document.body.style.overflowY = 'scroll'
             })
             .catch(err => console.log(err))
     }
@@ -155,6 +161,7 @@ function DetailBerita() {
             img={`${address}/${data && data.image}`}
             page={page}
             title={data && data.header}
+            barTitle={`${data && data.header} | RSPAD Gatot Soebroto`}
             paragraph={data && data.paragraph}
             galeriFoto={renderGaleriFoto}
             dataRekomendasi={dataRekomendasi}
@@ -162,6 +169,7 @@ function DetailBerita() {
             displayDateCard={'flex'}
             date={data && data.date}
             admin={data && data.author}
+            loading={loading ? 'flex' : 'none'}
         />
     )
 }

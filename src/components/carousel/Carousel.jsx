@@ -3,7 +3,7 @@ import './Carousel.scss'
 import address from '../../services/api/address'
 import Card from '../card/Card';
 
-function Carousel({ data, displayInner, displayIndikator, dataTestimoni, bdrRadiusWrapp, marginTopWrapp, idxActiveCarousel, pauseSlide, mouseOverCarousel, mouseLeaveCarousel, btnLeftCarousel, btnRightCarousel, btnIndikatorCarouselImg, displayBtnTestimoni, btnLeftTestimoni, btnRightTestimoni }) {
+function Carousel({ data, displayInner, displayIndikator, dataTestimoni, bdrRadiusWrapp, marginTopWrapp, idxActiveCarousel, pauseSlide, mouseOverCarousel, mouseLeaveCarousel, btnLeftCarousel, btnRightCarousel, btnIndikatorCarouselImg, displayBtnTestimoni, btnLeftTestimoni, btnRightTestimoni, btnLeftTestimoniMobile, btnRightTestimoniMobile, classTestimoni, displayBtnTestimoniMobile, dataTestimoniMobile }) {
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -19,6 +19,37 @@ function Carousel({ data, displayInner, displayIndikator, dataTestimoni, bdrRadi
         }
     })
 
+    const styleCard = {
+        classWrapp: classTestimoni,
+        whiteSpaceDeskripsi: 'normal',
+        textAlignDeskripsi: 'start',
+        paddingCircleIcon: '20px 0 0 20px',
+        maxHeightTitle: '200px',
+        minHeightTitle: '200px',
+        overflowXTitle: 'auto',
+        fontSizeTitle: '14px',
+        bgColorDeskripsi: '#fff',
+        bgColorWrapp: 'transparent',
+        marginDeskripsi: '0 30px 0 0',
+        bdrRadiusDeskripsi: '5px',
+        paddingParagraphOne: '10px 0 0 20px',
+        paddingParagraphTwo: '0 0 20px 20px',
+        fontSizeParagraphOne: '18px',
+        displayBtn: 'none',
+        colorParagraphOne: '#4d784e',
+        fontWeightParagraphOne: 'bold',
+        fontSizeParagraphTwo: '12px',
+        colorParagraphTwo: '#777',
+        displayCircleIcon: 'flex',
+        colorTitle: '#333',
+        bdrTopParagraphOne: '1px solid #ddd',
+        iconCirle: 'fas fa-quote-left',
+        colorCircleIcon: '#4d784e',
+        marginTitle: '20px 80px 0 80px',
+        justifyContentCircleIcon: 'flex-start',
+        fontSizeIcon: '30px',
+    }
+
     return (
         <>
             <div className="wrapp-carousel" style={{
@@ -28,24 +59,42 @@ function Carousel({ data, displayInner, displayIndikator, dataTestimoni, bdrRadi
                 onMouseEnter={mouseOverCarousel}
                 onMouseLeave={mouseLeaveCarousel}
             >
+                {/* Desktop */}
                 <div className="container-btn-testimoni" style={{
                     display: displayBtnTestimoni
                 }}>
-                    <button onClick={btnLeftTestimoni}>
+                    <button onClick={btnLeftTestimoni} className="btn-testimoni-desktop">
                         <i className="fas fa-angle-left"></i>
                     </button>
-                    <button onClick={btnRightTestimoni}>
+                    <button onClick={btnRightTestimoni} className="btn-testimoni-desktop">
                         <i className="fas fa-angle-right"></i>
                     </button>
                 </div>
 
+                {/* Mobile */}
+                <div className="container-btn-testimoni-mobile"
+                    style={{
+                        display: displayBtnTestimoniMobile
+                    }}
+                >
+                    <button onClick={btnLeftTestimoniMobile}
+                        className="btn-testimoni-mobile">
+                        <i className="fas fa-angle-left"></i>
+                    </button>
+                    <button onClick={btnRightTestimoniMobile}
+                        className="btn-testimoni-mobile">
+                        <i className="fas fa-angle-right"></i>
+                    </button>
+                </div>
+
+                {/* desktop */}
                 <div className="inner-carousel" style={{
                     display: displayInner,
                     transform: `translateX(-${idxActiveCarousel * 100}%)`,
                 }}>
                     {data && data.length > 0 ? data.map((e, i) => {
                         return (
-                            <img key={i} src={`${address}/${e.image}`} alt="" className="item"/>
+                            <img key={i} src={`${address}/${e.image}`} alt="" className="item" />
                         )
                     }) : (
                         <></>
@@ -55,36 +104,24 @@ function Carousel({ data, displayInner, displayIndikator, dataTestimoni, bdrRadi
                         return (
                             <Card
                                 key={i}
+                                {...styleCard}
                                 title={e.message}
                                 paragraphOne={e.name}
                                 paragraphTwo={e.country}
-                                widthWrapp={'50%'}
-                                displayWrapp={'inline-block'}
-                                whiteSpaceDeskripsi={'normal'}
-                                textAlignDeskripsi={'start'}
-                                paddingCircleIcon={'20px 0 0 20px'}
-                                minHeightTitle={'200px'}
-                                fontSizeTitle={'14px'}
-                                bgColorDeskripsi={'#fff'}
-                                bgColorWrapp={'transparent'}
-                                marginDeskripsi={'0 30px 0 0'}
-                                bdrRadiusDeskripsi={'5px'}
-                                paddingParagraphOne={'10px 0 0 20px'}
-                                paddingParagraphTwo={'0 0 20px 20px'}
-                                fontSizeParagraphOne={'18px'}
-                                displayBtn={'none'}
-                                colorParagraphOne={'#4d784e'}
-                                fontWeightParagraphOne={'bold'}
-                                fontSizeParagraphTwo={'12px'}
-                                colorParagraphTwo={'#777'}
-                                displayCircleIcon={'flex'}
-                                colorTitle={'#333'}
-                                bdrTopParagraphOne={'1px solid #ddd'}
-                                iconCirle={'fas fa-quote-left'}
-                                colorCircleIcon={'#4d784e'}
-                                marginTitle={'20px 80px 0 80px'}
-                                justifyContentCircleIcon={'flex-start'}
-                                fontSizeIcon={'30px'}
+                            />
+                        )
+                    }) : (
+                        <></>
+                    )}
+
+                    {dataTestimoniMobile && dataTestimoniMobile.length > 0 ? dataTestimoniMobile.map((e, i) => {
+                        return (
+                            <Card
+                                key={i}
+                                {...styleCard}
+                                title={e.message}
+                                paragraphOne={e.name}
+                                paragraphTwo={e.country}
                             />
                         )
                     }) : (
@@ -103,7 +140,6 @@ function Carousel({ data, displayInner, displayIndikator, dataTestimoni, bdrRadi
                             <button key={i} className="indikator" style={{
                                 background: idxActiveCarousel === i ? '#4d784e' : 'none'
                             }} onClick={() => btnIndikatorCarouselImg(i)}>
-
                             </button>
                         )
                     }) : (

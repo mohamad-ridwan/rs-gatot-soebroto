@@ -20,6 +20,7 @@ function Layanan() {
     const [searchDoctorStore, setSearchDoctorStore] = useState('')
     const [activeChooseHeader, setActiveChooseHeader] = useState('nama')
     const [onActiveChooseOfHeader, setOnActiveChooseOfHeader] = useState(true)
+    const [loading, setLoading] = useState(true)
     const [chooseShowing] = useState([
         {
             nama: "semua",
@@ -68,6 +69,9 @@ function Layanan() {
     }
 
     function setAPI() {
+        setLoading(true)
+        document.body.style.overflowY = 'hidden'
+
         // update for page doctor
         setActiveMenuChoose(false)
         setIdxActiveChoose(1)
@@ -114,6 +118,8 @@ function Layanan() {
                     dispatch(changeContentPerPage({ contentPerPage: 10 }))
                     dispatch(changeIdxShowingDokter({ nowShow: 1, toShow: 10, ofShow: dataPage[0].data.length, totalData: dataPage[0].data.length }))
                 }
+                setLoading(false)
+                document.body.style.overflowY = 'scroll'
             })
             .catch(err => console.log(err))
     }
@@ -271,7 +277,7 @@ function Layanan() {
             }
         } else if (newInputSearch.length > checkValueNowChoose) {
             updateIdxShowingDokter(1, checkValueNowChoose, newInputSearch.length, dataCard.length)
-        }else if(checkValueNowChoose === newInputSearch.length){
+        } else if (checkValueNowChoose === newInputSearch.length) {
             updateIdxShowingDokter(1, checkValueNowChoose, newInputSearch.length, dataCard.length)
         }
         // END update idxShowingDokter
@@ -481,9 +487,9 @@ function Layanan() {
     };
 
     const styleCard = {
+        widthWrapp: "100%",
         displayCircleIcon: "flex",
         iconCirle: "fas fa-user",
-        widthWrapp: "calc(95%/3)",
         fontSizeTitle: "18px",
         fontSizeParagraphOne: "14px",
         fontWeightTitle: "bold",
@@ -504,42 +510,44 @@ function Layanan() {
     const newDataCard = getPaginatedDataCard()
 
     const renderCard = newDataCard !== undefined && data && data.id !== "jadwal-dokter" ? (
-        newDataCard.map((e, i) => {
-            const removeElement =
-                e && e.paragraph !== undefined
-                    ? e.paragraph.replace(/<\/?[^>]+(>|$)/g, "")
-                    : "";
+        <div className="container-card-three-line-page">
+            {newDataCard.map((e, i) => {
+                const removeElement =
+                    e && e.paragraph !== undefined
+                        ? e.paragraph.replace(/<\/?[^>]+(>|$)/g, "")
+                        : "";
 
-            return (
-                <Card
-                    {...styleCard}
-                    key={i}
-                    title={e.header}
-                    paragraphOne={
-                        <RenderHTML
-                            e={
-                                removeElement.length > 100
-                                    ? removeElement.substr(0, 100) + "..."
-                                    : removeElement
-                            }
-                        />
-                    }
-                    colorTitle={hoverCard === i ? "#fff" : "#4d784e"}
-                    bgColorCircleIcon={hoverCard === i ? "#fff" : "#4d784e"}
-                    colorCircleIcon={hoverCard === i ? "#4d784e" : "#fff"}
-                    colorParagraphOne={hoverCard === i ? "#fff" : "#333"}
-                    mouseEnterWrapp={() => mouseOverCard(i)}
-                    mouseLeaveWrapp={mouseLeaveCard}
-                    bgColorWrapp={hoverCard === i ? "#4d784e" : "#fff"}
-                    clickWrapp={()=>toPageDetail(`/layanan/${params.id}/${e.path}`)}
-                />
-            );
-        })
+                return (
+                    <Card
+                        {...styleCard}
+                        key={i}
+                        title={e.header}
+                        paragraphOne={
+                            <RenderHTML
+                                e={
+                                    removeElement.length > 100
+                                        ? removeElement.substr(0, 100) + "..."
+                                        : removeElement
+                                }
+                            />
+                        }
+                        colorTitle={hoverCard === i ? "#fff" : "#4d784e"}
+                        bgColorCircleIcon={hoverCard === i ? "#fff" : "#4d784e"}
+                        colorCircleIcon={hoverCard === i ? "#4d784e" : "#fff"}
+                        colorParagraphOne={hoverCard === i ? "#fff" : "#333"}
+                        mouseEnterWrapp={() => mouseOverCard(i)}
+                        mouseLeaveWrapp={mouseLeaveCard}
+                        bgColorWrapp={hoverCard === i ? "#4d784e" : "#fff"}
+                        clickWrapp={() => toPageDetail(`/layanan/${params.id}/${e.path}`)}
+                    />
+                );
+            })}
+        </div>
     ) : (
         <></>
     )
 
-    function toPageDetail(path){
+    function toPageDetail(path) {
         navigate(path)
     }
 
@@ -554,6 +562,7 @@ function Layanan() {
 
     // note : props data tetap di kasih data dari page, karna untuk menyesuaikan data pagination dari data page
     const styleOnCardTemplate = {
+        displayBtnPaginate: data && data.id === 'jadwal-dokter' ? newDataDoctor && newDataDoctor.length > 0 ? 'flex' : 'none' : 'flex',
         displayTxtShowing: data && data.id !== 'jadwal-dokter' ? 'none' : 'flex',
         justifyContentConPaginate: data && data.id !== 'jadwal-dokter' ? 'center' : 'space-between',
         data: dataCard,
@@ -571,8 +580,10 @@ function Layanan() {
             page={page}
             card={dataCard !== undefined && dataCard.length > 0 ? <Pagination {...styleOnCardTemplate} /> : ''}
             title={data && data.header}
+            barTitle={`${data && data.header} | RSPAD Gatot Soebroto`}
             img={`${address}/${data && data.image}`}
             paragraph={data && data.paragraph !== 'null' && data.id !== 'layanan-unggulan' ? data.paragraph : ''}
+            loading={loading ? 'flex' : 'none'}
         />
     )
 }

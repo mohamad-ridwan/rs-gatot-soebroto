@@ -14,6 +14,7 @@ function Berita() {
     const [hoverImgBerita, setHoverImgBerita] = useState(null)
     const [hoverTitleBerita, setHoverTitleBerita] = useState(null)
     const [contentPerPage] = useState(6)
+    const [loading, setLoading] = useState(true)
     const [page] = useState([
         {
             name: 'Home',
@@ -38,6 +39,9 @@ function Berita() {
     }
 
     function setAPI() {
+        setLoading(true)
+        document.body.style.overflowY = 'hidden'
+
         API.APIBerita()
             .then(res => {
                 const respons = res.data[0]
@@ -51,6 +55,8 @@ function Berita() {
                 dispatch(changeLastIdx({ idx: siblingCount }))
 
                 updatePaginate(resDataCard, 6)
+                setLoading(false)
+                document.body.style.overflowY = 'scroll'
             })
             .catch(err => console.log(err))
     }
@@ -71,7 +77,7 @@ function Berita() {
     }
 
     const styleCard = {
-        widthWrapp: 'calc(96%/2)',
+        widthWrapp: '100%',
         paddingDeskripsi: '20px 0 0 0',
         fontSizeTitle: '18px',
         displayBtn: 'none',
@@ -96,30 +102,34 @@ function Berita() {
 
     const data = getPaginatedDataCard()
 
-    const renderCard = data && data.length > 0 ? data.map((e, i) => {
-        const removeElement = e.paragraph.replace(/<\/?[^>]+(>|$)/g, "")
+    const renderCard = data && data.length > 0 ? (
+        <div className="container-card-berita-page">
+            {data.map((e, i) => {
+                const removeElement = e.paragraph.replace(/<\/?[^>]+(>|$)/g, "")
 
-        return (
-            <Card
-                {...styleCard}
-                key={i}
-                title={e.header}
-                img={`${address}/${e.image}`}
-                date={e.date}
-                admin={e.author}
-                clickImg={() => toDetailBerita(e.path)}
-                clickTitle={() => toDetailBerita(e.path)}
-                paragraphOne={<RenderHTML e={removeElement.length > 0 ? removeElement.substr(0, 200) + '...' : removeElement} />}
-                colorTitle={hoverTitleBerita === i ? '#4d784e' : '#333'}
-                transformImg={hoverImgBerita === i ? 'scale(1.1)' : 'scale(1)'}
-                opacityHoverImg={hoverImgBerita === i ? '0.4' : '0'}
-                mouseEnterImg={() => mouseOverImgBerita(i)}
-                mouseLeaveImg={mouseLeaveImgBerita}
-                mouseEnterTitle={() => mouseOverTitleBerita(i)}
-                mouseLeaveTitle={mouseLeaveTitleBerita}
-            />
-        )
-    }) : (
+                return (
+                    <Card
+                        {...styleCard}
+                        key={i}
+                        title={e.header}
+                        img={`${address}/${e.image}`}
+                        date={e.date}
+                        admin={e.author}
+                        clickImg={() => toDetailBerita(e.path)}
+                        clickTitle={() => toDetailBerita(e.path)}
+                        paragraphOne={<RenderHTML e={removeElement.length > 0 ? removeElement.substr(0, 200) + '...' : removeElement} />}
+                        colorTitle={hoverTitleBerita === i ? '#4d784e' : '#333'}
+                        transformImg={hoverImgBerita === i ? 'scale(1.1)' : 'scale(1)'}
+                        opacityHoverImg={hoverImgBerita === i ? '0.4' : '0'}
+                        mouseEnterImg={() => mouseOverImgBerita(i)}
+                        mouseLeaveImg={mouseLeaveImgBerita}
+                        mouseEnterTitle={() => mouseOverTitleBerita(i)}
+                        mouseLeaveTitle={mouseLeaveTitleBerita}
+                    />
+                )
+            })}
+        </div>
+    ) : (
         <></>
     )
 
@@ -152,7 +162,9 @@ function Berita() {
             page={page}
             card={<Pagination {...styleOnCardTemplate} />}
             title={dataPage && dataPage.header}
+            barTitle={`${dataPage && dataPage.header} | RSPAD Gatot Soebroto`}
             img={`${address}/${dataPage && dataPage.image}`}
+            loading={loading ? 'flex' : 'none'}
         />
     )
 }

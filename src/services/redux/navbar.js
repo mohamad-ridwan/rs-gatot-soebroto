@@ -18,8 +18,7 @@ export const navbar = createSlice({
             toShow: 10,
             ofShow: null,
             totalData: null
-        },
-        language: 'BAHASA <b>ID</b>'
+        }
     },
     reducers: {
         changePath: (state, action) => {
@@ -52,13 +51,10 @@ export const navbar = createSlice({
             state.idxShowingDokter.toShow = action.payload.toShow
             state.idxShowingDokter.ofShow = action.payload.ofShow
             state.idxShowingDokter.totalData = action.payload.totalData
-        },
-        changeLanguage: (state, action)=>{
-            state.language = action.payload.lng
         }
     }
 })
 
-export const { changePath, changeCurrentPage, changeIdxPaginate, changeFirstIdx, changeLastIdx, changeContentPerPage, changeIdxShowingDokter, changeLanguage } = navbar.actions
+export const { changePath, changeCurrentPage, changeIdxPaginate, changeFirstIdx, changeLastIdx, changeContentPerPage, changeIdxShowingDokter } = navbar.actions
 
 export default navbar.reducer

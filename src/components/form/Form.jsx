@@ -2,7 +2,7 @@ import React from 'react'
 import './Form.scss'
 import Button from '../button/Button'
 
-function Form({ inputCard, label, stars, placeholder, name, labelBtn, changeInput, valueArea, submit, valueImg, errInputArea, errFiles, nameBtnSubmit, displayInputFile }) {
+function Form({ inputCard, label, stars, placeholder, name, labelBtn, changeInput, valueArea, submit, valueImg, errInputArea, errFiles, nameBtnSubmit, displayInputFile, loadingSubmit }) {
 
     const styleBtn = {
         name: nameBtnSubmit,
@@ -10,7 +10,8 @@ function Form({ inputCard, label, stars, placeholder, name, labelBtn, changeInpu
         widthBtn: '150px',
         marginBtn: '20px 0 0 0',
         colorDefault: 'transparent',
-        colorChange: '#000',
+        colorChange: loadingSubmit ? 'none' : '#000',
+        cursorBtn: loadingSubmit ? 'not-allowed' : 'pointer',
         click: submit
     }
     const styleInputFile = {
