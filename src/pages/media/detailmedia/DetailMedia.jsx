@@ -32,6 +32,9 @@ function DetailMedia() {
                 window.scrollTo(0, 0)
                 const result = res.data
 
+                let newIdxPage = null
+                const idxPage = result.map((e, i) => e.path === `/media/${id}` ? newIdxPage = i : undefined)
+
                 const getData = result.filter((e) => e.path === `/media/${id}`)
 
                 let newId = ''
@@ -57,6 +60,8 @@ function DetailMedia() {
                     )
                     setPage(newPage)
 
+                    dispatch(changePath([4, newIdxPage]))
+
                     const getNowPageData = getData[0].data.filter((e) => e.path === path)
                     setData(getNowPageData[0])
                     setGaleri(getNowPageData[0].galeri)
@@ -81,12 +86,13 @@ function DetailMedia() {
 
                 setLoading(false)
                 document.body.style.overflowY = 'scroll'
+
+                return idxPage
             })
             .catch(err => console.log(err))
     }
 
     useEffect(() => {
-        dispatch(changePath(`/media/${params.id}/${params.path}`))
         setAPI(params.id, params.path)
     }, [])
 

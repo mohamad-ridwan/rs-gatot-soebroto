@@ -1,7 +1,19 @@
 @import '../../utils/variable.scss';
 
 @mixin mobile {
-    @media (max-width: 700px) {
+    @media (max-width: 572px) {
+        @content;
+    }
+}
+
+@mixin mobileTwo {
+    @media (min-width: 572px) and (max-width: 767px) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (min-width: 767px) and (max-width: 1230px) {
         @content;
     }
 }
@@ -12,23 +24,70 @@
     }
 }
 
+// margin pie chart
+@mixin mobilePie {
+    @media (max-width: 467px) {
+        @content;
+    }
+}
+
+@mixin mobilePieTwo {
+    @media (min-width: 467px) and (max-width: 572px) {
+        @content;
+    }
+}
+
+@mixin tabletPie {
+    @media (min-width: 967px) and (max-width: 1230px) {
+        @content;
+    }
+}
+
+@mixin semiDesktop{
+    @media (min-width: 1115px) and (max-width: 1254px) {
+        @content;
+    }
+}
+
 .wrapp-footer{
     display: flex;
     flex-direction: column;
     background-color: $color5;
-    padding: 40px 10%;
+    padding: 0 10% 40px 10%;
 
     @include mobile(){
-        display: none;
+        padding: 0 5% 40px 5%;
+    }
+
+    @include mobileTwo(){
+        padding: 0 5% 40px 5%;
+    }
+
+    @include semiDesktop(){
+        padding: 0 5% 40px 5%;
     }
 
     @include minDesktop(){
-        padding: 40px 15%;
+        padding: 0 15% 40px 15%;
     }
 
     // list menu
     .container-list-menu-footer{
         display: flex;
+
+        @include mobile(){
+            flex-direction: column;
+        }
+
+        @include mobileTwo(){
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        @include tablet(){
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
 
         // tentang
         .list-tentang{
@@ -82,6 +141,20 @@
                    }
                }
             }
+
+            .container-result-polling{
+                @include mobilePie(){
+                    margin: 0 20px 0px 0;
+                }
+
+                @include mobilePieTwo(){
+                    margin: 0 170px 0px 0;
+                }
+
+                @include tabletPie(){
+                    margin: 0 80px 0px 0;
+                }
+            }
         }
 
         // list group
@@ -90,7 +163,19 @@
             text-align: start;
             color: #fff;
             width: calc(100%/4);
-            padding: 0 20px;
+            padding: 40px 20px 0 20px;
+
+            @include mobile(){
+                width: auto;
+            }
+
+            @include mobileTwo(){
+                width: calc(75%/2);
+            }
+
+            @include tablet(){
+                width: calc(75%/2);
+            }
 
             .title{
                 font-size: 20px;
@@ -127,7 +212,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        margin-top: 30px;
+        margin-top: 50px;
 
         .txt-copy-right{
             text-align: center;

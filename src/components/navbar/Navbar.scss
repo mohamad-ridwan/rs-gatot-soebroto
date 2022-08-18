@@ -100,11 +100,22 @@
             align-items: center;
             width: 25%;
 
-            i {
+            .icon-medsos-nav {
                 padding-left: 10px;
                 font-size: 12px;
                 cursor: pointer;
                 color: #fff;
+                transition: 0.2s ease-in-out;
+                &:hover{
+                    color: $color1;
+                }
+            }
+            .active-medsos-nav{
+                color: $color1;
+                transition: 0.2s ease-in-out;
+                &:hover{
+                    color: $color2;
+                }
             }
 
             .change-language {
@@ -128,7 +139,7 @@
                     flex-direction: column;
                     position: absolute;
                     width: 155px;
-                    margin-top: 100px;
+                    margin-top: 115px;
                     right: 0;
                     border-radius: 3px;
                     padding-bottom: 15px;
@@ -136,15 +147,25 @@
                     animation: 0.2s ease-in opacity forwards;
                     background-color: #fff;
                     border: 1px solid #ddd;
+                    padding: 8px 0;
 
                     .language {
                         font-size: 10.5px;
-                        padding: 15px 0 0px 15px;
+                        padding: 10px 0 10px 15px;
                         cursor: pointer;
                         text-align: start;
                         background: none;
                         outline: none;
                         border: none;
+                        transition: 0.2s ease-in-out;
+                        &:hover{
+                            background-color: $color1;
+                            color: #fff;
+                        }
+                    }
+                    .active-language{
+                        background-color: $color1;
+                        color: #fff;
                     }
                 }
             }
@@ -198,6 +219,7 @@
             display: flex;
             align-items: center;
 
+            
             .menu-page {
                 overflow: hidden;
                 list-style: none;
@@ -206,9 +228,15 @@
                 font-size: 12px;
                 font-weight: 500;
                 color: #fff;
+                transition: 0.2s ease-in-out;
+
+                &:hover{
+                    color: $color1;
+                }
 
                 i {
                     margin-left: 2px;
+                    font-size: 11.5px;
                 }
 
                 .wrapp-menu-collapse {
@@ -232,7 +260,6 @@
                             font-weight: 450;
                             color: $color2;
                             text-transform: uppercase;
-                            // position: relative;
 
                             &:hover {
                                 background-color: $color1;
@@ -257,17 +284,58 @@
                                 .name-menu-of-menu-collapse{
                                     padding: 8px 20px;
                                     text-transform: uppercase;
+                                    transition: 0.2s ease-in-out;
+                                    &:hover{
+                                        background-color: $color1;
+                                        color: #fff;
+                                    }
+                                }
+                                .active-name-menu-of-menu-collapse{
+                                    background-color: $color1;
+                                    color: #fff;
                                 }
                             }
+                        }
+
+                        .active-page-collapse{
+                            background-color: $color1;
+                            color: #fff;
                         }
                     }
                 }
             }
 
+            .color-page-not-home{
+                color: $color2;
+            }
+
+            .active-menu-page{
+                color: $color1;
+            }
+
             i {
                 cursor: pointer;
                 font-size: 14px;
+            }
+
+            .btn-search-home{
                 color: #fff;
+                transition: 0.2s ease-in-out;
+                &:hover{
+                    color: $color1;
+                }
+            }
+
+            .btn-search{
+                color: $color2;
+                transition: 0.2s ease-in-out;
+                &:hover{
+                    color: $color1;
+                }
+            }
+
+            .active-page-search{
+                color: $color1;
             }
         }
     }

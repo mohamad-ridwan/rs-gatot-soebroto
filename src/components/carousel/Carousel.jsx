@@ -45,7 +45,6 @@ function Carousel({ data, displayInner, displayIndikator, dataTestimoni, bdrRadi
         bdrTopParagraphOne: '1px solid #ddd',
         iconCirle: 'fas fa-quote-left',
         colorCircleIcon: '#4d784e',
-        marginTitle: '20px 80px 0 80px',
         justifyContentCircleIcon: 'flex-start',
         fontSizeIcon: '30px',
     }
@@ -55,80 +54,83 @@ function Carousel({ data, displayInner, displayIndikator, dataTestimoni, bdrRadi
             <div className="wrapp-carousel" style={{
                 borderRadius: bdrRadiusWrapp,
                 marginTop: marginTopWrapp
-            }}
-                onMouseEnter={mouseOverCarousel}
-                onMouseLeave={mouseLeaveCarousel}
-            >
-                {/* Desktop */}
-                <div className="container-btn-testimoni" style={{
-                    display: displayBtnTestimoni
-                }}>
-                    <button onClick={btnLeftTestimoni} className="btn-testimoni-desktop">
-                        <i className="fas fa-angle-left"></i>
-                    </button>
-                    <button onClick={btnRightTestimoni} className="btn-testimoni-desktop">
-                        <i className="fas fa-angle-right"></i>
-                    </button>
-                </div>
-
-                {/* Mobile */}
-                <div className="container-btn-testimoni-mobile"
-                    style={{
-                        display: displayBtnTestimoniMobile
-                    }}
+            }}>
+                <div className="container-carousel"
+                    onMouseEnter={mouseOverCarousel}
+                    onMouseLeave={mouseLeaveCarousel}
                 >
-                    <button onClick={btnLeftTestimoniMobile}
-                        className="btn-testimoni-mobile">
-                        <i className="fas fa-angle-left"></i>
-                    </button>
-                    <button onClick={btnRightTestimoniMobile}
-                        className="btn-testimoni-mobile">
-                        <i className="fas fa-angle-right"></i>
-                    </button>
+                    {/* Desktop */}
+                    <div className="container-btn-testimoni" style={{
+                        display: displayBtnTestimoni
+                    }}>
+                        <button onClick={btnLeftTestimoni} className="btn-testimoni-desktop">
+                            <i className="fas fa-angle-left"></i>
+                        </button>
+                        <button onClick={btnRightTestimoni} className="btn-testimoni-desktop">
+                            <i className="fas fa-angle-right"></i>
+                        </button>
+                    </div>
+
+                    {/* Mobile */}
+                    <div className="container-btn-testimoni-mobile"
+                        style={{
+                            display: displayBtnTestimoniMobile
+                        }}
+                    >
+                        <button onClick={btnLeftTestimoniMobile}
+                            className="btn-testimoni-mobile">
+                            <i className="fas fa-angle-left"></i>
+                        </button>
+                        <button onClick={btnRightTestimoniMobile}
+                            className="btn-testimoni-mobile">
+                            <i className="fas fa-angle-right"></i>
+                        </button>
+                    </div>
+
+                    {/* desktop */}
+                    <div className="inner-carousel" style={{
+                        display: displayInner,
+                        transform: `translateX(-${idxActiveCarousel * 100}%)`,
+                    }}>
+                        {data && data.length > 0 ? data.map((e, i) => {
+                            return (
+                                <img key={i} src={`${address}/${e.image}`} alt="" className="item" />
+                            )
+                        }) : (
+                            <></>
+                        )}
+
+                        {dataTestimoni && dataTestimoni.length > 0 ? dataTestimoni.map((e, i) => {
+                            return (
+                                <Card
+                                    key={i}
+                                    {...styleCard}
+                                    title={e.message}
+                                    paragraphOne={e.name}
+                                    paragraphTwo={e.country}
+                                />
+                            )
+                        }) : (
+                            <></>
+                        )}
+
+                        {dataTestimoniMobile && dataTestimoniMobile.length > 0 ? dataTestimoniMobile.map((e, i) => {
+                            return (
+                                <Card
+                                    key={i}
+                                    {...styleCard}
+                                    title={e.message}
+                                    paragraphOne={e.name}
+                                    paragraphTwo={e.country}
+                                />
+                            )
+                        }) : (
+                            <></>
+                        )}
+                    </div>
                 </div>
 
-                {/* desktop */}
-                <div className="inner-carousel" style={{
-                    display: displayInner,
-                    transform: `translateX(-${idxActiveCarousel * 100}%)`,
-                }}>
-                    {data && data.length > 0 ? data.map((e, i) => {
-                        return (
-                            <img key={i} src={`${address}/${e.image}`} alt="" className="item" />
-                        )
-                    }) : (
-                        <></>
-                    )}
-
-                    {dataTestimoni && dataTestimoni.length > 0 ? dataTestimoni.map((e, i) => {
-                        return (
-                            <Card
-                                key={i}
-                                {...styleCard}
-                                title={e.message}
-                                paragraphOne={e.name}
-                                paragraphTwo={e.country}
-                            />
-                        )
-                    }) : (
-                        <></>
-                    )}
-
-                    {dataTestimoniMobile && dataTestimoniMobile.length > 0 ? dataTestimoniMobile.map((e, i) => {
-                        return (
-                            <Card
-                                key={i}
-                                {...styleCard}
-                                title={e.message}
-                                paragraphOne={e.name}
-                                paragraphTwo={e.country}
-                            />
-                        )
-                    }) : (
-                        <></>
-                    )}
-                </div>
-
+                {/* btn carousel top home */}
                 <div className="btn-carousel" style={{
                     display: displayIndikator
                 }}>

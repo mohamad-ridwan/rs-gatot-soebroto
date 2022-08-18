@@ -13,113 +13,170 @@
     }
 }
 
+// title card testimoni
+@mixin mobileTitleCardTestimoni {
+    @media (max-width: 467px) {
+        @content;
+    }
+}
+
+// btn mobile small in banner home
+@mixin mobileSmallBanner {
+    @media (max-width: 338px) {
+        @content;
+    }
+}
+
 .wrapp-carousel {
-    overflow: hidden;
-    border-radius: 10px;
     position: relative;
 
-    .container-btn-testimoni{
-        display: none;
-        justify-content: flex-end;
-        align-items: center;
-        padding: 0 30px 20px 0;
+    .container-carousel {
+        overflow: hidden;
+        border-radius: 10px;
+        position: relative;
 
-        @include mobileCardTestimoni(){
-            padding: 0;
+        @include mobileTitleCardTestimoni(){
+            border-radius: 0;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
         }
 
-        .btn-testimoni-desktop{
-            background-color: #fff;
-            border-radius: 5px;
-            height: 35px;
-            width: 35px;
-            cursor: pointer;
-            border: none;
-            outline: none;
-            margin-left: 15px;
-            color: $color1;
-            transition: 0.3s ease-in-out;
+        .container-btn-testimoni {
+            display: none;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 30px 20px 0;
 
-            @include mobileCardTestimoni(){
-                display: none;
+            @include mobileCardTestimoni() {
+                padding: 0;
             }
 
-            &:hover{
-                background-color: $color1;
-                color: #fff;
+            .btn-testimoni-desktop {
+                background-color: #fff;
+                border-radius: 5px;
+                height: 35px;
+                width: 35px;
+                cursor: pointer;
+                border: none;
+                outline: none;
+                margin-left: 15px;
+                color: $color1;
+                transition: 0.3s ease-in-out;
+
+                @include mobileCardTestimoni() {
+                    display: none;
+                }
+
+                &:hover {
+                    background-color: $color1;
+                    color: #fff;
+                }
+
+                i {
+                    font-size: 18px;
+                    margin-top: 2px;
+                }
+            }
+        }
+
+        .container-btn-testimoni-mobile {
+            display: none;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 30px 20px 0;
+
+            .btn-testimoni-mobile {
+                background-color: #fff;
+                border-radius: 5px;
+                height: 35px;
+                width: 35px;
+                cursor: pointer;
+                border: none;
+                outline: none;
+                margin-left: 15px;
+                color: $color1;
+                transition: 0.3s ease-in-out;
+
+                @include tabletCardTestimoni() {
+                    display: none;
+                }
+
+                &:hover {
+                    background-color: $color1;
+                    color: #fff;
+                }
+
+                i {
+                    font-size: 18px;
+                    margin-top: 2px;
+                }
+            }
+        }
+
+        .inner-carousel {
+            white-space: nowrap;
+            transition: 0.6s ease;
+
+            .item {
+                display: inline-flex;
+                width: 100%;
+                object-fit: cover;
+                object-position: center;
             }
 
-            i{
-                font-size: 18px;
-                margin-top: 2px;
+            // testimoni desktop
+            .testimoni-card-desktop {
+                display: inline-block;
+                width: 50%;
+
+                @include mobileCardTestimoni() {
+                    display: none;
+                }
+
+                .title-card {
+                    margin: 20px 70px 0 80px;
+                    padding-right: 10px;
+                }
+
+                .title-card::-webkit-scrollbar{
+                    width: 3px;
+                }
+                .title-card::-webkit-scrollbar-thumb{
+                    border-radius: 5px;
+                    background-color: $color1;
+                }
+            }
+
+            // testimoni mobile
+            .testimoni-card-mobile {
+                display: inline-block;
+                width: 100%;
+
+                @include tabletCardTestimoni() {
+                    display: none;
+                }
+
+                .title-card {
+                    margin: 20px 70px 0 80px;
+                    padding-right: 10px;
+
+                    @include mobileTitleCardTestimoni() {
+                        margin: 20px 40px 0 50px;
+                    }
+                }
+
+                .title-card::-webkit-scrollbar{
+                    width: 3px;
+                }
+                .title-card::-webkit-scrollbar-thumb{
+                    border-radius: 5px;
+                    background-color: $color1;
+                }
             }
         }
     }
 
-    .container-btn-testimoni-mobile{
-        display: none;
-        justify-content: flex-end;
-        align-items: center;
-        padding: 0 30px 20px 0;
-
-        .btn-testimoni-mobile{
-            background-color: #fff;
-            border-radius: 5px;
-            height: 35px;
-            width: 35px;
-            cursor: pointer;
-            border: none;
-            outline: none;
-            margin-left: 15px;
-            color: $color1;
-            transition: 0.3s ease-in-out;
-
-            @include tabletCardTestimoni(){
-                display: none;
-            }
-
-            &:hover{
-                background-color: $color1;
-                color: #fff;
-            }
-
-            i{
-                font-size: 18px;
-                margin-top: 2px;
-            }
-        }
-    }
-
-    .inner-carousel {
-        white-space: nowrap;
-        transition: 0.6s ease;
-
-        .item {
-            display: inline-flex;
-            width: 100%;
-            object-fit: cover;
-            object-position: center;
-        }
-
-        .testimoni-card-desktop{
-            display: inline-block;
-            width: 50%;
-
-            @include mobileCardTestimoni(){
-                display: none;
-            }
-        }
-
-        .testimoni-card-mobile{
-            display: inline-block;
-            width: 100%;
-
-            @include tabletCardTestimoni(){
-                display: none;
-            }
-        }
-    }
-
+    // btn carousel top home
     .btn-carousel {
         display: flex;
         position: absolute;
@@ -130,6 +187,15 @@
         padding: 15px;
         align-items: center;
         border-top-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+
+        @include mobileTitleCardTestimoni() {
+            padding: 15px 10px;
+            position: static;
+            border-bottom-left-radius: 10px;
+            border-top-left-radius: 0px;
+            justify-content: center;
+        }
 
         i {
             cursor: pointer;
@@ -145,6 +211,12 @@
             border-radius: 500px;
             margin-left: 15px;
             cursor: pointer;
+
+            @include mobileSmallBanner() {
+                height: 10px;
+                width: 10px;
+                margin-left: 10px;
+            }
         }
     }
 }

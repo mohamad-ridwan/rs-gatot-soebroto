@@ -39,6 +39,9 @@ function Media() {
                 const result = res.data
 
                 const dataPage = result.filter((e) => e.path === `/media/${params.id}`)
+                
+                let newIdxPage = null
+                const idxPage = result.map((e, i) => e.path === `/media/${params.id}` ? newIdxPage = i : undefined)
 
                 let newPage = []
                 if (dataPage.length > 0) {
@@ -58,6 +61,7 @@ function Media() {
                     )
                 }
 
+                dispatch(changePath([4, newIdxPage]))
                 dispatch(changeCurrentPage({ pageNow: 1 }))
                 dispatch(changeFirstIdx({ idx: siblingCount }))
                 dispatch(changeLastIdx({ idx: siblingCount }))
@@ -66,12 +70,13 @@ function Media() {
                 updatePaginate(dataPage, 6)
                 setLoading(false)
                 document.body.style.overflowY = 'scroll'
+
+                return idxPage
             })
             .catch(err => console.log(err))
     }
 
     useEffect(() => {
-        dispatch(changePath(`/media/${params.id}`))
         setAPI()
     }, [params])
 

@@ -1,6 +1,6 @@
 import React from 'react'
-import Button from '../button/Button'
 import './Card.scss'
+import Button from '../button/Button'
 
 function Card({ img, title, paragraphOne, paragraphTwo, bdrRadiusWrapp, justifyContentDeskripsi, textAlignTitle, textAlignParagraphOne, textAlignParagraphTwo, fontSizeTitle, fontWeightTitle, fontSizeParagraphOne, fontSizeParagraphTwo, widthWrapp, paddingDeskripsi, colorParagraphOne, colorParagraphTwo, displayWrapp, mouseEnterImg, mouseLeaveImg, opacityHoverImg, displayCircleIcon, bgColorCircleIcon, heightCircleIcon, widthCircleIcon, iconCirle, colorTitle, marginWrapp, lineHeightDeskripsi, marginTitle, cursorWrapp, mouseEnterWrapp, mouseLeaveWrapp, bgColorWrapp, colorCircleIcon, bdrTopLeftRadiusImg, bdrTopRightRadiusImg, heightImg, cursorContainerImg, mouseEnterTitle, mouseLeaveTitle, cursorTitle, date, admin, displayDateCard, transformImg, whiteSpaceDeskripsi, heightWrapp, bgColorDeskripsi, heightDeskripsi, marginDeskripsi, bdrRadiusDeskripsi, justifyContentCircleIcon, fontSizeIcon, textAlignDeskripsi, minHeightTitle, bdrTopParagraphOne, paddingCircleIcon, paddingParagraphOne, paddingParagraphTwo, fontWeightParagraphOne, positionDeskripsi, bdrRadiusHoverImg, displayBtn, positionWrapp, fontStyleIcon, bdrBottomLeftRadiusImg, bdrBottomRightRadiusImg, bdrRadiusContainerImg, bdrTopLeftRadiusContainerImg, bdrTopRightRadiusContainerImg, clickImg, clickTitle, flexDirectionWrapp, widthImg, widthContainerImg, classWrapp, displayDateCardSearch, clickWrapp, clickBtnCard, maxHeightTitle, overflowXTitle }) {
 

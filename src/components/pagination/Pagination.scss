@@ -28,7 +28,7 @@
     .container-content {
         // tempat component2 card yg di render dari props renderCard
 
-        // page layanan
+        // page layanan & media
         .container-card-three-line-page {
             display: grid;
             grid-template-columns: repeat(auto-fit, (95%/3));
@@ -76,11 +76,14 @@
             text-align: start;
             font-size: $font2;
             color: $color2;
+            margin-top: 10px;
+            margin-right: 10px;
         }
 
         .paginate {
             display: flex;
             align-items: center;
+            margin-top: 10px;
 
             .btn-paginate {
                 padding: 8px 12px;

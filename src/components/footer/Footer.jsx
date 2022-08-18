@@ -139,7 +139,7 @@ function Footer() {
                     'rgba(255, 206, 86, 1)',
                     'rgba(75, 192, 192, 1)',
                 ],
-                borderWidth: 1,
+                borderWidth: 1
             },
         ],
     }
@@ -149,8 +149,9 @@ function Footer() {
             <div className="wrapp-footer" id="wrappFooter">
                 {/* list menu */}
                 <div className="container-list-menu-footer">
+                    {/* Kontak */}
                     <div className="kontak-footer list-footer-menu">
-                        <p className="title">
+                        <p className="title title-footer">
                             Kontak
                         </p>
                         <div className="border-title"></div>
@@ -179,8 +180,10 @@ function Footer() {
                             <></>
                         )}
                     </div>
+
+                    {/* Tentang */}
                     <div className="tentang-footer list-footer-menu">
-                        <p className="title">
+                        <p className="title title-footer">
                             Tentang
                         </p>
                         <div className="border-title"></div>
@@ -197,8 +200,10 @@ function Footer() {
                             <></>
                         )}
                     </div>
+
+                    {/* Pelayanan Unggulan */}
                     <div className="pelayanan-unggulan list-footer-menu">
-                        <p className="title">
+                        <p className="title title-footer">
                             Pelayanan Unggulan
                         </p>
                         <div className="border-title"></div>
@@ -215,8 +220,10 @@ function Footer() {
                             <></>
                         )}
                     </div>
+
+                    {/* Polling */}
                     <div className="polling list-footer-menu">
-                        <p className="title">
+                        <p className="title title-footer">
                             Polling
                         </p>
                         <div className="border-title"></div>

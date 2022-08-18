@@ -88,7 +88,7 @@ function LayananPengaduan() {
     }
 
     useEffect(() => {
-        dispatch(changePath('/layanan-pengaduan-masyarakat'))
+        dispatch(changePath([6]))
         setAPI()
     }, [])
 

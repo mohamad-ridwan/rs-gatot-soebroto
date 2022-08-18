@@ -108,7 +108,7 @@ function Home() {
     }
 
     useEffect(() => {
-        dispatch(changePath('/'))
+        dispatch(changePath([0]))
         setAPI()
         window.scrollTo(0, 0)
     }, [])
@@ -287,7 +287,6 @@ function Home() {
 
     const cardLayananUnggulan = {
         displayCircleIcon: 'flex',
-        iconCirle: "fas fa-user",
         classWrapp: 'card-layanan-unggulan-home',
         fontSizeTitle: '18px',
         fontSizeParagraphOne: '14px',
@@ -496,6 +495,7 @@ function Home() {
                                                 {...cardLayananUnggulan}
                                                 key={i}
                                                 title={e.header}
+                                                iconCirle={e.icon}
                                                 paragraphOne={<RenderHTML e={`${e.paragraph.substr(0, 100)} ...`} />}
                                                 colorTitle={hoverLayanan === i ? '#fff' : '#4d784e'}
                                                 bgColorCircleIcon={hoverLayanan === i ? '#fff' : '#4d784e'}

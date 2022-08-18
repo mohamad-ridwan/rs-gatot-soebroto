@@ -66,7 +66,7 @@ function DetailBerita() {
     }
 
     useEffect(() => {
-        dispatch(changePath(`/entry/${params.path}`))
+        dispatch(changePath([3]))
         setAPI(params.path)
     }, [])
 

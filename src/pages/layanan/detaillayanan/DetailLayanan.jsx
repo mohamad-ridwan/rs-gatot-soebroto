@@ -31,6 +31,9 @@ function DetailLayanan() {
                         if (getNowPage.length > 0) {
                             const newPage = []
 
+                            let newIdxPage = null
+                            const idxPage = result.map((e, i) => e.path === `/layanan/${params.id}` ? newIdxPage = i : undefined)
+
                             newPage.push(
                                 {
                                     name: 'Home',
@@ -49,19 +52,23 @@ function DetailLayanan() {
                                     path: null
                                 }
                             )
+                            
+                            dispatch(changePath([2, newIdxPage]))
                             setPage(newPage)
                             setData(getNowPage[0])
+
+                            setLoading(false)
+                            document.body.style.overflowY = 'scroll'
+
+                            return idxPage
                         }
                     }
                 }
-                setLoading(false)
-                document.body.style.overflowY = 'scroll'
             })
             .catch(err => console.log(err))
     }
 
     useEffect(() => {
-        dispatch(changePath(`/layanan/${params.id}/${params.path}`))
         setAPI()
     }, [])
 

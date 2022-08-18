@@ -7,7 +7,7 @@ export const siblingCount = 5
 export const navbar = createSlice({
     name: 'navbar',
     initialState: {
-        path: '',
+        path: [],
         currentPage: 1,
         idxPaginate: [],
         contentPerPageCard: 6,

@@ -18,6 +18,7 @@ import Kontak from './pages/kontak/Kontak'
 import Ppid from './pages/ppid/Ppid'
 import Search from './pages/search/Search'
 import DetailLayanan from './pages/layanan/detaillayanan/DetailLayanan'
+import NavbarMobile from './components/navbarmobile/NavbarMobile'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         {/* Router versi terbaru */}
         <BrowserRouter>
           <Navbar />
+          <NavbarMobile />
           <Routes>
             <Route path='/search' element={<Search />} />
             <Route path='/kontak' element={<Kontak />} />

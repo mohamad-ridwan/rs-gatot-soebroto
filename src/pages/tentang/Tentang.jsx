@@ -23,6 +23,9 @@ function Tentang() {
                 const result = res.data
                 const dataPage = result.filter(e => e.path === `/tentang/${params.id}`)
 
+                let newIdxPage = null
+                const idxPage = result.map((e, i) => e.path === `/tentang/${params.id}` ? newIdxPage = i : undefined)
+
                 let newPage = []
                 if (dataPage.length > 0) {
                     newPage.push(
@@ -41,16 +44,18 @@ function Tentang() {
                     )
                 }
 
+                dispatch(changePath([1, newIdxPage]))
                 setData(dataPage[0])
                 setPage(newPage)
                 setLoading(false)
                 document.body.style.overflowY = 'scroll'
+
+                return idxPage
             })
             .catch(err => console.log(err))
     }
 
     useEffect(() => {
-        dispatch(changePath(`/tentang/${params.id}`))
         setAPI()
     }, [params])
 

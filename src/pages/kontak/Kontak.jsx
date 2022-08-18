@@ -62,7 +62,7 @@ function Kontak() {
     }
 
     useEffect(() => {
-        dispatch(changePath('/kontak'))
+        dispatch(changePath([8]))
         setAPI()
     }, [])
 

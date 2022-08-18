@@ -53,10 +53,31 @@
     }
 }
 
+// for jarak atas mobile and tablet home page
+@mixin mobileDistance {
+    @media (max-width: 401px) {
+        @content;
+    }
+}
+
+@mixin mobileToDesktopDistance {
+    @media (min-width: 401px) and (max-width: 1114px) {
+        @content;
+    }
+}
+
 .wrapp-home {
     display: flex;
     flex-direction: column;
     background-image: url('../../images/pattern.jpg');
+
+    @include mobileDistance(){
+        padding-top: 60px;
+    }
+
+    @include mobileToDesktopDistance(){
+        padding-top: 80px;
+    }
 
     .banner-video {
         display: flex;

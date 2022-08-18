@@ -88,7 +88,7 @@ function ZonaIntegritas() {
     }
 
     useEffect(() => {
-        dispatch(changePath('/whistle-blowing-system'))
+        dispatch(changePath([5]))
         setAPI()
     }, [])
 

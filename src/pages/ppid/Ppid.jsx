@@ -39,6 +39,9 @@ function Ppid() {
                     const newGetDataChildOfPageChild = getDataChildOfPageChild.length > 0 ? getDataChildOfPageChild[0].data.filter(e => e.path === `/ppid/${params.id}/${params.pathTwo}`) : []
 
                     if (getDataOfPpidChild.length > 0) {
+                        let newIdxPage = null
+                        result[0].data.map((e, i) => e.path === `/ppid/${params.path}` ? newIdxPage = i : undefined)
+
                         const newArr = [
                             {
                                 name: 'Home',
@@ -53,8 +56,12 @@ function Ppid() {
                                 path: null
                             },
                         ]
+                        dispatch(changePath([7, newIdxPage]))
                         updateData(getDataOfPpidChild[0], newArr)
                     } else if (newGetDataChildOfPageChild.length > 0) {
+                        let newIdxPage = null
+                        getDataChildOfPageChild[0].data.map((e, i) => e.path === `/ppid/${params.id}/${params.pathTwo}` ? newIdxPage = i : undefined)
+
                         const newArr = [
                             {
                                 name: 'Home',
@@ -73,6 +80,7 @@ function Ppid() {
                                 path: null
                             },
                         ]
+                        dispatch(changePath([7, 0, newIdxPage]))
                         updateData(newGetDataChildOfPageChild[0], newArr)
                     } else if (locPath === '/ppid') {
                         const newArr = [
@@ -85,6 +93,7 @@ function Ppid() {
                                 path: null
                             },
                         ]
+                        dispatch(changePath([7]))
                         updateData(getDataOfMainPage, newArr)
                     }
                 }
@@ -94,18 +103,7 @@ function Ppid() {
             .catch(err => console.log(err))
     }
 
-    function updateRoutePage() {
-        if (params.path !== undefined) {
-            dispatch(changePath(`/ppid/${params.path}`))
-        } else if (params.id !== undefined && params.pathTwo !== undefined) {
-            dispatch(changePath(`/ppid/${params.id}/${params.pathTwo}`))
-        } else if (params && Object.keys(params).length === 0) {
-            dispatch(changePath('/ppid'))
-        }
-    }
-
     useEffect(() => {
-        updateRoutePage()
         setAPI()
     }, [params])
 

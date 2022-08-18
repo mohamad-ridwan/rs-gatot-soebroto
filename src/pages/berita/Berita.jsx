@@ -62,7 +62,7 @@ function Berita() {
     }
 
     useEffect(() => {
-        dispatch(changePath('/entries'))
+        dispatch(changePath([3]))
         setAPI()
     }, [params])
 

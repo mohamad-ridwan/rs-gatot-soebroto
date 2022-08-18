@@ -1,5 +1,18 @@
 @import '../../utils/variable.scss';
 
+// for card in page search
+@mixin mobileCardSearch {
+    @media (max-width: 467px) {
+        @content;
+    }
+}
+
+@mixin tabletCardSearch {
+    @media (min-width: 467px) and (max-width: 676px) {
+        @content;
+    }
+}
+
 .wrapp-card{
     display: flex;
     flex-direction: column;
@@ -91,10 +104,55 @@
     border-bottom: 1px solid #ddd;
     padding-bottom: 40px;
 
+    @include mobileCardSearch(){
+        flex-direction: column;
+    }
+
+    @include tabletCardSearch(){
+        flex-direction: column;
+    }
+
+    // img
+    .container-img-card{
+        width: 130px;
+
+        @include mobileCardSearch(){
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        @include tabletCardSearch(){
+            width: 300px;
+            margin-bottom: 10px;
+        }
+
+        .img-card{
+            height: 130px;
+
+            @include mobileCardSearch(){
+                height: 180px;
+            }
+
+            @include tabletCardSearch(){
+                height: 150px;
+            }
+        }
+    }
+
     // deskripsi
     .container-deskripsi-card{
         margin: 0 15px;
         width: 80%;
+
+        @include mobileCardSearch(){
+            margin: 0px;
+            width: 100%;
+        }
+
+        @include tabletCardSearch(){
+            margin: 0px;
+            width: 100%;
+        }
 
         // date card search
         .date-card-search{

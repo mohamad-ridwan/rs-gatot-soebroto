@@ -85,6 +85,9 @@ function Layanan() {
                 const result = res.data
                 const dataPage = result.filter(e => e.path === `/layanan/${params.id}`)
 
+                let newIdxPage = null
+                const idxPage = result.map((e, i) => e.path === `/layanan/${params.id}` ? newIdxPage = i : undefined)
+
                 let newPage = []
                 if (dataPage.length > 0) {
                     newPage.push(
@@ -103,6 +106,7 @@ function Layanan() {
                     )
                 }
 
+                dispatch(changePath([2, newIdxPage]))
                 dispatch(changeCurrentPage({ pageNow: 1 }))
                 dispatch(changeFirstIdx({ idx: siblingCount }))
                 dispatch(changeLastIdx({ idx: siblingCount }))
@@ -120,12 +124,13 @@ function Layanan() {
                 }
                 setLoading(false)
                 document.body.style.overflowY = 'scroll'
+
+                return idxPage
             })
             .catch(err => console.log(err))
     }
 
     useEffect(() => {
-        dispatch(changePath(`/layanan/${params.id}`))
         setAPI()
     }, [params])
 
@@ -421,53 +426,55 @@ function Layanan() {
             </div>
 
             {/* table */}
-            <table className="table-dokter">
-                <tr style={{ backgroundColor: "#fff" }}>
-                    {headerTable.map((e, i) => (
-                        <th
-                            key={i}
-                            onClick={() =>
-                                changeActiveHeader(
-                                    e.nama.toLowerCase().split("-").join(""),
-                                    onActiveChooseOfHeader
-                                )
-                            }
-                        >
-                            {e.nama}{" "}
-                            <div className="column-icon-updown">
-                                <i
-                                    className={`fas fa-long-arrow-alt-up icon-up ${e.nama.toLowerCase().split("-").join("") ===
-                                        activeChooseHeader && onActiveChooseOfHeader
-                                        ? "icon-active"
-                                        : ""
-                                        }`}
-                                ></i>
-                                <i
-                                    className={`fas fa-long-arrow-alt-down icon-down ${e.nama.toLowerCase().split("-").join("") ===
-                                        activeChooseHeader && !onActiveChooseOfHeader
-                                        ? "icon-active"
-                                        : ""
-                                        }`}
-                                ></i>
-                            </div>
-                        </th>
-                    ))}
-                </tr>
-                {newDataDoctor && newDataDoctor.length > 0 ? (
-                    newDataDoctor.map((e, i) => {
-                        return (
-                            <tr key={i}>
-                                <td>{e.nama}</td>
-                                <td style={{ paddingRight: "20px" }}>{e.lokasi}</td>
-                                <td>{e.poli}</td>
-                                <td>{e.subPoli}</td>
-                            </tr>
-                        );
-                    })
-                ) : (
-                    <></>
-                )}
-            </table>
+            <div className="container-table-dokter">
+                <table className="table-dokter">
+                    <tr style={{ backgroundColor: "#fff" }}>
+                        {headerTable.map((e, i) => (
+                            <th
+                                key={i}
+                                onClick={() =>
+                                    changeActiveHeader(
+                                        e.nama.toLowerCase().split("-").join(""),
+                                        onActiveChooseOfHeader
+                                    )
+                                }
+                            >
+                                {e.nama}{" "}
+                                <div className="column-icon-updown">
+                                    <i
+                                        className={`fas fa-long-arrow-alt-up icon-up ${e.nama.toLowerCase().split("-").join("") ===
+                                            activeChooseHeader && onActiveChooseOfHeader
+                                            ? "icon-active"
+                                            : ""
+                                            }`}
+                                    ></i>
+                                    <i
+                                        className={`fas fa-long-arrow-alt-down icon-down ${e.nama.toLowerCase().split("-").join("") ===
+                                            activeChooseHeader && !onActiveChooseOfHeader
+                                            ? "icon-active"
+                                            : ""
+                                            }`}
+                                    ></i>
+                                </div>
+                            </th>
+                        ))}
+                    </tr>
+                    {newDataDoctor && newDataDoctor.length > 0 ? (
+                        newDataDoctor.map((e, i) => {
+                            return (
+                                <tr key={i}>
+                                    <td>{e.nama}</td>
+                                    <td style={{ paddingRight: "20px" }}>{e.lokasi}</td>
+                                    <td>{e.poli}</td>
+                                    <td>{e.subPoli}</td>
+                                </tr>
+                            );
+                        })
+                    ) : (
+                        <></>
+                    )}
+                </table>
+            </div>
         </div>
     ) : (
         <></>
@@ -489,7 +496,6 @@ function Layanan() {
     const styleCard = {
         widthWrapp: "100%",
         displayCircleIcon: "flex",
-        iconCirle: "fas fa-user",
         fontSizeTitle: "18px",
         fontSizeParagraphOne: "14px",
         fontWeightTitle: "bold",
@@ -522,6 +528,7 @@ function Layanan() {
                         {...styleCard}
                         key={i}
                         title={e.header}
+                        iconCirle={e.icon}
                         paragraphOne={
                             <RenderHTML
                                 e={

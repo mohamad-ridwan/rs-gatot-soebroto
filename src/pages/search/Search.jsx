@@ -237,7 +237,7 @@ function Search() {
 
     useEffect(() => {
         navigate('/search')
-        dispatch(changePath('/search'))
+        dispatch(changePath([9]))
         setAPI()
     }, [])
 
@@ -275,8 +275,6 @@ function Search() {
 
     const styleCard = {
         widthWrapp: '100%',
-        heightImg: '130px',
-        widthContainerImg: '130px',
         fontSizeTitle: '16px',
         displayBtn: 'none',
         fontWeightTitle: 'bold',

@@ -15,12 +15,14 @@
 
         .column-txt-show {
             align-items: center;
+            margin-top: 10px;
 
             .filter-show {
                 display: flex;
                 align-items: center;
                 font-size: $font2;
                 color: $color2;
+                margin-right: 10px;
 
                 .btn-filter {
                     display: flex;
@@ -79,6 +81,7 @@
         .column-search {
             display: flex;
             align-items: center;
+            margin-top: 10px;
 
             .txt-search {
                 font-size: $font2;
@@ -112,7 +115,7 @@
                     color: $color2;
                 }
 
-                .icon-remove-active{
+                .icon-remove-active {
                     display: flex;
                 }
             }
@@ -120,57 +123,64 @@
     }
 
     // table
-    .table-dokter {
-        border-collapse: collapse;
+    .container-table-dokter {
         width: 100%;
+        overflow-x: auto;
+        white-space: nowrap;
 
-        td,
-        th {
-            border: 1px solid $color8;
-            text-align: left;
-            padding: 8px;
-        }
+        .table-dokter {
+            border-collapse: collapse;
+            width: 100%;
+            min-width: 800px;
 
-        th{
-            position: relative;
-            cursor: pointer;
-
-            .icon-up{
-                position: absolute;
-                right: 18px;
-                font-style: normal;
-                top: 15px;
-                font-size: $fontIcon;
-                color: $color8;
+            td,
+            th {
+                border: 1px solid $color8;
+                text-align: left;
+                padding: 8px;
             }
 
-            .icon-down{
-                position: absolute;
-                right: 10px;
-                font-style: normal;
-                top: 15px;
-                font-size: $fontIcon;
-                color: $color8;
+            th {
+                position: relative;
+                cursor: pointer;
+
+                .icon-up {
+                    position: absolute;
+                    right: 18px;
+                    font-style: normal;
+                    top: 15px;
+                    font-size: $fontIcon;
+                    color: $color8;
+                }
+
+                .icon-down {
+                    position: absolute;
+                    right: 10px;
+                    font-style: normal;
+                    top: 15px;
+                    font-size: $fontIcon;
+                    color: $color8;
+                }
+
+                .icon-active {
+                    color: $color2;
+                }
             }
 
-            .icon-active{
-                color: $color2;
+            tr {
+                transition: 0.1s ease-in-out;
+
+                &:hover {
+                    background-color: rgba(0, 0, 0, .075);
+                }
             }
-        }
 
-        tr {
-            transition: 0.1s ease-in-out;
+            tr:nth-child(even) {
+                background-color: rgba(0, 0, 0, .050);
 
-            &:hover {
-                background-color: rgba(0, 0, 0, .075);
-            }
-        }
-
-        tr:nth-child(even) {
-            background-color: rgba(0, 0, 0, .050);
-
-            &:hover {
-                background-color: rgba(0, 0, 0, .075);
+                &:hover {
+                    background-color: rgba(0, 0, 0, .075);
+                }
             }
         }
     }

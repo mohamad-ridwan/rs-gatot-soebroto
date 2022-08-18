@@ -13,12 +13,12 @@ function Navbar() {
     const [txtMarquee, setTxtMarquee] = useState({})
     const [activeDropdown, setActiveDropdown] = useState(false)
     const [activeIconNav, setActiveIconNav] = useState(null)
-    const [activeBgMenu, setActiveBgMenu] = useState(null)
     const [language, setLanguage] = useState('BAHASA <b>ID</b>')
     const [activeMenuCollapse, setActiveMenuCollapse] = useState(null)
 
     // redux
     const navbarStore = useSelector((state) => state.navbar.path)
+    
     const storageLang = localStorage.getItem('wglang') || 'id'
 
     // router
@@ -46,7 +46,7 @@ function Navbar() {
     useEffect(() => {
         setAPI()
         if (storageLang === 'en') {
-            setLanguage('ENGLISH <b>EN</b>')
+            setLanguage('LANGUAGE <b>EN</b>')
         } else {
             setLanguage('BAHASA <b>ID</b>')
         }
@@ -94,16 +94,16 @@ function Navbar() {
     }
 
     const styleColorNavGrey = {
-        color: navbarStore !== '/' ? '#333' : '#fff'
+        color: navbarStore[0] !== 0 ? '#333' : '#fff'
     }
     const styleColorNavGreen = {
-        color: navbarStore !== '/' ? '#4d784e' : '#fff'
+        color: navbarStore[0] !== 0 ? '#4d784e' : '#fff'
     }
 
     return (
         <>
             <div className="wrapp-nav" id="wrappNav" style={{
-                backgroundColor: navbarStore !== '/' ? '#fff' : 'transparent',
+                backgroundColor: navbarStore[0] !== 0 ? '#fff' : 'transparent',
             }}>
                 {/* kontak */}
                 <div className="contact-nav">
@@ -124,7 +124,7 @@ function Navbar() {
                     <div className="medsos-nav">
                         {medsos && medsos.length > 0 ? medsos.map((e, i) => {
                             return (
-                                <i key={i} className={e.icon} style={styleColorNavGreen}
+                                <i key={i} className={navbarStore[0] !== 0 ? `${e.icon} icon-medsos-nav active-medsos-nav` : `${e.icon} icon-medsos-nav`}
                                     onClick={() => btnMedsos(e.link)}></i>
                             )
                         }) : (
@@ -140,10 +140,10 @@ function Navbar() {
                             <div className="dropdown" style={{
                                 display: activeDropdown ? 'flex' : 'none'
                             }}>
-                                <button id='btn-indo' className="language" onClick={() => btnLanguage('BAHASA <b>ID</b>')}>
+                                <button id='btn-indo' className={language.includes('ID') ? 'language active-language' : 'language'} onClick={() => btnLanguage('BAHASA <b>ID</b>')}>
                                     BAHASA INDONESIA (ID)
                                 </button>
-                                <button className="language" onClick={() => btnLanguage('ENGLISH <b>EN</b>')}>
+                                <button className={language.includes('EN') ? 'language active-language' : 'language'}  onClick={() => btnLanguage('LANGUAGE <b>EN</b>')}>
                                     ENGLISH (EN)
                                 </button>
                             </div>
@@ -168,13 +168,13 @@ function Navbar() {
                             const menuCollapse = e.menuCollapse
 
                             return (
-                                <li key={i} className="menu-page" style={styleColorNavGrey}
+                                <li key={i} className={navbarStore[0] !== 0 ? navbarStore[0] === i ? 'active-menu-page menu-page color-page-not-home' : 'menu-page color-page-not-home' : navbarStore[0] === i ? 'active-menu-page menu-page' : 'menu-page'}
                                     onMouseOver={() => onCollapse(i)}
                                     onMouseLeave={() => onCollapse(null)}
                                     onClick={() => clickMenuPage(e.path)}
                                 >
                                     {e.name} {menuCollapse.length > 0 ? (
-                                        <i className="fas fa-angle-down" style={styleColorNavGrey}></i>
+                                        <i className="fas fa-angle-down"></i>
                                     ) : (
                                         <>
                                         </>
@@ -186,22 +186,20 @@ function Navbar() {
                                     }
                                     }>
                                         <div className="menu-collapse">
-                                            {menuCollapse.length > 0 ? menuCollapse.map((e, i) => {
+                                            {menuCollapse.length > 0 ? menuCollapse.map((e, p) => {
                                                 const menuChild = e.menuChild
 
                                                 return (
-                                                    <li key={i} className="page-collapse"
+                                                    <li key={p} className={navbarStore[0] === i && navbarStore[1] === p ? 'active-page-collapse page-collapse' : 'page-collapse'}
                                                         onClick={(p) => {
                                                             p.stopPropagation()
                                                             clickMenuPage(e.path)
                                                         }}
-                                                        onMouseOver={() => mouseOverActiveIconNav(i)}
+                                                        onMouseOver={() => mouseOverActiveIconNav(p)}
                                                         onMouseLeave={mouseLeaveActiveIconNav}
                                                     >
                                                         {e.name} {menuChild.length > 0 ? (
-                                                            <i className="fas fa-angle-down" style={{
-                                                                color: activeIconNav === i ? '#fff' : '#333'
-                                                            }}></i>
+                                                            <i className="fas fa-angle-down"></i>
                                                         ) : (
                                                             <>
                                                             </>
@@ -209,11 +207,11 @@ function Navbar() {
 
                                                         {/* Child page of child */}
                                                         <ul className="wrapp-menu-of-menu-collapse" style={{
-                                                            display: menuChild.length > 0 && activeIconNav === i ? 'flex' : 'none'
+                                                            display: menuChild.length > 0 && activeIconNav === p ? 'flex' : 'none'
                                                         }}>
-                                                            {menuChild && menuChild.length > 0 ? menuChild.map((e, i) => {
+                                                            {menuChild && menuChild.length > 0 ? menuChild.map((e, idx) => {
                                                                 return (
-                                                                    <li key={i} className='name-menu-of-menu-collapse'
+                                                                    <li key={idx} className={navbarStore[0] === i && navbarStore[1] === p && navbarStore[2] === idx ? 'name-menu-of-menu-collapse active-name-menu-of-menu-collapse' : 'name-menu-of-menu-collapse'}
                                                                         onClick={() => clickMenuPage(e.path)}
                                                                     >{e.name}</li>
                                                                 )
@@ -233,16 +231,15 @@ function Navbar() {
                         }) : (
                             <div></div>
                         )}
-                        <i className="fas fa-search btn-search"
-                            onClick={() => clickMenuPage('/search')}
-                            style={styleColorNavGrey}></i>
+                        <i className={navbarStore[0] !== 0 ? navbarStore[0] === 9 ? 'fas fa-search btn-search active-page-search' : 'fas fa-search btn-search' : navbarStore[0] === 9 ? 'fas fa-search btn-search' : 'fas fa-search btn-search-home'}
+                            onClick={() => clickMenuPage('/search')}></i>
                     </ul>
                 </div>
 
                 {/* text walk */}
                 {txtMarquee && Object.keys(txtMarquee).length > 0 ? (
                     <>
-                        {navbarStore !== '/' ? (
+                        {navbarStore[0] !== 0 ? (
                             <div className="text-walk">
                                 <marquee behavior="" direction="">{<RenderHTML txt={txtMarquee.text} />}</marquee>
                             </div>
