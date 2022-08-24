@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import {useSwipeable} from 'react-swipeable'
 import './Carousel.scss'
 import address from '../../services/api/address'
 import Card from '../card/Card';
@@ -17,6 +18,11 @@ function Carousel({ data, displayInner, displayIndikator, dataTestimoni, bdrRadi
                 clearInterval(interval)
             }
         }
+    })
+
+    const handlers = useSwipeable({
+        onSwipedLeft: ()=>btnRightCarousel(idxActiveCarousel + 1),
+        onSwipedRight: ()=>btnLeftCarousel(idxActiveCarousel - 1)
     })
 
     const styleCard = {
@@ -55,7 +61,7 @@ function Carousel({ data, displayInner, displayIndikator, dataTestimoni, bdrRadi
                 borderRadius: bdrRadiusWrapp,
                 marginTop: marginTopWrapp
             }}>
-                <div className="container-carousel"
+                <div {...handlers} className="container-carousel"
                     onMouseEnter={mouseOverCarousel}
                     onMouseLeave={mouseLeaveCarousel}
                 >

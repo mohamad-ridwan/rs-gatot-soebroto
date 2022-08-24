@@ -63,6 +63,10 @@ function DetailMedia() {
                     dispatch(changePath([4, newIdxPage]))
 
                     const getNowPageData = getData[0].data.filter((e) => e.path === path)
+                    if(getNowPageData.length === 0){
+                        navigate('/page-not-found')
+                    }
+
                     setData(getNowPageData[0])
                     setGaleri(getNowPageData[0].galeri)
 

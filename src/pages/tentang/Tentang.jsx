@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import Template from '../../components/template/Template'
 import address from '../../services/api/address'
 import API from '../../services/api'
@@ -12,6 +12,7 @@ function Tentang() {
     const [loading, setLoading] = useState(true)
 
     const params = useParams()
+    const navigate = useNavigate()
     const dispatch = useDispatch()
 
     function setAPI() {
@@ -42,6 +43,8 @@ function Tentang() {
                             path: null
                         }
                     )
+                }else{
+                    navigate('/page-not-found')
                 }
 
                 dispatch(changePath([1, newIdxPage]))

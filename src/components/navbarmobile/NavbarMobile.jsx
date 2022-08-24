@@ -200,7 +200,7 @@ function NavbarMobile() {
                                         clickLanguage('id')
                                     }}
                                 >
-                                    BAHASA INDONESIA (ID)
+                                    INDONESIAN (ID)
                                 </li>
                                 <li className={storageLang === 'en' ? 'page-collapse-mobile active-page-collapse-mobile' : 'page-collapse-mobile'}
                                     onClick={(p) => {

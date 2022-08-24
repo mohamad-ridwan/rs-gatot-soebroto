@@ -32,14 +32,14 @@ function Pagination({
   const idxShowingDokter = useSelector((state) => state.navbar.idxShowingDokter)
 
   const inputSearch =
-    id === "jadwal-dokter" && 
+    id === "jadwal-dokter" &&
     Array.from(data).filter(
       (e) =>
         e.nama.toLowerCase().includes(searchDoctorStore.toLowerCase()) ||
         e.lokasi.toLowerCase().includes(searchDoctorStore.toLowerCase()) ||
         e.poli.toLowerCase().includes(searchDoctorStore.toLowerCase()) ||
         e.subPoli.toLowerCase().includes(searchDoctorStore.toLowerCase())
-    ) 
+    )
 
   const totalNumber = searchDoctorStore !== undefined && searchDoctorStore.length > 0 && inputSearch !== undefined ? Math.ceil(inputSearch.length / contentPerPage) : data && Math.ceil(data && data.length / contentPerPage);
   const showNumberPaginate = totalNumber < siblingCount ? totalNumber : siblingCount;
@@ -63,8 +63,15 @@ function Pagination({
     dispatch(changeIdxShowingDokter({ nowShow: nowShow, toShow: toShow, ofShow: ofShow, totalData: totalData }))
   }
 
+  function scrollToContent() {
+    const wrappTemplate = document.getElementById('contentBlog')
+    window.scrollTo(0, wrappTemplate.offsetTop - 80)
+  }
+
   function goToNextPage(idx) {
     if (idx <= totalNumber) {
+      scrollToContent()
+
       dispatch(changeCurrentPage({ pageNow: idx }));
 
       // for update data idxShowingDokter
@@ -120,6 +127,8 @@ function Pagination({
 
   function goToPreviousPage(idx) {
     if (idx >= 1) {
+      scrollToContent()
+
       dispatch(changeCurrentPage({ pageNow: idx }));
 
       // for update data idxShowingDokter
@@ -166,6 +175,8 @@ function Pagination({
   }
 
   function changePage(event) {
+    scrollToContent()
+    
     const pageNumber = Number(event.target.textContent)
 
     const nowShow = nowChoose === 'semua' ? ((data && data.length * pageNumber) - (data && data.length)) + 1 : ((nowChoose * pageNumber) - nowChoose) + 1

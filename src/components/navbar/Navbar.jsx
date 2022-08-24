@@ -141,7 +141,7 @@ function Navbar() {
                                 display: activeDropdown ? 'flex' : 'none'
                             }}>
                                 <button id='btn-indo' className={language.includes('ID') ? 'language active-language' : 'language'} onClick={() => btnLanguage('BAHASA <b>ID</b>')}>
-                                    BAHASA INDONESIA (ID)
+                                    INDONESIAN (ID)
                                 </button>
                                 <button className={language.includes('EN') ? 'language active-language' : 'language'}  onClick={() => btnLanguage('LANGUAGE <b>EN</b>')}>
                                     ENGLISH (EN)

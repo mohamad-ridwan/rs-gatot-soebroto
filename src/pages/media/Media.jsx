@@ -59,6 +59,8 @@ function Media() {
                             path: null
                         }
                     )
+                }else{
+                    navigate('/page-not-found')
                 }
 
                 dispatch(changePath([4, newIdxPage]))

@@ -38,12 +38,14 @@ function Pdf() {
         setAPI()
 
         const wrappNav = document.getElementById('wrappNav')
+        const wrappNavMobile = document.getElementById('wrapp-nav-mobile')
         const wrappFooter = document.getElementById('wrappFooter')
         if (wrappNav) {
             const displayNav = wrappNav.style.display = 'none'
+            const displayNavMobile = wrappNavMobile.style.display = 'none'
             const displayFooter = wrappFooter.style.display = 'none'
 
-            return { displayNav, displayFooter }
+            return { displayNav, displayNavMobile, displayFooter }
         }
     }, [])
 

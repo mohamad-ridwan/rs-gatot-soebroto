@@ -104,6 +104,8 @@ function Layanan() {
                             path: null
                         }
                     )
+                }else{
+                    navigate('/page-not-found')
                 }
 
                 dispatch(changePath([2, newIdxPage]))

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import Template from "../../components/template/Template"
 import API from "../../services/api"
@@ -12,6 +12,7 @@ function Ppid() {
     const [loading, setLoading] = useState(true)
 
     const params = useParams()
+    const navigate = useNavigate()
     const dispatch = useDispatch()
 
     function updateData(data, page) {
@@ -95,6 +96,8 @@ function Ppid() {
                         ]
                         dispatch(changePath([7]))
                         updateData(getDataOfMainPage, newArr)
+                    }else{
+                        navigate('/page-not-found')
                     }
                 }
                 setLoading(false)

@@ -173,7 +173,7 @@ function Template({ img, page, paragraph, title, card, galeriFoto, dataRekomenda
                         </div>
 
                         <div className="container-content-white">
-                            <p className="content-blog">
+                            <p className="content-blog" id='contentBlog'>
                                 {videos}
                                 {paragraph !== undefined ? (
                                     <RenderHTML txt={paragraph} />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import Template from "../../../components/template/Template"
 import API from "../../../services/api"
@@ -12,6 +12,7 @@ function DetailLayanan() {
     const [loading, setLoading] = useState(true)
 
     const params = useParams()
+    const navigate = useNavigate()
     const dispatch = useDispatch()
 
     function setAPI() {
@@ -26,9 +27,10 @@ function DetailLayanan() {
 
                     if (getFirstPage.length > 0) {
                         const getNowPage = getFirstPage[0].data.filter(e => e.path === params.path)
-                        const headerPage = getNowPage[0].header.split('/').join('')
 
                         if (getNowPage.length > 0) {
+                            const headerPage = getNowPage[0].header.split('/').join('')
+
                             const newPage = []
 
                             let newIdxPage = null
@@ -61,6 +63,8 @@ function DetailLayanan() {
                             document.body.style.overflowY = 'scroll'
 
                             return idxPage
+                        }else{
+                            navigate('/page-not-found')
                         }
                     }
                 }

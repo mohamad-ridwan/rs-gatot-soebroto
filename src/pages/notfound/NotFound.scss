@@ -1,0 +1,38 @@
+@import '../../utils/variable.scss';
+
+// untuk image mobile di samakan dengan nav mobile
+@mixin tabletToDesktopImage(){
+    @media (max-width: 1114px) {
+        @content;
+    }
+}
+
+.wrapp-page-not-found{
+    display: flex;
+    width: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 157px 0 80px 0;
+    background-color: $color2;
+    color: #fff;
+    
+    @include tabletToDesktopImage(){
+        padding-top: 92px;
+    }
+
+    .container-page-not-found{
+        margin: 50px 5% 0 5%;
+
+        .title-page-not-found{
+            font-size: 24px;
+            font-weight: bold;
+            text-align: start;
+        }
+        .deskripsi-page-not-found{
+            font-size: 14px;
+            text-align: start;
+            margin: 15px 0;
+        }
+    }
+}

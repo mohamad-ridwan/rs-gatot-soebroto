@@ -41,6 +41,10 @@ function DetailBerita() {
                 const respons = res.data[0].data
                 const getData = respons.filter((e) => e.path === path)[0]
 
+                if(getData === undefined){
+                    navigate('/page-not-found')
+                }
+
                 const removeData = respons.filter((e) => e.path !== path)
 
                 const dataRekomendasi = []
