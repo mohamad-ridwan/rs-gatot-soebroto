@@ -286,7 +286,7 @@ function Footer() {
                         {copyRight && copyRight.copyRight}
                     </p>
                     <p className="txt-copy-right">
-                        Jumlah Pengunjung : {copyRight && copyRight.jumlahPengunjung}
+                        Jumlah Pengunjung : {new Intl.NumberFormat('id-ID').format(copyRight && copyRight.jumlahPengunjung)}
                     </p>
                 </div>
             </div>
