@@ -198,6 +198,11 @@
             i{
                 margin: 15px 8px 0 0;
                 cursor: pointer;
+                color: #fff;
+                transition: 0.3s ease-in-out;
+                &:hover{
+                    color: #aaa;
+                }
             }
 
             // polling

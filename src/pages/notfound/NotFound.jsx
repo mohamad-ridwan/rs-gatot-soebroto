@@ -22,7 +22,7 @@ function NotFound() {
         setTimeout(() => {
             setOnLoading(false)
             document.body.style.overflowY = 'scroll'
-        }, 2000);
+        }, 2000)
     }, [])
 
     const btn = {
