@@ -167,7 +167,7 @@ function DetailMedia() {
                     <Card
                         {...styleCard}
                         key={i}
-                        img={`${address}/${e.image}`}
+                        img={e.image}
                         transformImg={hover === i ? 'scale(1.1)' : 'scale(1)'}
                         opacityHoverImg={hover === i ? '0.4' : '0'}
                         mouseEnterImg={() => mouseOverImgBerita(i)}

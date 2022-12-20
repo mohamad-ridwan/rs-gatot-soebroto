@@ -21,7 +21,7 @@ function ViewImage({data, idxActive, beforeImg, nextImg, closeView, displayWrapp
                     {data && data.length > 0 ? data.map((e, i) => {
                         return (
                             <>
-                                <img src={`${address}/${e.image}`} alt="" className="img-view" style={{
+                                <img src={e.image} alt="" className="img-view" style={{
                                     display: i === idxActive ? 'flex' : 'none'
                                 }}
                                 onClick={nextImg}

@@ -12,6 +12,8 @@ function Pdf() {
     const viewer = useRef(null)
     const navigate = useNavigate()
 
+    const corsOrigin = 'https://cors-anywhere.herokuapp.com'
+
     function setAPI() {
         document.body.style.overflowY = 'hidden'
 
@@ -41,7 +43,7 @@ function Pdf() {
 
                             WebViewer({
                                 path: '/webviewer/lib',
-                                initialDoc: `${address}/${pdfUrl}`,
+                                initialDoc: `${corsOrigin}/${pdfUrl}`,
                                 licenseKey: 'bOGKW9KzNMtKYo44Egro'
                             }, viewer.current)
                                 .then((instance) => {
