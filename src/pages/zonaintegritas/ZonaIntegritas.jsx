@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react'
+import { ref, uploadBytes } from 'firebase/storage'
+import { v4 } from 'uuid'
 import { useDispatch } from 'react-redux'
 import API from '../../services/api'
 import address from '../../services/api/address'
+import { storage } from '../../services/firebase/firebase'
 import Form from '../../components/form/Form'
 import Template from '../../components/template/Template'
 import { changePath } from '../../services/redux/navbar'
@@ -248,6 +251,41 @@ function ZonaIntegritas() {
             })
     }
 
+    const corsOrigin = 'https://cors-anywhere.herokuapp.com'
+    const apiFirebaseStorage = 'https://firebasestorage.googleapis.com/v0/b/rs-gatot-soebroto.appspot.com/o/zona-integritas%2Fdokumen-pdf%2F'
+
+    async function getAccessTokenImgUpload(nameImg) {
+        return await new Promise((resolve, reject) => {
+            fetch(`${corsOrigin}/${apiFirebaseStorage}${nameImg}`, {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            })
+                .then(res => res.json())
+                .then(res => {
+                    const getAccessToken = res && res.downloadTokens
+                    resolve(getAccessToken)
+                })
+                .catch(err => reject({ message: 'Oops! terjadi kesalahan server.\nMohon coba beberapa saat lagi!', error: 'error', jenisError: 'gagal mendapatkan tokens image' }))
+        })
+    }
+
+    async function uploadImgToFirebaseStorage(img) {
+        return await new Promise((resolve, reject) => {
+            const imageRef = ref(storage, `zona-integritas/dokumen-pdf/${img.name + v4()}`)
+            uploadBytes(imageRef, img).then((res) => {
+                const nameImg = res && res.metadata.name
+
+                getAccessTokenImgUpload(nameImg)
+                    .then(res => resolve({ tokensImg: res, nameImg: nameImg }))
+                    .catch(err => reject(err))
+            })
+                .catch(err => reject({ message: 'Oops! terjadi kesalahan server.\nMohon coba beberapa saat lagi!', error: 'error', jenisError: 'gagal upload image ke firebase storage' }))
+        })
+    }
+
     function submitData() {
         if (loadingSubmit === false) {
             validateForm()
@@ -270,16 +308,31 @@ function ZonaIntegritas() {
 
                         const { nama, email, alamat, tempatKejadian, waktuKejadian, detailPengaduan, image } = { ...inputValue }
 
-                        const newData = new FormData()
-                        newData.append('nama', nama)
-                        newData.append('email', email)
-                        newData.append('alamat', alamat)
-                        newData.append('tempatKejadian', tempatKejadian)
-                        newData.append('waktuKejadian', waktuKejadian)
-                        newData.append('detailPengaduan', detailPengaduan)
-                        newData.append('image', image)
-                        newData.append('date', `${nameDay[day]}, ${dateNow} ${nameMonth[month]} ${years} ${hours}:${minute}`)
-                        return postDataToAPI(data && data._id, newData)
+                        uploadImgToFirebaseStorage(image)
+                            .then(res => {
+                                if (res && res.tokensImg) {
+                                    const tokenImg = res.tokensImg
+                                    const nameImg = res.nameImg
+
+                                    const newData = {
+                                        nama: nama,
+                                        email: email,
+                                        alamat: alamat,
+                                        tempatKejadian: tempatKejadian,
+                                        waktuKejadian: waktuKejadian,
+                                        detailPengaduan: detailPengaduan,
+                                        image: `${apiFirebaseStorage}${nameImg}?alt=media&token=${tokenImg}`,
+                                        date: `${nameDay[day]}, ${dateNow} ${nameMonth[month]} ${years} ${hours}:${minute}`
+                                    }
+
+                                    postDataToAPI(data && data._id, newData)
+                                }
+                            })
+                            .catch(err => {
+                                setLoadingSubmit(false)
+                                alert(err.message)
+                                console.log(err)
+                            })
                     }
                 })
                 .catch(err => console.log(err))
