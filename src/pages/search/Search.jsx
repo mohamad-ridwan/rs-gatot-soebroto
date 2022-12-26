@@ -19,6 +19,7 @@ function Search() {
     const [hoverImg, setHoverImg] = useState(null)
     const [hoverTitle, setHoverTitle] = useState(null)
     const [contentPerPage] = useState(10)
+    const [wrongQuery, setWrongQuery] = useState(false)
     const [loading, setLoading] = useState(true)
     const [page] = useState([
         {
@@ -224,6 +225,7 @@ function Search() {
             .then(res => {
                 if (res && res.length > 0) {
                     setData(newData)
+
                     dispatch(changeCurrentPage({ pageNow: 1 }))
                     dispatch(changeFirstIdx({ idx: siblingCount }))
                     dispatch(changeLastIdx({ idx: siblingCount }))
@@ -249,12 +251,14 @@ function Search() {
         setInputSearch('')
     }
 
+    const regexSpecialCharacters = /[^a-zA-Z0-9 ]/g
+
     function filterSearch(v) {
         const newData = data.filter(e =>
-            e.header && e.header !== undefined && e.header.toLowerCase().includes(v.toLowerCase()) ||
-            e.paragraphDetail && e.paragraphDetail !== undefined && e.paragraphDetail.toLowerCase().includes(v.toLowerCase()) ||
-            e.paragraph && e.paragraph !== undefined && e.paragraph.toLowerCase().includes(v.toLowerCase()) ||
-            e.date && e.date !== undefined && e.date.toLowerCase().includes(v.toLowerCase())
+            e.header && e.header !== undefined && e.header.replace(regexSpecialCharacters, '').toLowerCase().includes(v.replace(/ /g, '+').split('+').filter(e => e !== '').join(' ').replace(regexSpecialCharacters, '').toLowerCase()) ||
+            e.paragraphDetail && e.paragraphDetail !== undefined && e.paragraphDetail.replace(regexSpecialCharacters, '').toLowerCase().includes(v.replace(/ /g, '+').split('+').filter(e => e !== '').join(' ').replace(regexSpecialCharacters, '').toLowerCase()) ||
+            e.paragraph && e.paragraph !== undefined && e.paragraph.replace(regexSpecialCharacters, '').toLowerCase().includes(v.replace(/ /g, '+').split('+').filter(e => e !== '').join(' ').replace(regexSpecialCharacters, '').toLowerCase()) ||
+            e.date && e.date !== undefined && e.date.replace(regexSpecialCharacters, '').toLowerCase().includes(v.replace(/ /g, '+').split('+').filter(e => e !== '').join(' ').replace(regexSpecialCharacters, '').toLowerCase())
         )
 
         setDataSearch(newData)
@@ -265,10 +269,9 @@ function Search() {
     }
 
     function submitSearch() {
-        if (inputSearch.length > 0 && inputSearch.trim()) {
+        if (inputSearch.trim()) {
             setConditionResult(true)
-            setResultInputSearch(inputSearch)
-            navigate(`/search?q=${inputSearch}`)
+            setResultInputSearch(inputSearch.replace(/ /g, '+').split('+').filter(e => e !== '').join(' '))
             filterSearch(inputSearch)
         }
     }
