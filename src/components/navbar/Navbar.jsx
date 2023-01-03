@@ -20,6 +20,7 @@ function Navbar() {
     const navbarStore = useSelector((state) => state.navbar.path)
     
     const storageLang = localStorage.getItem('wglang') || 'id'
+    const wgLangId = localStorage.getItem('wglang')
 
     // router
     const navigate = useNavigate()
@@ -62,13 +63,15 @@ function Navbar() {
         window.open(path)
     }
 
-    function btnLanguage(path) {
+    function btnLanguage(path, isActive) {
         setActiveDropdown(!activeDropdown)
 
-        if (path !== undefined) {
+        if (path !== undefined && isActive !== null) {
             const newPath = path.includes('EN') ? 'en' : 'id'
             localStorage.setItem('wglang', newPath)
             window.location.reload()
+        }else if(path !== undefined){
+            alert('Maaf, penggunaan terjemahan saat ini melebihi batas limit!\nSorry, the current use of translation exceeds the limit!')
         }
     }
 
@@ -140,10 +143,10 @@ function Navbar() {
                             <div className="dropdown" style={{
                                 display: activeDropdown ? 'flex' : 'none'
                             }}>
-                                <button id='btn-indo' className={language.includes('ID') ? 'language active-language' : 'language'} onClick={() => btnLanguage('BAHASA <b>ID</b>')}>
+                                <button id='btn-indo' className={language.includes('ID') ? 'language active-language' : 'language'} onClick={() => btnLanguage('BAHASA <b>ID</b>', wgLangId)}>
                                     INDONESIAN (ID)
                                 </button>
-                                <button className={language.includes('EN') ? 'language active-language' : 'language'}  onClick={() => btnLanguage('LANGUAGE <b>EN</b>')}>
+                                <button className={language.includes('EN') ? 'language active-language' : 'language'}  onClick={() => btnLanguage('LANGUAGE <b>EN</b>', wgLangId)}>
                                     ENGLISH (EN)
                                 </button>
                             </div>

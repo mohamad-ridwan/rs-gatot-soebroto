@@ -17,6 +17,7 @@ function NavbarMobile() {
     const navbarStore = useSelector((state) => state.navbar.path)
 
     const storageLang = localStorage.getItem('wglang') || 'id'
+    const wgLangId = localStorage.getItem('wglang')
 
     const navigate = useNavigate()
 
@@ -78,9 +79,13 @@ function NavbarMobile() {
         setActiveMenuLanguage(false)
     }
 
-    function clickLanguage(key) {
-        localStorage.setItem('wglang', key)
-        window.location.reload()
+    function clickLanguage(key, isActive) {
+        if(isActive !== null){
+            localStorage.setItem('wglang', key)
+            window.location.reload()
+        }
+
+        return alert('Maaf, penggunaan terjemahan saat ini melebihi batas limit!\nSorry, the current use of translation exceeds the limit!')
     }
 
     function toShowLanguage() {
@@ -197,7 +202,7 @@ function NavbarMobile() {
                                 <li id='btn-indo' className={storageLang === 'id' ? 'page-collapse-mobile active-page-collapse-mobile' : 'page-collapse-mobile'}
                                     onClick={(p) => {
                                         p.stopPropagation()
-                                        clickLanguage('id')
+                                        clickLanguage('id', wgLangId)
                                     }}
                                 >
                                     INDONESIAN (ID)
@@ -205,7 +210,7 @@ function NavbarMobile() {
                                 <li className={storageLang === 'en' ? 'page-collapse-mobile active-page-collapse-mobile' : 'page-collapse-mobile'}
                                     onClick={(p) => {
                                         p.stopPropagation()
-                                        clickLanguage('en')
+                                        clickLanguage('en', wgLangId)
                                     }}
                                 >
                                     ENGLISH (EN)
